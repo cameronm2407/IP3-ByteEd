@@ -1,0 +1,18 @@
+.sidebar {
+    height: 100vh;
+    background-color: #1B294B;
+}
+
+.nav-link.active {
+    color: #1B294B !important; 
+    background-color: #BDA1CC !important; 
+}
+
+.icon-margin-right {
+    margin-right: 8px;
+}
+
+
+.nav-link.active svg {
+    background-color: #BDA1CC;
+}
