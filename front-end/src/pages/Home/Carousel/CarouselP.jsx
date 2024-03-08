@@ -6,7 +6,7 @@ import image3 from './images/image3.jpg'
 
 function CarouselP() {
   return (
-    <div>CarouselP<Carousel data-bs-theme="dark">
+    <div><Carousel data-bs-theme="dark">
     <Carousel.Item>
       <img
         style={{height:'50vh'}} // Still need to format image sizes
