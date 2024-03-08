@@ -5,6 +5,8 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css'; // Don't know if this belongs here or in idex?
+
 // Pages
 import Home from './pages/Home/Home.jsx';
 import Saved from './pages/Saved.jsx';

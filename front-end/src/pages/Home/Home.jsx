@@ -1,4 +1,4 @@
-import Carosel from "./Carousel.jsx";
+import Carosel from "./Carousel/CarouselP.jsx";
 import Featured from "./Featured/Featured.jsx";
 import ImproveIn from "./ImproveIn/ImproveIn.jsx";
 
