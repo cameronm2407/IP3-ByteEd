@@ -1,13 +1,13 @@
 import express from 'express';
 ////////////////////////////////
-import router from './routers/initRouter.js';
+import userRouter from './routers/userRouter.js';
 
 const app = express();
 
-// Global middleware - runs for every request
+// Global middleware
 app.use(express.json()); // parse json requests
 
 // mount routers
-app.use('/', router);
+app.use('/api/user', userRouter);
 
 export default app;

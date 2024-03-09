@@ -1,9 +1,10 @@
-import { genSalt, hash, compare } from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
+const { genSalt, hash, compare } = bcryptjs;
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
   username: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: {
     type: String,
@@ -12,7 +13,7 @@ const userSchema = new Schema({
   },
   registration_date: { type: Date, default: Date.now },
   location: { type: String },
-  avatar: { type: String },
+  avatar: { type: String, required: true },
   bio: { type: String },
   analytics: {
     audience_demographics: {
@@ -25,7 +26,7 @@ const userSchema = new Schema({
 
 // hash password on user account registration
 userSchema.pre('save', async function (next) {
-  if (!this.isNew('password')) return next();
+  if (!this.isNew) return next();
 
   const salt = await genSalt(12);
   this.password = await hash(this.password, salt);
