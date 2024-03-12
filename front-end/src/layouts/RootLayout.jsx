@@ -77,12 +77,18 @@ const SearchIconSVG = () => (
   </svg>
 );
 
-export default function RootLayOut() {
+export default function RootLayout() {
   return (
-    <div className="app-container d-flex">
+    <div className="app-container d-flex" style={{ marginLeft: "280px" }}> 
       <div
         className="sidebar d-flex flex-column flex-shrink-0 p-3 text-white"
-        style={{ width: "280px" }}
+        style={{
+          width: "280px",
+          position: "fixed",
+          top: 0,
+          left: 0, // Ensure it's aligned to the left
+          height: "100vh" // Full height of the viewport
+        }}
       >
         <NavLink
           to="/"
@@ -103,7 +109,6 @@ export default function RootLayOut() {
               Home
             </NavLink>
           </li>
-
           <li>
             <NavLink
               to="/search"
@@ -133,3 +138,4 @@ export default function RootLayOut() {
     </div>
   );
 }
+

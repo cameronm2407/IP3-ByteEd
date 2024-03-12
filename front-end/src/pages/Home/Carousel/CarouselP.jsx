@@ -6,45 +6,46 @@ import image3 from './images/image3.jpg'
 
 function CarouselP() {
   return (
-    <div><Carousel data-bs-theme="dark">
-    <Carousel.Item>
-      <img
-        style={{height:'50vh'}} // Still need to format image sizes
-        className="Image 1"
-        src= {image1}
-        alt="First slide"
-      />
-      <Carousel.Caption>
-        <h5>First slide label</h5>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
-      <img
-        className="Image 2"
-        src={image2}
-        alt="Second slide"
-      />
-      <Carousel.Caption>
-        <h5>Second slide label</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </Carousel.Caption>
-    </Carousel.Item>
-    <Carousel.Item>
-      <img
-        className="Image 3"
-        src={image3}
-        alt="Third slide"
-      />
-      <Carousel.Caption>
-        <h5>Third slide label</h5>
-        <p>
-          Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-        </p>
-      </Carousel.Caption>
-    </Carousel.Item>
-  </Carousel>
-  </div>
-  )
+    <div className='w-100'>
+      <Carousel variant="dark" className='w-100'>
+        <Carousel.Item>
+          <img
+            style={{height:'50vh', objectFit: 'cover'}}
+            className="d-block w-100"
+            src={image1}
+            alt="Bringing People Together"
+          />
+          <Carousel.Caption>
+            <h5>Bringing People Together</h5>
+            <p>Join our mission to combat food insecurity by sharing surplus fruits and vegetables within your community.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            style={{height:'50vh', objectFit: 'cover'}}
+            className="d-block w-100"
+            src={image2}
+            alt="Share Your Surplus"
+          />
+          <Carousel.Caption>
+            <h5>Share Your Surplus</h5>
+            <p>Got extra produce? List your food donations easily and support local pantries in need.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img
+            style={{height:'50vh', objectFit: 'cover'}}
+            className="d-block w-100"
+            src={image3}
+            alt="Access Fresh Produce"
+          />
+          <Carousel.Caption>
+            <h5>Access Fresh Produce</h5>
+            <p>In need of fresh fruits and vegetables? Discover how you can connect with local donors and bring nutritious food to your table or pantry.</p>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
+    </div>
+  );
 }
 export default CarouselP

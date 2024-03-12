@@ -13,7 +13,7 @@ import jenkinsIcon from "./ImproveIcons/jenkins.png";
 export default function ImproveIn() {
   return (
     <>
-      <h1 className="mb-5">Improve your skills in:</h1>
+      <h1 className="mb-5 mt-5">Improve your skills in:</h1>
 
       <div className="grid-container mb-5" >
         <div className="grid-item">
