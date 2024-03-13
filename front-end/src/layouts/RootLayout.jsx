@@ -3,6 +3,9 @@ import { NavLink, Outlet } from "react-router-dom";
 // logo
 import logo from "../assets/logo.svg";
 
+// componenets
+import RootLayoutDDM from './DropDownMenu/DDMLayout.jsx'
+
 //bootstrap
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -133,6 +136,7 @@ export default function RootLayout() {
           </li>
         </ul>
         <hr />
+        <RootLayoutDDM />
       </div>
       <Outlet />
     </div>
