@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import app from './app.js';
+import AuthController from './controllers/authController.js';
+import User from './models/User.js';
 
 // configure environment variables
 dotenv.config();

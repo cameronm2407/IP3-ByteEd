@@ -1,7 +1,6 @@
 export default class OperationalError extends Error {
-  constructor(message, statusCode) {
+  constructor(message) {
     super(message);
-    this.statusCode = statusCode;
     this.type = 'OpErr';
   }
 }
