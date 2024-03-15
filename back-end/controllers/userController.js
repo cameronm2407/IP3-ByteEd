@@ -3,8 +3,7 @@ import catchAsyncError from '../utilities/catchAsyncError.js';
 
 export default class UserController {
   constructor(Model) {
-    this.Model = Model;
-    this.crudOperator = new CrudOperator(this.Model);
+    this.crudOperator = new CrudOperator(Model);
   }
 
   createUser() {
