@@ -10,5 +10,10 @@ const authController = new AuthController(User);
 const userRouter = Router();
 userRouter.post('/register', userController.createUser());
 userRouter.post('/login', authController.login());
+userRouter.post(
+  '/update',
+  authController.protect(),
+  userController.updateUser()
+);
 
 export default userRouter;

@@ -20,4 +20,15 @@ export default class UserController {
       res.status(200).json({ status: 'success', token, user });
     });
   }
+
+  updateUser() {
+    return catchAsyncError(async (req, res) => {
+      const _id = req.user._id;
+      const updatedData = req.body;
+      if (updatedData.password) delete updatedData.password; // cannot update passwords in this way
+      const updatedUser = await this.crudOperator.update(_id, updatedData);
+      updatedUser.password = null;
+      res.status(200).json({ status: 'success', updatedUser });
+    });
+  }
 }
