@@ -5,13 +5,13 @@ export default class CrudOperator {
 
   // creates a new document in the database
   async create(data) {
-    const doc = await this.Model.create(data).select('-password');
+    const doc = await this.Model.create(data);
     return doc;
   }
 
   // retrieves a single document specified by a query
   async read(query) {
-    const doc = await this.Model.find(query).select('-password');
+    const doc = await this.Model.find(query);
     return doc;
   }
 

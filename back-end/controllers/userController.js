@@ -10,10 +10,14 @@ export default class UserController {
   createUser() {
     return catchAsyncError(async (req, res) => {
       const payload = req.body;
-      const newUser = await this.crudOperator.create(payload);
-      const authController = new AuthController(null);
-      const token = authController.createJwt(newUser, process.env.JWT_SECRET);
-      res.status(200).json({ status: 'success', token, newUser });
+      const user = await this.crudOperator.create(payload);
+      user.password = null;
+      const authController = new AuthController();
+      const token = await authController.createJwt(
+        { user },
+        process.env.JWT_SECRET
+      );
+      res.status(200).json({ status: 'success', token, user });
     });
   }
 }
