@@ -33,11 +33,11 @@ export default class CrudOperator {
   queries the database and returns documents where a specified
   field value has an approximate match to the search term
   */
-  async fullTextSearch(searchTerm, index, fields) {
+  fullTextSearch(searchTerm, index, fields) {
     const pipeline = [
       {
         $search: {
-          index,
+          index: index,
           text: {
             query: searchTerm,
             path: [...fields],
@@ -46,7 +46,7 @@ export default class CrudOperator {
         },
       },
     ];
-    const result = await this.Model.aggregate(pipeline);
+    const result = this.Model.aggregate(pipeline);
     return result;
   }
 }
