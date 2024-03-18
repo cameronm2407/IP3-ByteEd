@@ -1,39 +1,27 @@
 import catchAsyncError from '../utilities/catchAsyncError.js';
 
-export default class videoController {
-  constructor(crudOperator, searchEngine) {
+export default class CourseController {
+  constructor(crudOperator) {
     this.crudOperator = crudOperator;
-    this.searchEngine = searchEngine;
   }
 
-  search() {
+  createCourse() {
     return catchAsyncError(async (req, res) => {
-      const { st } = req.query;
-      const searchResult = await this.searchEngine.searchAndCompile(st);
-      res.status(200).json({ status: 'success', searchResult });
-    });
-  }
-
-  uploadMetadata(many) {
-    return catchAsyncError(async (req, res, next) => {
       const { body } = req;
-      const metaData = await this.crudOperator.create(body, many);
-
-      if (!many) return res.status(200).json({ status: 'success', metaData });
-      req.uploadedMetadata = metaData;
-      next();
+      const course = await this.crudOperator.create(body);
+      res.status(200).json({ status: 'success', course });
     });
   }
 
-  getVideos() {
+  getCourses() {
     return catchAsyncError(async (req, res) => {
       const query = req.query ? req.query : {};
       if (query.id) {
         query._id = query.id;
         delete query.id;
       }
-      const videos = await this.crudOperator.read(query);
-      res.status(200).json({ status: 'success', videos });
+      const courses = await this.crudOperator.read(query);
+      res.status(200).json({ status: 'success', courses });
     });
   }
 

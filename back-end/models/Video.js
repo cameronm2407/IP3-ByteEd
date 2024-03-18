@@ -4,6 +4,8 @@ const videoSchema = new Schema({
   title: { type: String, required: true },
   duration: { type: Number, required: true },
   description: { type: String },
+  course_content: { type: Boolean, required: true },
+  position: { type: Number },
   url: { type: String, required: true },
   thumbnail: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },

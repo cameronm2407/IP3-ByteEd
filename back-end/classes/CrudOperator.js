@@ -4,29 +4,29 @@ export default class CrudOperator {
   }
 
   // creates a new document in the database
-  async create(data) {
-    const doc = await this.Model.create(data);
+  create(data, many) {
+    const doc = !many ? this.Model.create(data) : this.Model.insertMany(data);
     return doc;
   }
 
   // retrieves a single document specified by a query
-  async read(query) {
-    const doc = await this.Model.find(query);
+  read(query) {
+    const doc = this.Model.find(query);
     return doc;
   }
 
   // updates a single document by id in the database
-  async update(id, data) {
-    const updatedDoc = await this.Model.findByIdAndUpdate(id, data, {
+  update(id, data) {
+    const updatedDoc = this.Model.findByIdAndUpdate(id, data, {
       new: true,
+      runValidators: true,
     });
     return updatedDoc;
   }
 
   // deletes a single document by id from the database
-  async delete(id) {
-    const docDeleted = await this.Model.findByIdAndDelete(id);
-    return docDeleted;
+  delete(id) {
+    return this.Model.findByIdAndDelete(id);
   }
 
   /* 
