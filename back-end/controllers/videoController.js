@@ -13,4 +13,12 @@ export default class videoController {
       res.status(200).json({ status: 'success', searchResult });
     });
   }
+
+  uploadMetadata() {
+    return catchAsyncError(async (req, res) => {
+      const { body } = req;
+      const metaData = await this.crudOperator.create(body);
+      res.status(200).json({ status: 'success', metaData });
+    });
+  }
 }

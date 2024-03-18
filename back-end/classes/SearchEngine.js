@@ -23,10 +23,9 @@ export default class searchEngine {
   async searchAndCompile(searchTerm) {
     const videoPromiseLike = this.searchVideos(searchTerm);
     const coursePromiseLike = this.searchCourses(searchTerm);
-    const compiledResult = await Promise.all([
-      videoPromiseLike,
-      coursePromiseLike,
-    ]);
+    const compiledResult = (
+      await Promise.all([videoPromiseLike, coursePromiseLike])
+    ).flat();
     return compiledResult;
   }
 }

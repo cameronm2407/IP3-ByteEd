@@ -45,6 +45,9 @@ export default class CrudOperator {
           },
         },
       },
+      {
+        $limit: 20,
+      },
     ];
     const result = this.Model.aggregate(pipeline);
     return result;
