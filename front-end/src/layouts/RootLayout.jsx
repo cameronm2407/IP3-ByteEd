@@ -1,10 +1,7 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate  } from "react-router-dom";
 
 // logo
 import logo from "../assets/logo.svg";
-
-// componenets
-import RootLayoutDDM from './DropDownMenu/DDMLayout.jsx'
 
 //bootstrap
 import "bootstrap/dist/css/bootstrap.css";
@@ -80,9 +77,27 @@ const SearchIconSVG = () => (
   </svg>
 );
 
+
+
 export default function RootLayout() {
+  const navigate = useNavigate();
+
+  const isLoggedIn = () => {
+    return localStorage.getItem("token") !== null;
+  };
+
+  const signOut = () => {
+    localStorage.removeItem('token'); // Remove the token
+    navigate('/'); // Redirect to the homepage
+  };
+
+  const getAvatar = () => {
+    
+  }
+  
+
   return (
-    <div className="app-container d-flex" style={{ marginLeft: "280px" }}> 
+    <div className="app-container d-flex" style={{ marginLeft: "280px" }}>
       <div
         className="sidebar d-flex flex-column flex-shrink-0 p-3 text-white"
         style={{
@@ -90,7 +105,7 @@ export default function RootLayout() {
           position: "fixed",
           top: 0,
           left: 0, // Ensure it's aligned to the left
-          height: "100vh" // Full height of the viewport
+          height: "100vh", // Full height of the viewport
         }}
       >
         <NavLink
@@ -136,10 +151,63 @@ export default function RootLayout() {
           </li>
         </ul>
         <hr />
-        <RootLayoutDDM />
+
+        {/* USER SECTION */}
+        {isLoggedIn() ? (
+          <div className="dropdown">
+            <a
+              href="#"
+              className="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+              id="dropdownUser1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src={getAvatar()}
+                width="32"
+                height="32"
+                className="rounded-circle me-2"
+              />
+              <strong>{"getUsername()"}</strong>
+            </a>
+            <ul
+              className="dropdown-menu dropdown-menu-dark text-small shadow"
+              aria-labelledby="dropdownUser1"
+            >
+              <li>
+                <a className="dropdown-item" href="#">
+                  Settings
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="#">
+                  Profile
+                </a>
+              </li>
+              <li>
+                <hr className="dropdown-divider" />
+              </li>
+              <li>
+                <a className="dropdown-item" href="#" onClick={signOut}>
+                  Sign out
+                </a>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <div>
+            <NavLink to="/register" className="text-white">
+              SignUp
+            </NavLink>{" "}
+            or{" "}
+            <NavLink to="/login" className="text-white">
+              Login
+            </NavLink>
+          </div>
+        )}
+        {/* USER SECTION */}
       </div>
       <Outlet />
     </div>
   );
 }
-
