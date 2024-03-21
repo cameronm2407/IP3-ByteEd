@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import "./carousel.css";
 import image1 from "./images/image1.jpg";
@@ -14,17 +15,16 @@ function CarouselP() {
             style={{ height: "50vh", objectFit: "cover" }}
             className="d-block w-100"
             src={image1}
-            alt="Bringing People Together"
           />
           <Carousel.Caption>
-            <h5>Bringing People Together</h5>
-            <p>
-              Join our mission to combat food insecurity by sharing surplus
-              fruits and vegetables within your community.
-            </p>
+            <h5>Learn Like Never Before. Join Us Now!</h5>
             <div>
-              <button className="btn button-primary">Login</button>
-              <button className="btn button-secondary">Signup</button>
+              <NavLink to="/login">
+                <button className="btn button-primary">Login</button>{" "}
+              </NavLink>
+              <NavLink to="/register">
+                <button className="btn button-secondary">Signup</button>{" "}
+              </NavLink>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -33,14 +33,9 @@ function CarouselP() {
             style={{ height: "50vh", objectFit: "cover" }}
             className="d-block w-100"
             src={image2}
-            alt="Share Your Surplus"
           />
           <Carousel.Caption>
-            <h5>Share Your Surplus</h5>
-            <p>
-              Got extra produce? List your food donations easily and support
-              local pantries in need.
-            </p>
+            <h5>Learn this and that...</h5>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -48,15 +43,9 @@ function CarouselP() {
             style={{ height: "50vh", objectFit: "cover" }}
             className="d-block w-100"
             src={image3}
-            alt="Access Fresh Produce"
           />
           <Carousel.Caption>
-            <h5>Access Fresh Produce</h5>
-            <p>
-              In need of fresh fruits and vegetables? Discover how you can
-              connect with local donors and bring nutritious food to your table
-              or pantry.
-            </p>
+            <h5>Also learn this...</h5>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>

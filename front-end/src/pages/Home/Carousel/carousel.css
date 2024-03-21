@@ -5,8 +5,31 @@
 .carousel-item {
   transition: transform 0.5s ease-in-out;
   transform: translateX(0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.carousel-caption {
+  top: 40%;
+}
+
+.carousel-caption h5 {
+  font-size: 36px;
+  color: white;
+}
+
+.button-primary {
+  background-color: #bda1cc !important;
+  margin-right: 10px;
+}
+
+.button-secondary {
+  background-color: #bda1cc !important;
+  margin-left: 10px;
+}
+
+/* ANIMATION FOR CAROUSEL HAS STOPPED WORKING. CURRENTLY TRYING TO FIX -CAMERON <3 */
 .carousel-item.active {
   transform: translateX(0);
 }
@@ -26,11 +49,4 @@
   transform: translateX(-100%);
 }
 
-.button-primary {
-  background-color: #bda1cc !important;
-  margin-right: 5px;
-}
-
-.button-secondary {
-  background-color: #bda1cc !important;
-}
+/* ANIMATION FOR CAROUSEL HAS STOPPED WORKING. CURRENTLY TRYING TO FIX -CAMERON <3 */
