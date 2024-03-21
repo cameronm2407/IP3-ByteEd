@@ -2,8 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import "./carousel.css";
-import image1 from "./images/image1.jpg";
-import image2 from "./images/image2.jpeg";
+import image1 from "./images/image1.png";
+import image2 from "./images/image2.jpg";
 import image3 from "./images/image3.jpg";
 
 function CarouselP() {
@@ -35,7 +35,12 @@ function CarouselP() {
             src={image2}
           />
           <Carousel.Caption>
-            <h5>Learn this and that...</h5>
+            <h5>Your journey starts here!</h5>
+            <div>
+              <NavLink to="/search">
+                <button className="btn button-primary">Browse courses</button>{" "}
+              </NavLink>
+            </div>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -45,7 +50,7 @@ function CarouselP() {
             src={image3}
           />
           <Carousel.Caption>
-            <h5>Also learn this...</h5>
+            <h5>*instert really cringe tagline here*</h5>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
