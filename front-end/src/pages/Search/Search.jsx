@@ -3,25 +3,33 @@ import "./search.css";
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showResults, setShowResults] = useState(false);
+  const [searchVideoResults, setVideoSearchResults] = useState([]);
+  const [searchPlaylistResults, setPlaylistSearchResults] = useState([]);
+  const [showVideoResults, setVideoShowResults] = useState(false);
+  const [showPlaylistResults, setPlaylistShowResults] = useState(false);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-    setShowResults(false); // Reset showResults when input changes
+    setVideoShowResults(false); // Reset showResults when input changes
+    setPlaylistShowResults(false);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setShowResults(true);
-    handleSearch(searchTerm);
+    if (searchTerm.trim() !== "") {
+      // Check if searchTerm is not empty before triggering the search
+      setVideoShowResults(true);
+      setPlaylistShowResults(true);
+      handleSearch(searchTerm);
+    }
   };
 
   const handleSearch = (searchTerm) => {
-    // Simulating search results
     // SEARCH WILL BE HANDLED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const results = [];
-    setSearchResults(results);
+    const videoResults = [];
+    const playlistResults = [];
+    setVideoSearchResults(videoResults);
+    setPlaylistSearchResults(playlistResults);
   };
 
   return (
@@ -36,15 +44,32 @@ export default function Search() {
         />
         <button className="search-button" type="submit" />
       </form>
-      {showResults && (
-        <div className="search-results">
-          {searchResults.length === 0 ? (
-            <p>No results found for '{searchTerm}'</p>
+      {showVideoResults && (
+        <div className="video-search-results">
+          {searchVideoResults.length === 0 ? (
+            <p>No videos found for '{searchTerm}'</p>
           ) : (
             <>
               <p>Search results for: '{searchTerm}'</p>
               <ul>
-                {searchResults.map((result, index) => (
+                {searchVideoResults.map((result, index) => (
+                  <li key={index}>{result}</li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      )}
+
+      {showPlaylistResults && (
+        <div className="playlist-search-results">
+          {searchPlaylistResults.length === 0 ? (
+            <p>No courses found for '{searchTerm}'</p>
+          ) : (
+            <>
+              <p>Search results for: '{searchTerm}'</p>
+              <ul>
+                {searchPlaylistResults.map((result, index) => (
                   <li key={index}>{result}</li>
                 ))}
               </ul>

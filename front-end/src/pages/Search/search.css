@@ -6,6 +6,10 @@
   margin-top: 50px;
 }
 
+.search-results {
+  margin-top: 20px;
+}
+
 .search-bar {
   display: flex;
   align-items: center;
