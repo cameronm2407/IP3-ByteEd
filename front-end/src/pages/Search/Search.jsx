@@ -1,83 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import './search.css';
+import React, { useState } from "react";
+import "./search.css";
 
-// ------------ Search Bar -------------- //
-const SearchBar = ({ onSearch }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+export default function Search() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
 
-    const handleChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+    setShowResults(false); // Reset showResults when input changes
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        onSearch(searchTerm);
-    };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setShowResults(true);
+    handleSearch(searchTerm);
+  };
 
-    return (
-        <div className="searchContainer">
-            <form className="search-bar" onSubmit={handleSubmit}>
-                <input
-                    className="search-input"
-                    type="text"
-                    placeholder="Browse courses and videos..."
-                    value={searchTerm}
-                    onChange={handleChange}
-                />
-                <button className="search-button" type="submit">Search</button>
-            </form>
-        </div>
-    );
-};
+  const handleSearch = (searchTerm) => {
+    // Simulating search results
+    // SEARCH WILL BE HANDLED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    const results = [];
+    setSearchResults(results);
+  };
 
-const SearchResults = ({ results }) => {
-    return (
+  return (
+    <div className="search-container">
+      <form className="search-bar" onSubmit={handleSubmit}>
+        <input
+          className="search-input"
+          type="text"
+          placeholder="Browse courses and videos..."
+          value={searchTerm}
+          onChange={handleChange}
+        />
+        <button className="search-button" type="submit" />
+      </form>
+      {showResults && (
         <div className="search-results">
-            {results.map((result, index) => (
-                <div key={index}>{result}</div>
-            ))}
+          {searchResults.length === 0 ? (
+            <p>No results found for '{searchTerm}'</p>
+          ) : (
+            <>
+              <p>Search results for: '{searchTerm}'</p>
+              <ul>
+                {searchResults.map((result, index) => (
+                  <li key={index}>{result}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
-    );
-};
-
-export default function Home() {
-    const [data, setData] = useState([]);
-    const [searchResults, setSearchResults] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        fetch('/testdata.txt')
-            .then(response => response.text())
-            .then(text => {
-                console.log('Fetched data:', text);
-                const lines = text.split('\n');
-                setData(lines.filter(line => line.trim())); // Filter out empty lines
-                setIsLoading(false); // Data loading complete
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                setIsLoading(false); // Set loading to false in case of error
-            });
-    }, []);
-
-    const handleSearch = (searchTerm) => {
-        console.log('Search term:', searchTerm);
-        const filteredResults = data.filter(item => item.toLowerCase().includes(searchTerm.toLowerCase()));
-        console.log('Filtered results:', filteredResults);
-        setSearchResults(filteredResults);
-    };
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    console.log('Search results:', searchResults);
-
-    // ------------ Return -------------- //
-    return (
-        <div>
-            <SearchBar onSearch={handleSearch} />
-            <SearchResults results={searchResults} />
-        </div>
-    );
+      )}
+    </div>
+  );
 }

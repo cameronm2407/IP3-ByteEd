@@ -1,0 +1,36 @@
+.carousel-inner {
+  overflow: hidden;
+}
+
+.carousel-item {
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(0);
+}
+
+.carousel-item.active {
+  transform: translateX(0);
+}
+
+.carousel-item-next,
+.carousel-item-prev {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.carousel-item-next {
+  transform: translateX(100%);
+}
+
+.carousel-item-prev {
+  transform: translateX(-100%);
+}
+
+.button-primary {
+  background-color: #bda1cc !important;
+  margin-right: 5px;
+}
+
+.button-secondary {
+  background-color: #bda1cc !important;
+}
