@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
-} from "@fortawesome/free-solid-svg-icons"; // Import icons from FontAwesome
+} from "@fortawesome/free-solid-svg-icons";
 //------------------------------//
 function CarouselP() {
   return (
@@ -18,6 +18,7 @@ function CarouselP() {
       <Carousel
         prevIcon={<FontAwesomeIcon icon={faChevronLeft} />}
         nextIcon={<FontAwesomeIcon icon={faChevronRight} />}
+        fade
       >
         <Carousel.Item>
           <img
@@ -29,10 +30,10 @@ function CarouselP() {
             <h5>Learn Like Never Before. Join Us Now!</h5>
             <div>
               <NavLink to="/login">
-                <button className="btn button-primary">Login</button>{" "}
+                <button className="btn button-primary">Login</button>
               </NavLink>
               <NavLink to="/register">
-                <button className="btn button-secondary">Signup</button>{" "}
+                <button className="btn button-secondary">Signup</button>
               </NavLink>
             </div>
           </Carousel.Caption>
@@ -59,7 +60,7 @@ function CarouselP() {
             src={image3}
           />
           <Carousel.Caption>
-            <h5>*insert really cringe tagline here*</h5>
+            <h5>*insert tagline here*</h5>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
