@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 
 export default function Watch() {
 
+    const token = localStorage.getItem("token");
     const heightPlayer = window.innerHeight * 0.75;
     let { videoId } = useParams();
     const videoCall = "http://localhost:443/api/content/videos?id=" + videoId; 
@@ -17,6 +18,9 @@ export default function Watch() {
     useEffect(() => {
       fetch(videoCall, {
         method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       })
         .then((response) => response.json())
         .then((data) => {
