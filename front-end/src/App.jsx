@@ -26,6 +26,7 @@ const router = createBrowserRouter(
       <Route path='register' element={<SignUp />} />
       <Route path='login' element={<Login />} />
       <Route path='watch/:videoId' element={<Watch />} />
+      <Route path='watch' element={<Home />} />
     </Route>
   )
 );
