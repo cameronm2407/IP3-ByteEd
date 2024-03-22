@@ -10,7 +10,7 @@ export default function Search() {
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-    setVideoShowResults(false); // Reset showResults when input changes
+    setVideoShowResults(false); // Reset results when input changes
     setPlaylistShowResults(false);
   };
 
@@ -26,8 +26,8 @@ export default function Search() {
 
   const handleSearch = (searchTerm) => {
     // SEARCH WILL BE HANDLED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const videoResults = [];
-    const playlistResults = [];
+    const videoResults = ["Uno", "Dos"];
+    const playlistResults = ["Tres", "Quatro"];
     setVideoSearchResults(videoResults);
     setPlaylistSearchResults(playlistResults);
   };
@@ -50,7 +50,7 @@ export default function Search() {
             <p>No videos found for '{searchTerm}'</p>
           ) : (
             <>
-              <p>Search results for: '{searchTerm}'</p>
+              <p>Video results for: '{searchTerm}'</p>
               <ul>
                 {searchVideoResults.map((result, index) => (
                   <li key={index}>{result}</li>
@@ -67,7 +67,7 @@ export default function Search() {
             <p>No courses found for '{searchTerm}'</p>
           ) : (
             <>
-              <p>Search results for: '{searchTerm}'</p>
+              <p>Course results for: '{searchTerm}'</p>
               <ul>
                 {searchPlaylistResults.map((result, index) => (
                   <li key={index}>{result}</li>
