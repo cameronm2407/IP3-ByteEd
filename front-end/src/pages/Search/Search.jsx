@@ -1,35 +1,54 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./search.css";
+
+const Card = (data, key) => {
+  console.log(data);
+  return (
+    <div
+      key={key}
+      style={{ height: "250px", width: "420px", border: "none" }}
+      className="card"
+    >
+      <img
+        src={data.thumbnail}
+        key={key}
+        style={{ width: "100%", height: "100%" }}
+      />
+      <div className="title">{data.title}</div>
+    </div>
+  );
+};
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchVideoResults, setVideoSearchResults] = useState([]);
-  const [searchPlaylistResults, setPlaylistSearchResults] = useState([]);
-  const [showVideoResults, setVideoShowResults] = useState(false);
-  const [showPlaylistResults, setPlaylistShowResults] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+
+  useEffect(() => {
+    const fn = async () => {
+      const res = await fetch("http://localhost:443/api/content/videos");
+      const data = await res.json();
+      setSearchResult(data.videos);
+    };
+    fn();
+  }, []);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-    setVideoShowResults(false); // Reset results when input changes
-    setPlaylistShowResults(false);
+  };
+
+  const renderCards = (data) =>
+    data.map((entry, index) => Card(entry, index + 1));
+  const handleSearch = async (searchTerm) => {
+    const res = await fetch(
+      `http://localhost:443/api/content/search?st=${searchTerm}`
+    );
+    const data = await res.json();
+    console.log(data);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (searchTerm.trim() !== "") {
-      // Check if searchTerm is not empty before triggering the search
-      setVideoShowResults(true);
-      setPlaylistShowResults(true);
-      handleSearch(searchTerm);
-    }
-  };
-
-  const handleSearch = (searchTerm) => {
-    // SEARCH WILL BE HANDLED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const videoResults = ["Uno", "Dos"];
-    const playlistResults = ["Tres", "Quatro"];
-    setVideoSearchResults(videoResults);
-    setPlaylistSearchResults(playlistResults);
+    handleSearch(searchTerm);
   };
 
   return (
@@ -44,39 +63,12 @@ export default function Search() {
         />
         <button className="search-button" type="submit" />
       </form>
-      {showVideoResults && (
-        <div className="video-search-results">
-          {searchVideoResults.length === 0 ? (
-            <p>No videos found for '{searchTerm}'</p>
-          ) : (
-            <>
-              <p>Video results for: '{searchTerm}'</p>
-              <ul>
-                {searchVideoResults.map((result, index) => (
-                  <li key={index}>{result}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      )}
-
-      {showPlaylistResults && (
-        <div className="playlist-search-results">
-          {searchPlaylistResults.length === 0 ? (
-            <p>No courses found for '{searchTerm}'</p>
-          ) : (
-            <>
-              <p>Course results for: '{searchTerm}'</p>
-              <ul>
-                {searchPlaylistResults.map((result, index) => (
-                  <li key={index}>{result}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      )}
+      <div
+        style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
+        className="content"
+      >
+        {renderCards(searchResult)}
+      </div>
     </div>
   );
 }
