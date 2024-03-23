@@ -1,0 +1,5 @@
+.dropdown {
+  z-index: 999;
+  position: relative;
+  overflow: auto;
+}
