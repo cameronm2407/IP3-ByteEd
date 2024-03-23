@@ -14,6 +14,8 @@ import Search from './pages/Search/Search.jsx'
 import SignUp from './pages/LoginSignUp/SignUp.jsx';
 import Login from './pages/LoginSignUp/LogIn.jsx';
 import Watch from './pages/Watch/Watch.jsx';
+import VideoUpload from './pages/VideoUpload.jsx';
+
 // Layouts
 import RootLayout from './layouts/RootLayout.jsx';
 
@@ -27,6 +29,7 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login />} />
       <Route path='watch/:videoId' element={<Watch />} />
       <Route path='watch' element={<Home />} />
+      <Route path='videoupload' element={<VideoUpload />} />
     </Route>
   )
 );

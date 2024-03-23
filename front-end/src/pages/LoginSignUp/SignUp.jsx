@@ -66,6 +66,7 @@ export default function SignUp() {
       const token = data.token;
       localStorage.setItem("token", token)
       navigate("/");
+      window.location.reload(); 
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -136,7 +137,7 @@ export default function SignUp() {
                 </Form.Group>
               </Col>
             </Row>
-            {/* className='w-100 mb-1 text-dark btn-light' type="submit" style={{backgroundColor: "#BDA1CC"}} */}
+            
             <Row className="mb-3">
               <Col md={12}>
                 <div

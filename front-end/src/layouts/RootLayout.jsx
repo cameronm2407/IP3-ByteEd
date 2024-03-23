@@ -1,4 +1,6 @@
-import { NavLink, Outlet, useNavigate  } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
 // logo
 import logo from "../assets/logo.svg";
@@ -77,24 +79,44 @@ const SearchIconSVG = () => (
   </svg>
 );
 
+const UploadSVG = () => (
+  <svg
+    className="icon-margin-right"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5 16v2h14v-2h2v2c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-2h2zm7-14l-6 6h4v6h4v-6h4l-6-6z"
+    />
+  </svg>
+);
 
 
 export default function RootLayout() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   const isLoggedIn = () => {
     return localStorage.getItem("token") !== null;
   };
 
-  const signOut = () => {
-    localStorage.removeItem('token'); // Remove the token
-    navigate('/'); // Redirect to the homepage
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode(token); // Correctly decoding the JWT token
+      setUser(decoded.user); // Setting the user state
+      console.log(decoded.user);
+    }
+  }, []);
 
-  const getAvatar = () => {
-    
-  }
-  
+  const signOut = () => {
+    localStorage.removeItem("token");
+    localStorage.clear();
+    navigate("/");
+  };
 
   return (
     <div className="app-container d-flex" style={{ marginLeft: "280px" }}>
@@ -149,6 +171,18 @@ export default function RootLayout() {
               Saved Courses
             </NavLink>
           </li>
+
+          <li>
+            <NavLink
+              to="/videoupload"
+              className={({ isActive }) =>
+                isActive ? "nav-link active text-white" : "nav-link text-white"
+              }
+            >
+              <UploadSVG />
+              Video Upload
+            </NavLink>
+          </li>
         </ul>
         <hr />
 
@@ -163,12 +197,12 @@ export default function RootLayout() {
               aria-expanded="false"
             >
               <img
-                src={getAvatar()}
+                src={user?.avatar}
                 width="32"
                 height="32"
                 className="rounded-circle me-2"
               />
-              <strong>{"getUsername()"}</strong>
+              <strong>{user?.username}</strong>
             </a>
             <ul
               className="dropdown-menu dropdown-menu-dark text-small shadow"
