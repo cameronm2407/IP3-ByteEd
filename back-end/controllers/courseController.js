@@ -1,8 +1,9 @@
 import catchAsyncError from '../utilities/catchAsyncError.js';
+import CrudOperator from '../classes/CrudOperator.js';
 
 export default class CourseController {
-  constructor(crudOperator) {
-    this.crudOperator = crudOperator;
+  constructor(Model) {
+    this.crudOperator = new CrudOperator(Model);
   }
 
   createCourse() {
