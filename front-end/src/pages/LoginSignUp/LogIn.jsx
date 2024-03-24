@@ -31,6 +31,7 @@ const handleSubmit = async (event, navigate) => {
     const token = data.token;
     localStorage.setItem("token", token)
     navigate('/');
+    window.location.reload(); // yemp
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
   }
