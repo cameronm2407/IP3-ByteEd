@@ -7,8 +7,8 @@ export const LANGUAGE_VERSIONS = {
 };
 
 export const HELLO_WORLD = {
-  javascript: '\n //Hello World in JavaScript \nconsole.log("Hello World!");',
-  typescript: '\n //Hello World in TypeScript \nalert("Hello World!");',
-  python: '\n #Hello World in Python \nprint("Hello World!")',
-  java: '\nclass HelloWorld {\n\tstatic public void main( String args[] ) {\n\t\tSystem.out.println( "Hello World!" );\n\t}\n}',
+  javascript: '//Hello World in JavaScript \nconsole.log("Hello World!");',
+  typescript: '//Hello World in TypeScript \nalert("Hello World!");',
+  python: '#Hello World in Python \nprint("Hello World!")',
+  java: 'class HelloWorld {\n\tstatic public void main( String args[] ) {\n\t\tSystem.out.println( "Hello World!" );\n\t}\n}',
 };
