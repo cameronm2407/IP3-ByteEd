@@ -11,7 +11,7 @@ function capitaliseLanguage(language) {
 
 const LanguagePicker = ({ language, onSelect }) => {
   return (
-    <Container className="dropdown">
+    <Container className="dropdown text-start">
       <Dropdown className="mb-3">
         <Dropdown.Toggle id="dropdown-basic" className="fs-6">
           {capitaliseLanguage(language)}

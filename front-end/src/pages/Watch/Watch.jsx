@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import VideoPlayer from "./components/VideoPlayer";
 import Textbox from "./components/Textbox";
 import CodeEditor from "./components/CodeEditor";
+import RelatedVideos from "./components/RelatedVideos";
 import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
@@ -33,7 +34,7 @@ export default function Watch() {
   return (
     <Container
       fluid
-      className="text-center h-100 w-100 bg-dark pt-3"
+      className="text-center h-100 w-100 bg-dark pt-3 "
       style={{ position: "relative" }}
     >
       <Row className="h-25">
@@ -46,6 +47,7 @@ export default function Watch() {
             videoDescription={video.description}
             courseEditor={video.course_content}
           />
+          <RelatedVideos />
         </Col>
       </Row>
       <Row className="pt-4 w-100">

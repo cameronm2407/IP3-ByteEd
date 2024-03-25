@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import { executeCode } from "./codeAPI";
-import "./Output.css"
+import "./Output.css";
 const Output = ({ language, editorRef }) => {
   const [output, setOutput] = useState("");
   const arrow = "> ";
@@ -18,13 +18,15 @@ const Output = ({ language, editorRef }) => {
 
   return (
     <Container>
-      <Row>
-        <p>Output</p>
-        <Button onClick={runCode}>Execute Code</Button>
+      <Row className="executeButton">
+        <Button onClick={runCode} className="mb-3">
+          Execute Code
+        </Button>
       </Row>
       <Row className="text-start border border-2 outputBox">
-        <p style={{ color: "white", fontFamily: "consolas"}}>
-          {arrow}{output ? output : 'Press "Execute Code".'}
+        <p style={{ color: "white", fontFamily: "consolas" }}>
+          {arrow}
+          {output ? output : 'Press "Execute Code".'}
         </p>
       </Row>
     </Container>

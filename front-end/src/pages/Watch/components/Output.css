@@ -1,5 +1,9 @@
 .outputBox {
-    height: 30vh !important;
-    overflow: scroll;
-    scrollbar-width: none;
+  height: 30vh !important;
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.executeButton {
+  width: 30%;
 }
