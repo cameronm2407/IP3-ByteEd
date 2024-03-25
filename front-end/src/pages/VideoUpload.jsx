@@ -9,6 +9,8 @@ export default function VideoUploadFormList() {
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [duration, setDuration] = useState("");
 
+  const [courseUrl, setCourseUrl] = useState("");
+
   const handleShowExistingCourseForm = () => {
     setShowForm("existing");
   };
@@ -18,13 +20,13 @@ export default function VideoUploadFormList() {
   };
 
   const VideoID = ObjectID().toString();
+  const CourseID = ObjectID().toString();
 
-  // Video Submit
   var ThumbnailoWidget = cloudinary.createUploadWidget(
     {
       cloudName: "shared-env",
       uploadPreset: "ml_default",
-      folder: "IP3-ByteEd-resources/course_thumbnails",
+      folder: "IP3-ByteEd-resources/video_thumbnails",
       clientAllowedFormats: ["png", "jpeg", "jpg"],
       publicId: `image_id_${VideoID}`,
     },
@@ -67,6 +69,8 @@ export default function VideoUploadFormList() {
     VideoWidget.open();
   };
 
+
+
   const handleVideoSubmit = async (event) => {
     const user = getCurrentUser();
 
@@ -86,11 +90,11 @@ export default function VideoUploadFormList() {
     }
 
     const video = {
-      title: formData.get("course-name"),
+      title: formData.get("video-name"),
       url: videoUrl,
       thumbnail: thumbnailUrl,
       course_content: false,
-      description: formData.get("course-description"),
+      description: formData.get("video-description"),
       duration: duration,
       creator: user._id,
       _id: VideoID,
@@ -117,6 +121,78 @@ export default function VideoUploadFormList() {
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
+  };
+
+// Course
+  const handleCourseSubmit = async (event) => {
+    const user = getCurrentUser();
+
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    if (!courseUrl) {
+      alert("Please select an course thumbnail before submitting.");
+      return;
+    }
+
+    const course = {
+      name: formData.get("course-name"),
+      thumbnail: courseUrl,
+      description: formData.get("course-description"),
+      difficulty: formData.get("course-difficulty"),
+      programming_language: formData.get("course-language"),
+      tags: formData.get("course-tags"),
+      creator: user._id,
+      _id: CourseID,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:443/api/content/course",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(course),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  }
+
+  // Course section
+  var CourseThumbnailoWidget = cloudinary.createUploadWidget(
+    {
+      cloudName: "shared-env",
+      uploadPreset: "ml_default",
+      folder: "IP3-ByteEd-resources/course_thumbnails",
+      clientAllowedFormats: ["png", "jpeg", "jpg"],
+      publicId: `image_id_${CourseID}`,
+    },
+    (error, result) => {
+      if (error) {
+        console.error("Upload Widget error:", error);
+        return;
+      }
+      if (result && result.event === "success") {
+        console.log("File uploaded successfully:", result.info);
+        setCourseUrl(result.info.url); // Save the uploaded avatar URL
+      }
+    }
+  );
+  const openCourseThumbnailCloudinaryWidget = () => {
+    CourseThumbnailoWidget.open();
   };
 
   return (
@@ -155,7 +231,7 @@ export default function VideoUploadFormList() {
               }}
               onClick={handleShowExistingCourseForm}
             >
-              Add Video(s)
+              Add Video
             </Button>
             <Button
               style={{
@@ -168,7 +244,7 @@ export default function VideoUploadFormList() {
               }}
               onClick={handleShowNewCourseForm}
             >
-              Create a New Course
+              Create Course
             </Button>
           </div>
 
@@ -221,23 +297,23 @@ export default function VideoUploadFormList() {
 
               {/* Title */}
               <Form.Group className="mb-3">
-                <Form.Label htmlFor="course-name">Video Name</Form.Label>
+                <Form.Label htmlFor="video-name">Video Name</Form.Label>
                 <Form.Control
-                  id="course-name"
+                  id="video-name"
                   required
                   placeholder=""
-                  name="course-name"
+                  name="video-name"
                 />
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label htmlFor="course-description">
+                <Form.Label htmlFor="video-description">
                   Video Description
                 </Form.Label>
                 <Form.Control
-                  id="course-description"
+                  id="video-description"
                   placeholder=""
-                  name="course-description"
+                  name="video-description"
                 />
               </Form.Group>
 
@@ -253,13 +329,59 @@ export default function VideoUploadFormList() {
 
           {/* Create Course Section */}
           {showForm === "new" && (
-            <Form>
+            <Form onSubmit={handleCourseSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label htmlFor="new-course-name">
-                  New Course Name
-                </Form.Label>
-                <Form.Control id="new-course-name" />
+                <Form.Label htmlFor="course-name">Course Name</Form.Label>
+                <Form.Control id="course-name" name="course-name" />
               </Form.Group>
+
+              <Form.Group className="mb-3">
+              <Form.Label></Form.Label>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "20px" }}
+                >
+                  <Button
+                    className="text-dark btn-light"
+                    onClick={openCourseThumbnailCloudinaryWidget}
+                    style={{ width: "200px", backgroundColor: "#BDA1CC" }}
+                  >
+                    Upload Thumbnail
+                  </Button>
+                  <Form.Control
+                    type="text"
+                    readOnly
+                    value={courseUrl}
+                    placeholder="Thumnail URL will appear here..."
+                    style={{ flexGrow: 1 }}
+                  />
+                </div>
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="course-description">
+                  Course Description
+                </Form.Label>
+                <Form.Control
+                  id="course-description"
+                  name="course-description"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3">
+                <Form.Label htmlFor="course-language">
+                  Programming Language
+                </Form.Label>
+                <Form.Select id="course-language" name="course-language">
+                  <option value="" disabled selected>
+                    Select Language
+                  </option>
+                  <option value="">Python</option>
+                  <option value="beginner">Java</option>
+                  <option value="intermediate">Javascript</option>
+                  <option value="advanced">Html</option>
+                </Form.Select>
+              </Form.Group>
+
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="course-difficulty">
                   Course Difficulty
@@ -273,32 +395,22 @@ export default function VideoUploadFormList() {
                   <option value="advanced">Advanced</option>
                 </Form.Select>
               </Form.Group>
+
               <Form.Group className="mb-3">
-                <Form.Label htmlFor="programming-language-new">
-                  Programming Language
-                </Form.Label>
-                <Form.Select id="course-language">
-                  <option value="" disabled selected>
-                    Select Language
-                  </option>
-                  <option value="">Python</option>
-                  <option value="beginner">Java</option>
-                  <option value="intermediate">Javascript</option>
-                  <option value="advanced">Html</option>
-                </Form.Select>
+                <Form.Label htmlFor="course-tags">Course Tags</Form.Label>
+                <Form.Control
+                  id="course-tags"
+                  placeholder=""
+                  name="course-tags"
+                />
               </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label htmlFor="course-description">
-                  Course Description
-                </Form.Label>
-                <Form.Control id="course-description" />
-              </Form.Group>
+
               <Button
                 className="w-100 mb-1 text-dark btn-light"
                 type="submit"
                 style={{ backgroundColor: "#BDA1CC" }}
               >
-                Submit
+                Add Course Videos
               </Button>
             </Form>
           )}
