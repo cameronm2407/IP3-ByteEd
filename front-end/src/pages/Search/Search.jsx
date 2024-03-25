@@ -23,18 +23,18 @@ function convertDuration(videoLength) {
 const Card = (data, key) => {
   console.log(data);
   return (
-    <div key={key} className="card">
-      <img
-        src={data.thumbnail}
-        key={key}
-        style={{ width: "100%", height: "100%" }}
-      />
-      <div className="title">
-        <a href={`/watch/${data._id}`}>{data.title}</a>
+    <a href={`/watch/${data._id}`} className="link">
+      <div key={key} className="card">
+        <img
+          src={data.thumbnail}
+          key={key}
+          style={{ width: "100%", height: "100%" }}
+        />
+        <div className="title">{data.title}</div>
+        <div className="duration">{convertDuration(data.duration_seconds)}</div>
+        <div className="description">{data.description}</div>
       </div>
-      <div className="duration">{convertDuration(data.duration_seconds)}</div>
-      <div className="description">{data.description}</div>
-    </div>
+    </a>
   );
 };
 
