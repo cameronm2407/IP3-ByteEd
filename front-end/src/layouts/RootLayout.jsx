@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate  } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 // logo
 import logo from "../assets/logo.svg";
@@ -77,8 +77,6 @@ const SearchIconSVG = () => (
   </svg>
 );
 
-
-
 export default function RootLayout() {
   const navigate = useNavigate();
 
@@ -87,14 +85,11 @@ export default function RootLayout() {
   };
 
   const signOut = () => {
-    localStorage.removeItem('token'); // Remove the token
-    navigate('/'); // Redirect to the homepage
+    localStorage.removeItem("token"); // Remove the token
+    navigate("/"); // Redirect to the homepage
   };
 
-  const getAvatar = () => {
-    
-  }
-  
+  const getAvatar = () => {};
 
   return (
     <div className="app-container d-flex" style={{ marginLeft: "280px" }}>
@@ -180,7 +175,10 @@ export default function RootLayout() {
                 </a>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
+                <a
+                  className="dropdown-item"
+                  href="front-end\src\pages\LoginSignUp\Profile.jsx"
+                >
                   Profile
                 </a>
               </li>
