@@ -18,6 +18,7 @@ export default function Watch() {
       .then((response) => response.json())
       .then((data) => {
         setVideo(data.videos[0]);
+        console.log(data.videos[0])
       })
       .catch((error) => console.log(error));
   }, []);

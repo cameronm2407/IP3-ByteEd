@@ -23,7 +23,7 @@ const Output = ({ language, editorRef }) => {
         <Button onClick={runCode}>Execute Code</Button>
       </Row>
       <Row className="h-100 text-start">
-        <p style={{ color: "blue" }}>
+        <p style={{ color: "white" }}>
           {output ? output : 'Press "Execute Code".'}
         </p>
       </Row>
