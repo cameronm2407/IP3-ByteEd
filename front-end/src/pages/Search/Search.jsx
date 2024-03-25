@@ -1,35 +1,80 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import "./search.css";
+
+function convertDuration(videoLength) {
+  let videoTime = "";
+  if (videoLength >= 3600) {
+    const hours = Math.floor(videoLength / 3600);
+    const minutes = Math.round((videoLength % 3600) / 60);
+    if (hours > 100) {
+      videoTime = "100+ Hours";
+    } else {
+      videoTime = `${hours} Hours`;
+      if (minutes > 0) {
+        videoTime += ` ${minutes} Minutes`;
+      }
+    }
+  } else {
+    videoTime = `${Math.round(videoLength / 60)} Minutes`;
+  }
+  return videoTime;
+}
+
+const Card = (data, key) => {
+  console.log(data);
+  return (
+    <div key={key} className="card">
+      <img
+        src={data.thumbnail}
+        key={key}
+        style={{ width: "100%", height: "100%" }}
+      />
+      <div className="title">
+        <a href={`/watch/${data._id}`}>{data.title}</a>
+      </div>
+      <div className="duration">{convertDuration(data.duration_seconds)}</div>
+      <div className="description">{data.description}</div>
+    </div>
+  );
+};
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchVideoResults, setVideoSearchResults] = useState([]);
-  const [searchPlaylistResults, setPlaylistSearchResults] = useState([]);
-  const [showVideoResults, setVideoShowResults] = useState(false);
-  const [showPlaylistResults, setPlaylistShowResults] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+  const [searchMessage, setSearchMessage] = useState("");
+
+  useEffect(() => {
+    const fn = async () => {
+      const res = await fetch("http://localhost:443/api/content/videos");
+      const data = await res.json();
+      setSearchResult(data.videos);
+    };
+    fn();
+  }, []);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
-    setVideoShowResults(false); // Reset showResults when input changes
-    setPlaylistShowResults(false);
+  };
+
+  const renderCards = (data) =>
+    data.map((entry, index) => Card(entry, index + 1));
+  const handleSearch = async (searchTerm) => {
+    const res = await fetch(
+      `http://localhost:443/api/content/search?st=${searchTerm}`
+    );
+    const data = await res.json();
+    if (data.searchResult.length > 0) {
+      setSearchResult(data.searchResult);
+      setSearchMessage(`Results found for "${searchTerm}"`);
+    } else {
+      setSearchResult([]);
+      setSearchMessage(`No results found for "${searchTerm}"`);
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (searchTerm.trim() !== "") {
-      // Check if searchTerm is not empty before triggering the search
-      setVideoShowResults(true);
-      setPlaylistShowResults(true);
-      handleSearch(searchTerm);
-    }
-  };
-
-  const handleSearch = (searchTerm) => {
-    // SEARCH WILL BE HANDLED HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    const videoResults = [];
-    const playlistResults = [];
-    setVideoSearchResults(videoResults);
-    setPlaylistSearchResults(playlistResults);
+    handleSearch(searchTerm);
   };
 
   return (
@@ -44,39 +89,18 @@ export default function Search() {
         />
         <button className="search-button" type="submit" />
       </form>
-      {showVideoResults && (
-        <div className="video-search-results">
-          {searchVideoResults.length === 0 ? (
-            <p>No videos found for '{searchTerm}'</p>
-          ) : (
-            <>
-              <p>Search results for: '{searchTerm}'</p>
-              <ul>
-                {searchVideoResults.map((result, index) => (
-                  <li key={index}>{result}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      )}
-
-      {showPlaylistResults && (
-        <div className="playlist-search-results">
-          {searchPlaylistResults.length === 0 ? (
-            <p>No courses found for '{searchTerm}'</p>
-          ) : (
-            <>
-              <p>Search results for: '{searchTerm}'</p>
-              <ul>
-                {searchPlaylistResults.map((result, index) => (
-                  <li key={index}>{result}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-      )}
+      {searchMessage && <div className="search-message">{searchMessage}</div>}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "20px",
+          marginLeft: "150px",
+        }}
+        className="content"
+      >
+        {renderCards(searchResult)}
+      </div>
     </div>
   );
 }
