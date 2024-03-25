@@ -1,8 +1,10 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { Editor } from "@monaco-editor/react";
 import { useState, useRef } from "react";
 import LanguagePicker from "./LanguagePicker";
+import { HELLO_WORLD } from "./languages";
+import Output from "./Output";
 
 function CodeEditor() {
   const [value, setValue] = useState("");
@@ -16,26 +18,34 @@ function CodeEditor() {
 
   const onSelect = (language) => {
     setLanguage(language);
+    setValue(HELLO_WORLD[language]);
   };
-  const defaultComment = "// Start Coding!";
-  if (language == "python") {
-  }
+
   return (
     <Container>
-      <LanguagePicker
-        language={language}
-        onSelect={onSelect}
-        className="end-0"
-      />
-      <Editor
-        height="30vh"
-        language={language}
-        defaultValue="// Start Coding!"
-        theme="vs-dark"
-        value={value}
-        onChange={(value, event) => setValue(value)}
-        onMount={onMount}
-      />
+      <Row className="text-start">
+        <LanguagePicker
+          language={language}
+          onSelect={onSelect}
+          className="end-0"
+        />
+      </Row>
+      <Row>
+        <Col>
+          <Editor
+            height="30vh"
+            language={language}
+            defaultValue={HELLO_WORLD[language]}
+            theme="vs-dark"
+            value={value}
+            onChange={(value) => setValue(value)}
+            onMount={onMount}
+          />
+        </Col>
+        <Col>
+          <Output editorRef={editorRef} language={language} />
+        </Col>
+      </Row>
     </Container>
   );
 }

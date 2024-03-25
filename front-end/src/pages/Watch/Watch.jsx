@@ -32,7 +32,7 @@ export default function Watch() {
   return (
     <Container
       fluid
-      className="text-center h-100 w-100 bg-dark "
+      className="text-center h-100 w-100 bg-dark pt-3"
       style={{ position: "relative" }}
     >
       <Row className="h-25">
@@ -46,7 +46,7 @@ export default function Watch() {
           />
         </Col>
       </Row>
-      <Row className="pt-4">
+      <Row className="pt-4 w-100">
         <Col fluid className="mx-0 px-0 pb-4">
           <CodeEditor />
         </Col>
