@@ -1,0 +1,16 @@
+.dropdown {
+  overflow: visible !important;
+  padding: 0;
+  margin: 0;
+}
+
+.itemText {
+  font-size: 14px;
+  padding: 0;
+  height: 50px;
+}
+
+.themeColours {
+  background-color: "#BDA1CC";
+  color: "#BDA1CC";
+}
