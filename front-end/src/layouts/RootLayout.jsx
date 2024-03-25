@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import getCurrentUser from "../utils/currentUser.js";
 
 // logo
 import logo from "../assets/logo.svg";
@@ -88,12 +88,9 @@ const UploadSVG = () => (
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path
-      d="M5 16v2h14v-2h2v2c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-2h2zm7-14l-6 6h4v6h4v-6h4l-6-6z"
-    />
+    <path d="M5 16v2h14v-2h2v2c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2v-2h2zm7-14l-6 6h4v6h4v-6h4l-6-6z" />
   </svg>
 );
-
 
 export default function RootLayout() {
   const navigate = useNavigate();
@@ -104,12 +101,8 @@ export default function RootLayout() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded = jwtDecode(token); // Correctly decoding the JWT token
-      setUser(decoded.user); // Setting the user state
-      console.log(decoded.user);
-    }
+    const user = getCurrentUser();
+    setUser(user); // Setting the user state
   }, []);
 
   const signOut = () => {
