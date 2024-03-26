@@ -13,18 +13,14 @@ function AddCourseForm() {
   const [videoTitle, setVideoTitle] = useState("");
   const [videoDescription, setVideoDescription] = useState("");
 
-  const CourseID = ObjectID().toString();
+  const courseID = ObjectID().toString();
 
-  function generateVideoId() {
-    let VideoID = ObjectID().toString();
-    return VideoID;
-  }
+  const generateVideoId = () => ObjectID().toString();
   let currentVideoId = generateVideoId();
 
   const addNewVideo = () => {
     const user = getCurrentUser();
-
-    let video = {
+    let newVideo = {
       title: videoTitle,
       duration: duration,
       description: videoDescription,
@@ -36,9 +32,10 @@ function AddCourseForm() {
       _id: currentVideoId,
     };
 
-    setVideoData([...videoData, video]);
-    console.log([...videoData, video]);
+    setVideoData(videoData.concat(newVideo));
+    console.log(videoData);
 
+    // Resetting the form fields for video information
     setVideoTitle("");
     setVideoDescription("");
     setCourseVideoUrl("");
@@ -47,17 +44,16 @@ function AddCourseForm() {
   };
 
   const handleCourseVideoSubmit = async (event) => {
-    const formElement = document.querySelector("form");
-    const formData = new FormData(formElement);
+    event.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:443/api/content/course/upload/course-content?courseId=${CourseID}`,
+        `http://localhost:443/api/content/course/upload/course-content?courseId=${courseID}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(VideoData),
+          body: JSON.stringify({ videos: videoData }),
         }
       );
 
@@ -74,8 +70,8 @@ function AddCourseForm() {
   };
 
   const handleCourseSubmit = async (event) => {
-    event.preventDefault();
     const user = getCurrentUser();
+    event.preventDefault();
     const formData = new FormData(event.target);
 
     if (!courseUrl) {
@@ -91,9 +87,10 @@ function AddCourseForm() {
       programming_language: formData.get("course-language"),
       tags: formData.get("course-tags"),
       creator: user._id,
-      _id: CourseID,
+      _id: courseID,
     };
 
+    console.log(course);
     try {
       const response = await fetch("http://localhost:443/api/content/course", {
         method: "POST",
@@ -109,7 +106,6 @@ function AddCourseForm() {
 
       const data = await response.json();
       console.log(data);
-      setShowForm(false);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -121,7 +117,7 @@ function AddCourseForm() {
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/course_thumbnails",
       clientAllowedFormats: ["png", "jpeg", "jpg"],
-      publicId: `image_id_${CourseID}`,
+      publicId: `image_id_${courseID}`,
     },
     (error, result) => {
       if (error) {
@@ -224,21 +220,29 @@ function AddCourseForm() {
           <Form.Label htmlFor="course-language">
             Programming Language
           </Form.Label>
-          <Form.Select id="course-language" name="course-language">
-            <option value="" disabled selected>
+          <Form.Select
+            id="course-language"
+            name="course-language"
+            defaultValue=""
+          >
+            <option value="" disabled>
               Select Language
             </option>
-            <option value="">Python</option>
-            <option value="beginner">Java</option>
-            <option value="intermediate">Javascript</option>
-            <option value="advanced">Html</option>
+            <option value="Python">Python</option>
+            <option value="Java">Java</option>
+            <option value="Javascript">Javascript</option>
+            <option value="Html">HTML</option>
           </Form.Select>
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label htmlFor="course-difficulty">Course Difficulty</Form.Label>
-          <Form.Select id="course-difficulty">
-            <option value="" disabled selected>
+          <Form.Select
+            id="course-difficulty"
+            name="course-difficulty"
+            defaultValue=""
+          >
+            <option value="" disabled>
               Select Difficulty
             </option>
             <option value="beginner">Beginner</option>
