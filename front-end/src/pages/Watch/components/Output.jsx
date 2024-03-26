@@ -37,14 +37,16 @@ const Output = ({ language, editorRef }) => {
   return (
     <Container>
       <Row className="executeButton">
-        <Button onClick={runCode} className="mb-3">
+        <Button onClick={runCode} className="mb-3" id="execute-button">
           {isLoading ? "Executing..." : "Execute Code"}
         </Button>
       </Row>
       <Toast
-        className="position-absolute start-50 bottom-0 translate-middle"
+        className="position-absolute start-50 top-50 translate-middle"
         show={showToast}
         onClose={toggleShowToast}
+        bg="danger"
+        style={{ width: 200, height: 100 }}
       >
         <Toast.Header>
           <strong className="mr-auto">Execution Error</strong>

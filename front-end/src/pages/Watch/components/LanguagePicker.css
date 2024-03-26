@@ -4,13 +4,32 @@
   margin: 0;
 }
 
-.itemText {
+#itemText {
   font-size: 14px;
   padding: 0;
-  height: 50px;
+  height: auto;
+  color: #1b294b;
+  font-weight: bold;
 }
 
-.themeColours {
-  background-color: "#BDA1CC";
-  color: "#BDA1CC";
+#itemText:nth-child(2n) {
+  background-color: #bda1cc;
+}
+
+#itemText:hover {
+  background-color: #dabaeb;
+}
+
+#dropdown-basic {
+  background-color: #bda1cc !important;
+  font-weight: bold;
+  color: #1b294b;
+  border-color: #bda1cc;
+}
+
+#dropdown-basic + div {
+  background-color: #b798c7 !important;
+  font-weight: bold;
+  color: #1b294b;
+  border-color: #bda1cc;
 }

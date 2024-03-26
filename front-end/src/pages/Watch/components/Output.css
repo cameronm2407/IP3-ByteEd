@@ -7,3 +7,10 @@
 .executeButton {
   width: 30%;
 }
+
+#execute-button {
+  background-color: #bda1cc !important;
+  font-weight: bold;
+  color: #1b294b;
+  border-color: #bda1cc;
+}

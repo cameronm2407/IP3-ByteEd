@@ -22,11 +22,11 @@ const LanguagePicker = ({ language, onSelect }) => {
             <Dropdown.Item
               key={language}
               onClick={() => onSelect(language)}
-              className="itemText"
+              id="itemText"
             >
               {capitaliseLanguage(language)}
-
-              <p>{version}</p>
+              <br></br>
+              {version}
             </Dropdown.Item>
           ))}
         </Dropdown.Menu>
