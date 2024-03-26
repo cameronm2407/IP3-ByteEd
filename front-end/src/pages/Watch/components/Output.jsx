@@ -12,6 +12,7 @@ const Output = ({ language, editorRef }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const toggleShowToast = () => setShowToast(!showToast);
 
@@ -22,7 +23,8 @@ const Output = ({ language, editorRef }) => {
       setShowToast(false);
       setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
-      setOutput(result.output);
+      setOutput(result.output.split("\n"));
+      result.stderr ? setIsError(true) : setIsError(false);
     } catch (error) {
       console.log(error);
       setToastMessage(error.message);
@@ -49,10 +51,21 @@ const Output = ({ language, editorRef }) => {
         </Toast.Header>
         <Toast.Body>{toastMessage}</Toast.Body>
       </Toast>
-      <Row className="text-start border border-2 outputBox">
-        <p style={{ color: "white", fontFamily: "consolas" }}>
+      <Row
+        className={
+          isError
+            ? "text-start border border-2 outputBox border-danger"
+            : "text-start border border-2 outputBox border-white"
+        }
+      >
+        <p
+          style={{ fontFamily: "consolas" }}
+          className={isError ? "text-danger" : "text-white"}
+        >
           {arrow}
-          {output ? output : 'Press "Execute Code".'}
+          {output
+            ? output.map((line, i) => <p key={i}>{line}</p>)
+            : 'Press "Execute Code".'}
         </p>
       </Row>
     </Container>
