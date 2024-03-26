@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Card } from "react-bootstrap";
+import { Container, Card, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
+import "./profile.css";
 
-export default function Saved() {
+export default function Profile() {
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -11,7 +14,6 @@ export default function Saved() {
   }, []);
 
   console.log(profile);
-  console.log(profile?.user?.username);
 
   return (
     <Container className="custom-container">
@@ -28,7 +30,7 @@ export default function Saved() {
       ></div>
 
       <Card
-        className="mx-5 mb-5 p-5 shadow"
+        className="mx-5 mb-5 p-5 shadow profile-card"
         style={{
           marginTop: "-150px",
           background: "hsla(0, 0%, 100%, 0.8)",
@@ -36,14 +38,57 @@ export default function Saved() {
         }}
       >
         <Card.Body className="text-center">
-          <h2 className="fw-bold mb-5">User Profile</h2>
-          <div>
-            <p>
-              <strong>Username:</strong>
-            </p>
-            <p>
-              <strong>Email:</strong>
-            </p>
+          <h2 className="fw-bold mb-5">Your Profile</h2>
+          {/* First Section: Avatar, Username, Role, Location */}
+          <div className="profile-section">
+            <div className="avatar-section">
+              <img
+                src={profile?.user?.avatar}
+                alt="Avatar"
+                className="avatar"
+              />
+            </div>
+            <div className="info-section">
+              <p className="username">{profile?.user?.username}</p>
+              <p className="role">{profile?.user?.role}</p>
+              <p className="location">{profile?.user?.location}</p>
+            </div>
+            <Button
+              className="mb-1 text-dark btn-light"
+              style={{ backgroundColor: "#BDA1CC" }}
+            >
+              <FontAwesomeIcon icon={faEdit} className="edit-icon" />
+              Edit Avatar
+            </Button>
+          </div>
+          <div className="personal-info-section">
+            <h3>Personal Information</h3>
+            <div className="info-row">
+              <div className="info-item">
+                <h4>Username</h4>
+                <p>{profile?.user?.username}</p>
+              </div>
+              <div className="info-item">
+                <h4>Email</h4>
+                <p>{profile?.user?.email}</p>
+              </div>
+            </div>
+            <div className="info-row">
+              <div className="info-item">
+                <h4>Location</h4>
+                <p>{profile?.user?.location}</p>
+              </div>
+              <div className="info-item">
+                <h4>Role</h4>
+                <p>{profile?.user?.role}</p>
+              </div>
+            </div>
+            <div className="info-row">
+              <div className="info-item">
+                <h4>Bio</h4>
+                <p>{profile?.user?.bio}</p>
+              </div>
+            </div>
           </div>
         </Card.Body>
       </Card>
