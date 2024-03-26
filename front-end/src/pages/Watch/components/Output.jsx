@@ -1,18 +1,34 @@
 import React, { useState } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import { executeCode } from "./codeAPI";
+import Toast from "react-bootstrap/Toast";
+
 import "./Output.css";
+
+function DismissibleToast() {}
 const Output = ({ language, editorRef }) => {
   const [output, setOutput] = useState("");
   const arrow = "> ";
+  const [isLoading, setIsLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false);
+
+  const toggleShowToast = () => setShowToast(!showToast);
+
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
     try {
+      setShowToast(false);
+      setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
       setOutput(result.output);
     } catch (error) {
       console.log(error);
+      setToastMessage(error.message);
+      setShowToast(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -20,9 +36,19 @@ const Output = ({ language, editorRef }) => {
     <Container>
       <Row className="executeButton">
         <Button onClick={runCode} className="mb-3">
-          Execute Code
+          {isLoading ? "Executing..." : "Execute Code"}
         </Button>
       </Row>
+      <Toast
+        className="position-absolute start-50 bottom-0 translate-middle"
+        show={showToast}
+        onClose={toggleShowToast}
+      >
+        <Toast.Header>
+          <strong className="mr-auto">Execution Error</strong>
+        </Toast.Header>
+        <Toast.Body>{toastMessage}</Toast.Body>
+      </Toast>
       <Row className="text-start border border-2 outputBox">
         <p style={{ color: "white", fontFamily: "consolas" }}>
           {arrow}
