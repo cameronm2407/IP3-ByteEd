@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { deleteAsset } from '../classes/cloudinaryUtils.js';
+import { deleteAsset } from '../utilities/cloudinary.js';
 
 const videoSchema = new Schema({
   title: { type: String, required: true },
