@@ -1,24 +1,23 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import getCurrentUser from "../utils/currentUser.js";
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import getCurrentUser from '../utils/currentUser.js';
 
 // logo
-import logo from "../assets/logo.svg";
+import logo from '../assets/logo.svg';
 
 //bootstrap
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 // styles
-import "./style.css";
+import './style.css';
 
 const HomeIconSVG = () => (
   <svg
     className="icon-margin-right"
     width="24"
     height="24"
-    viewBox="0 0 24 24"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -97,7 +96,7 @@ export default function RootLayout() {
   const [user, setUser] = useState(null);
 
   const isLoggedIn = () => {
-    return localStorage.getItem("token") !== null;
+    return localStorage.getItem('token') !== null;
   };
 
   useEffect(() => {
@@ -106,21 +105,21 @@ export default function RootLayout() {
   }, []);
 
   const signOut = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     localStorage.clear();
-    navigate("/");
+    navigate('/');
   };
 
   return (
-    <div className="app-container d-flex" style={{ marginLeft: "280px" }}>
+    <div className="app-container d-flex" style={{ marginLeft: '280px' }}>
       <div
         className="sidebar d-flex flex-column flex-shrink-0 p-3 text-white"
         style={{
-          width: "280px",
-          position: "fixed",
+          width: '280px',
+          position: 'fixed',
           top: 0,
           left: 0, // Ensure it's aligned to the left
-          height: "100vh", // Full height of the viewport
+          height: '100vh', // Full height of the viewport
         }}
       >
         <NavLink
@@ -135,7 +134,7 @@ export default function RootLayout() {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                isActive ? "nav-link active text-white" : "nav-link text-white"
+                isActive ? 'nav-link active text-white' : 'nav-link text-white'
               }
             >
               <HomeIconSVG />
@@ -146,7 +145,7 @@ export default function RootLayout() {
             <NavLink
               to="/search"
               className={({ isActive }) =>
-                isActive ? "nav-link active text-white" : "nav-link text-white"
+                isActive ? 'nav-link active text-white' : 'nav-link text-white'
               }
             >
               <SearchIconSVG />
@@ -157,7 +156,7 @@ export default function RootLayout() {
             <NavLink
               to="/saved"
               className={({ isActive }) =>
-                isActive ? "nav-link active text-white" : "nav-link text-white"
+                isActive ? 'nav-link active text-white' : 'nav-link text-white'
               }
             >
               <SavedIconSVG />
@@ -169,7 +168,7 @@ export default function RootLayout() {
             <NavLink
               to="/videoupload"
               className={({ isActive }) =>
-                isActive ? "nav-link active text-white" : "nav-link text-white"
+                isActive ? 'nav-link active text-white' : 'nav-link text-white'
               }
             >
               <UploadSVG />
@@ -225,8 +224,8 @@ export default function RootLayout() {
           <div>
             <NavLink to="/register" className="text-white">
               SignUp
-            </NavLink>{" "}
-            or{" "}
+            </NavLink>{' '}
+            or{' '}
             <NavLink to="/login" className="text-white">
               Login
             </NavLink>
