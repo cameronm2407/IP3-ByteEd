@@ -20,11 +20,11 @@ function convertDuration(videoLength) {
   return videoTime;
 }
 
-const Card = (data, key) => {
+const SearchCard = (data, key) => {
   console.log(data);
   return (
     <a href={`/watch/${data._id}`} className="link">
-      <div key={key} className="card">
+      <div key={key} className="searchCard">
         <img
           src={data.thumbnail}
           key={key}
@@ -57,7 +57,7 @@ export default function Search() {
   };
 
   const renderCards = (data) =>
-    data.map((entry, index) => Card(entry, index + 1));
+    data.map((entry, index) => SearchCard(entry, index + 1));
   const handleSearch = async (searchTerm) => {
     const res = await fetch(
       `http://localhost:443/api/content/search?st=${searchTerm}`
