@@ -12,11 +12,10 @@ const courseOperator = new CrudOperator(Course);
 const searchEngine = new SearchEngine(videoOperator, courseOperator);
 
 const authController = new AuthController(User);
-const videoController = new VideoController(videoOperator, searchEngine);
+export const videoController = new VideoController(videoOperator, searchEngine);
 
 // Router for video routes
 const videoRouter = Router();
-videoRouter.get('/search', videoController.search());
 videoRouter.get('/', videoController.getVideos());
 
 videoRouter.use(
