@@ -4,6 +4,7 @@ import ObjectID from "bson-objectid";
 import getCurrentUser from "../../../utils/currentUser.js";
 
 function AddCourseForm() {
+  const token = localStorage.getItem("token");
   const [courseUrl, setCourseUrl] = useState("");
   const [courseVideoUrl, setCourseVideoUrl] = useState("");
   const [courseVideoThumbnailUrl, setCourseVideoThumbnailUrl] = useState("");
@@ -32,15 +33,17 @@ function AddCourseForm() {
       _id: currentVideoId,
     };
 
-    setVideoData(videoData.concat(newVideo));
+    setVideoData((currentVideos) => [...currentVideos, newVideo]);
     console.log(videoData);
 
-    // Resetting the form fields for video information
     setVideoTitle("");
     setVideoDescription("");
     setCourseVideoUrl("");
     setCourseVideoThumbnailUrl("");
     setDuration("");
+
+    setCourseVideoUrl("");
+    setCourseVideoThumbnailUrl("");
   };
 
   const handleCourseVideoSubmit = async (event) => {
@@ -54,6 +57,7 @@ function AddCourseForm() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ videos: videoData }),
+          Authorization: `Bearer ${token}`,
         }
       );
 
@@ -64,6 +68,8 @@ function AddCourseForm() {
       const data = await response.json();
       console.log(data);
       setShowForm(false);
+      CoursevideoWidget.close({ quiet: true });
+      CoursevideoThumbnailWidget.close({ quiet: true });
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -96,6 +102,7 @@ function AddCourseForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(course),
       });
@@ -106,6 +113,9 @@ function AddCourseForm() {
 
       const data = await response.json();
       console.log(data);
+      CourseThumbnailoWidget.close({ quiet: true });
+      setShowForm(false);
+      setCourseUrl("");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }

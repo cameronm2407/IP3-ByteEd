@@ -6,6 +6,7 @@ import ObjectID from "bson-objectid";
 import getCurrentUser from "../../../utils/currentUser.js";
 
 function AddVideoForm() {
+  const token = localStorage.getItem("token");
   const [videoUrl, setVideoUrl] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [duration, setDuration] = useState("");
@@ -95,6 +96,7 @@ function AddVideoForm() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(video),
         }
@@ -106,6 +108,12 @@ function AddVideoForm() {
 
       const data = await response.json();
       console.log(data);
+
+      VideoWidget.close({ quiet: true });
+      ThumbnailoWidget.close({ quiet: true });
+
+      setVideoUrl("");
+      setThumbnailUrl("");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
