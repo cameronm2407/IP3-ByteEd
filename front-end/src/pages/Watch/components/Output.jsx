@@ -46,7 +46,7 @@ const Output = ({ language, editorRef }) => {
         show={showToast}
         onClose={toggleShowToast}
         bg="danger"
-        style={{ width: 200, height: 100 }}
+        style={{ width: 200, height: 100, zIndex: 999 }}
       >
         <Toast.Header>
           <strong className="mr-auto">Execution Error</strong>
@@ -56,8 +56,8 @@ const Output = ({ language, editorRef }) => {
       <Row
         className={
           isError
-            ? "text-start border border-2 outputBox border-danger"
-            : "text-start border border-2 outputBox border-white"
+            ? "text-start border border-3 outputBox border-danger"
+            : "text-start border border-3 outputBox border-white"
         }
       >
         <p

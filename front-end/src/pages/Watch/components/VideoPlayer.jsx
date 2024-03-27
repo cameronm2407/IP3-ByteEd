@@ -16,9 +16,9 @@ function VideoPlayer(props) {
       <video
         ref={videoRef}
         data-cld-public-id={videoLink}
-        class="cld-video-player cld-fluid"
+        className="cld-video-player cld-fluid"
         controls
-        data-cld-colors='{ "base": "#000", "accent": "#000", "text": "#BDA1CC" }'
+        data-cld-colors='{ "base": "#000", "accent": "#1b294b", "text": "#BDA1CC" }'
         data-cld-autoplay-mode="on-load"
       />
     </div>

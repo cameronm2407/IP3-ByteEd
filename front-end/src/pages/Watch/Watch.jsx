@@ -26,8 +26,8 @@ export default function Watch() {
 
   if (video.length === 0) {
     return (
-      <div class="card text-center">
-        <h1 class="card-title">Video not Found</h1>
+      <div className="card text-center">
+        <h1 className="card-title">Video not Found</h1>
       </div>
     );
   }
@@ -41,13 +41,17 @@ export default function Watch() {
         <Col className="col-8">
           <VideoPlayer videoLink={video.url} />
         </Col>
-        <Col className="col-4">
-          <Textbox
-            videoTitle={video.title}
-            videoDescription={video.description}
-            courseEditor={video.course_content}
-          />
-          <RelatedVideos />
+        <Col className="col-4 ">
+          <Row className="h-50 me-4">
+            <Textbox
+              videoTitle={video.title}
+              videoDescription={video.description}
+              courseEditor={video.course_content}
+            />
+          </Row>
+          <Row className="bottom-0 me-4">
+            <RelatedVideos />
+          </Row>
         </Col>
       </Row>
       <Row className="pt-4 w-100">

@@ -8,12 +8,12 @@ function RelatedVideos(props) {
     <Container className="">
       <Row className="">
         {courseContent ? (
-          ""
-        ) : (
           <Dropdown.Menu show className="position-relative w-100">
             <Dropdown.Header>Other Videos</Dropdown.Header>
             <Dropdown.Item eventKey={videoID}>Another action</Dropdown.Item>
           </Dropdown.Menu>
+        ) : (
+          ""
         )}
       </Row>
     </Container>
