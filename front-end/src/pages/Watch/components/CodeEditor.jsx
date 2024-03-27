@@ -22,17 +22,16 @@ function CodeEditor() {
   };
 
   return (
-    <Container>
-      <Row className="text-start">
-        <LanguagePicker
-          language={language}
-          onSelect={onSelect}
-          className="end-0"
-        />
-      </Row>
+    <Container className="mw-100">
       <Row>
         <Col>
+          <LanguagePicker
+            language={language}
+            onSelect={onSelect}
+            className="end-0"
+          />
           <Editor
+            className="border border-3"
             height="30vh"
             language={language}
             defaultValue={HELLO_WORLD[language]}

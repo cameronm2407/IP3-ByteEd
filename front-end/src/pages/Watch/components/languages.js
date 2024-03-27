@@ -7,8 +7,9 @@ export const LANGUAGE_VERSIONS = {
 };
 
 export const HELLO_WORLD = {
-  javascript: '//Hello World in JavaScript \nconsole.log("Hello World!");',
-  typescript: '//Hello World in TypeScript \nalert("Hello World!");',
-  python: '#Hello World in Python \nprint("Hello World!")',
-  java: 'class HelloWorld {\n\tstatic public void main( String args[] ) {\n\t\tSystem.out.println( "Hello World!" );\n\t}\n}',
+  javascript: '//JavaScript\nconsole.log("Welcome to ByteEd!");',
+  typescript:
+    "//TypeScript\nlet message: string = 'Welcome to ByteEd!'\nconsole.log(message);",
+  python: '#Python\nprint("Welcome to ByteEd!")',
+  java: '//Java\nclass HelloWorld {\n\tstatic public void main( String args[] ) {\n\t\tSystem.out.println( "Welcome to ByteEd!" );\n\t}\n}',
 };

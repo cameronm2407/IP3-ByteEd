@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import VideoPlayer from "./components/VideoPlayer";
 import Textbox from "./components/Textbox";
 import CodeEditor from "./components/CodeEditor";
+import RelatedVideos from "./components/RelatedVideos";
 import { Container, Row, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
@@ -25,27 +26,32 @@ export default function Watch() {
 
   if (video.length === 0) {
     return (
-      <div class="card text-center">
-        <h1 class="card-title">Video not Found</h1>
+      <div className="card text-center">
+        <h1 className="card-title">Video not Found</h1>
       </div>
     );
   }
   return (
     <Container
       fluid
-      className="text-center h-100 w-100 bg-dark pt-3"
+      className="text-center h-100 w-100 bg-dark pt-3 "
       style={{ position: "relative" }}
     >
       <Row className="h-25">
         <Col className="col-8">
           <VideoPlayer videoLink={video.url} />
         </Col>
-        <Col className="col-4">
-          <Textbox
-            videoTitle={video.title}
-            videoDescription={video.description}
-            courseEditor={video.course_content}
-          />
+        <Col className="col-4 ">
+          <Row className="h-50 me-4">
+            <Textbox
+              videoTitle={video.title}
+              videoDescription={video.description}
+              courseEditor={video.course_content}
+            />
+          </Row>
+          <Row className="bottom-0 me-4">
+            <RelatedVideos />
+          </Row>
         </Col>
       </Row>
       <Row className="pt-4 w-100">
