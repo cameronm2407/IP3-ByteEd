@@ -10,7 +10,11 @@ export default function Profile() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setProfile(jwtDecode(token));
+    if (!token) {
+      window.location.href = "/login";
+    } else {
+      setProfile(jwtDecode(token));
+    }
   }, []);
 
   console.log(profile);
