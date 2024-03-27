@@ -45,7 +45,7 @@ export default function Search() {
 
   useEffect(() => {
     const fn = async () => {
-      const res = await fetch("http://localhost:443/api/content/videos");
+      const res = await fetch("http://localhost:443/api/content/video");
       const data = await res.json();
       setSearchResult(data.videos);
     };
