@@ -1,15 +1,3 @@
-.carousel-inner {
-  overflow: hidden;
-}
-
-.carousel-item {
-  transition: transform 0.5s ease-in-out;
-  transform: translateX(0);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .carousel-caption {
   top: 40%;
 }
@@ -29,22 +17,6 @@
   margin-left: 10px;
 }
 
-/* ANIMATION FOR CAROUSEL HAS STOPPED WORKING. CURRENTLY TRYING TO FIX -CAMERON <3 */
-.carousel-item.active {
-  transform: translateX(0);
-}
-
-.carousel-item-next,
-.carousel-item-prev {
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.carousel-item-next {
-  transform: translateX(100%);
-}
-
-.carousel-item-prev {
-  transform: translateX(-100%);
+.carousel-inner {
+  height: 100%;
 }

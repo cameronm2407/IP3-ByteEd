@@ -14,7 +14,7 @@ import Search from './pages/Search/Search.jsx'
 import SignUp from './pages/LoginSignUp/SignUp.jsx';
 import Login from './pages/LoginSignUp/LogIn.jsx';
 import Watch from './pages/Watch/Watch.jsx';
-import VideoUpload from './pages/VideoUpload.jsx';
+import VideoUpload from './pages/videoUpload/VideoUpload.jsx';
 
 // Layouts
 import RootLayout from './layouts/RootLayout.jsx';
