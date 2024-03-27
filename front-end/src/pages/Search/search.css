@@ -48,17 +48,25 @@
   text-decoration: none !important;
 }
 
+<<<<<<< HEAD
 .searchCard {
+=======
+/* .card {
+>>>>>>> main
   width: 300px;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease;
-}
+} */
 
+<<<<<<< HEAD
 .searchCard:hover {
+=======
+/* .card:hover {
+>>>>>>> main
   transform: translateY(-5px);
-}
+} */
 
 .searchCard img {
   width: 100%;

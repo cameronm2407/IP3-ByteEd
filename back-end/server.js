@@ -1,11 +1,6 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import mongoose from 'mongoose';
 import app from './app.js';
-import AuthController from './controllers/authController.js';
-import User from './models/User.js';
-
-// configure environment variables
-dotenv.config();
 
 // connect to remote database
 mongoose.connect(process.env.DB_URI).then(

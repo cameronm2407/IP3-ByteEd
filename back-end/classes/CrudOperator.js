@@ -29,6 +29,11 @@ export default class CrudOperator {
     return this.Model.findByIdAndDelete(id);
   }
 
+  // deletes multiple documents in a database
+  deleteMany(filter) {
+    return this.Model.deleteMany(filter);
+  }
+
   /* 
   queries the database and returns documents where a specified
   field value has an approximate match to the search term

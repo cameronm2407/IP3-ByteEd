@@ -6,28 +6,31 @@ export default function SignUp() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const navigate = useNavigate();
 
-  const openCloudinaryWidget = () => {
-    window.cloudinary.openUploadWidget(
-      {
-        cloudName: "shared-env",
-        uploadPreset: "ml_default",
-        folder: "IP3-ByteEd-resources/profile_pictures",
-      },
-      (error, result) => {
-        if (error) {
-          console.error("Upload Widget error:", error);
-          return;
-        }
-        if (result && result.event === "success") {
-          console.log("File uploaded successfully:", result.info);
-          setAvatarUrl(result.info.url); // Save the uploaded avatar URL
-        }
+  var myWidget = cloudinary.createUploadWidget(
+    {
+      cloudName: "shared-env",
+      uploadPreset: "ml_default",
+      folder: "IP3-ByteEd-resources/profile_pictures",
+      clientAllowedFormats: ["images"],
+    },
+    (error, result) => {
+      if (error) {
+        console.error("Upload Widget error:", error);
+        return;
       }
-    );
+      if (result && result.event === "success") {
+        console.log("File uploaded successfully:", result.info);
+        setAvatarUrl(result.info.url); // Save the uploaded avatar URL
+      }
+    }
+  );
+
+  const openCloudinaryWidget = () => {
+    myWidget.open();
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
 
     const form = event.target;
     const formData = new FormData(form);
@@ -64,8 +67,9 @@ export default function SignUp() {
 
       const data = await response.json();
       const token = data.token;
-      localStorage.setItem("token", token)
+      localStorage.setItem("token", token);
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -136,13 +140,17 @@ export default function SignUp() {
                 </Form.Group>
               </Col>
             </Row>
-            {/* className='w-100 mb-1 text-dark btn-light' type="submit" style={{backgroundColor: "#BDA1CC"}} */}
+
             <Row className="mb-3">
               <Col md={12}>
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "20px" }}
                 >
-                  <Button onClick={openCloudinaryWidget} className="text-dark btn-light" style={{ width: "200px", backgroundColor: "#BDA1CC" }}>
+                  <Button
+                    onClick={openCloudinaryWidget}
+                    className="text-dark btn-light"
+                    style={{ width: "200px", backgroundColor: "#BDA1CC" }}
+                  >
                     Choose Avatar
                   </Button>
                   <Form.Control
@@ -186,7 +194,11 @@ export default function SignUp() {
                 </Form.Group>
               </Col>
             </Row>
-            <Button className='w-100 mb-1 text-dark btn-light' type="submit" style={{backgroundColor: "#BDA1CC"}}>
+            <Button
+              className="w-100 mb-1 text-dark btn-light"
+              type="submit"
+              style={{ backgroundColor: "#BDA1CC" }}
+            >
               Sign up
             </Button>
           </Form>

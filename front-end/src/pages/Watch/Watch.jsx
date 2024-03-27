@@ -18,7 +18,7 @@ export default function Watch() {
       .then((response) => response.json())
       .then((data) => {
         setVideo(data.videos[0]);
-        console.log(data.videos[0])
+        console.log(data.videos);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -44,6 +44,7 @@ export default function Watch() {
           <Textbox
             videoTitle={video.title}
             videoDescription={video.description}
+            courseEditor={video.course_content}
           />
         </Col>
       </Row>

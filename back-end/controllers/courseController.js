@@ -1,8 +1,12 @@
 import catchAsyncError from '../utilities/catchAsyncError.js';
+import CrudOperator from '../classes/CrudOperator.js';
+import Video from '../models/Video.js';
+
+const videoOperator = new CrudOperator(Video);
 
 export default class CourseController {
-  constructor(crudOperator) {
-    this.crudOperator = crudOperator;
+  constructor(Model) {
+    this.crudOperator = new CrudOperator(Model);
   }
 
   createCourse() {
@@ -10,6 +14,18 @@ export default class CourseController {
       const { body } = req;
       const course = await this.crudOperator.create(body);
       res.status(200).json({ status: 'success', course });
+    });
+  }
+
+  addVideosToCourse() {
+    return catchAsyncError(async (req, res) => {
+      const courseId = req.query.courseId;
+      const uploadedMetadata = req.uploadedMetadata;
+      const videoIds = uploadedMetadata.map(entry => entry._id);
+      const course = await this.crudOperator.update(courseId, {
+        $push: { videos: { $each: videoIds } },
+      });
+      res.status(200).json({ status: 'success', uploadedMetadata, course });
     });
   }
 
@@ -37,7 +53,16 @@ export default class CourseController {
   delete() {
     return catchAsyncError(async (req, res) => {
       const { id } = req.query;
+      const videos = (await this.crudOperator.read({ _id: id }))[0].videos;
+
+      //Delete associated videos
+      videos.forEach(async id => {
+        await videoOperator.delete(id.toString());
+        console.log(`Video document ${id} deleted successfully`);
+      });
+
       await this.crudOperator.delete(id);
+      console.log(`Course document ${id} deleted successfully`);
       res.status(204).end();
     });
   }
