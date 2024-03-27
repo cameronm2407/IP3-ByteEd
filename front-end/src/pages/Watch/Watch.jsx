@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 export default function Watch() {
   const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
-  const videoCall = "http://localhost:443/api/content/videos?id=" + videoId;
+  const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
   const [video, setVideo] = useState([]);
 
   useEffect(() => {
