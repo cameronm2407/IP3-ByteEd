@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Card } from "react-bootstrap";
 
 // components
@@ -17,7 +17,7 @@ export default function VideoUploadFormList() {
   const handleShowNewCourseForm = () => {
     setShowForm("new");
   };
-  
+
   return (
     <Container className="custom-container">
       <HeaderImage />
@@ -31,21 +31,17 @@ export default function VideoUploadFormList() {
         }}
       >
         <Card.Body className="text-center">
-        <FormToggle
-          showForm={showForm}
-          onShowExistingCourseForm={handleShowExistingCourseForm}
-          onShowNewCourseForm={handleShowNewCourseForm}
-        />
+          <FormToggle
+            showForm={showForm}
+            onShowExistingCourseForm={handleShowExistingCourseForm}
+            onShowNewCourseForm={handleShowNewCourseForm}
+          />
 
           {/* Uplouad Video Section */}
-          {showForm === "existing" && (
-            <AddVideoForm />
-          )}
+          {showForm === "existing" && <AddVideoForm />}
 
           {/* Create Course Section */}
-          {showForm === "new" && (
-            <AddCourseForm />
-          )}
+          {showForm === "new" && <AddCourseForm />}
         </Card.Body>
       </Card>
     </Container>

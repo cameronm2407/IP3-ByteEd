@@ -1,7 +1,10 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 
-function FormToggle({ showForm, onShowExistingCourseForm, onShowNewCourseForm }) {
+function FormToggle({
+  showForm,
+  onShowExistingCourseForm,
+  onShowNewCourseForm,
+}) {
   return (
     <div className="d-flex gap-2 mb-5 justify-content-center">
       <Button

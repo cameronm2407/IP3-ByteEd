@@ -1,16 +1,15 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import Carousel from 'react-bootstrap/Carousel';
-import './carousel.css';
+import { NavLink } from "react-router-dom";
+import Carousel from "react-bootstrap/Carousel";
+import "./carousel.css";
 // ----------------------------- //
-import image1 from './images/image1.png';
-import image2 from './images/image2.jpg';
-import image3 from './images/image3.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import image1 from "./images/image1.png";
+import image2 from "./images/image2.jpg";
+import image3 from "./images/image3.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
-} from '@fortawesome/free-solid-svg-icons';
+} from "@fortawesome/free-solid-svg-icons";
 //------------------------------//
 function CarouselP() {
   return (
@@ -22,7 +21,7 @@ function CarouselP() {
       >
         <Carousel.Item>
           <img
-            style={{ height: '50vh', objectFit: 'cover' }}
+            style={{ height: "50vh", objectFit: "cover" }}
             className="d-block w-100"
             src={image1}
           />
@@ -40,7 +39,7 @@ function CarouselP() {
         </Carousel.Item>
         <Carousel.Item>
           <img
-            style={{ height: '50vh', objectFit: 'cover' }}
+            style={{ height: "50vh", objectFit: "cover" }}
             className="d-block w-100"
             src={image2}
           />
@@ -48,14 +47,14 @@ function CarouselP() {
             <h5>Your journey starts here!</h5>
             <div>
               <NavLink to="/search">
-                <button className="btn button-primary">Browse courses</button>{' '}
+                <button className="btn button-primary">Browse courses</button>{" "}
               </NavLink>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <img
-            style={{ height: '50vh', objectFit: 'cover' }}
+            style={{ height: "50vh", objectFit: "cover" }}
             className="d-block w-100"
             src={image3}
           />
