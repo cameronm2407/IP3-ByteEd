@@ -3,7 +3,7 @@ import { deleteAsset } from '../utilities/cloudinary.js';
 
 const videoSchema = new Schema({
   title: { type: String, required: true },
-  duration: { type: Number, required: true },
+  duration_seconds: { type: Number, required: true },
   description: { type: String },
   course_content: { type: Boolean, required: true },
   position: { type: Number },

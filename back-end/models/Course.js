@@ -1,9 +1,5 @@
 import { Schema, model } from 'mongoose';
-import CrudOperator from '../classes/CrudOperator.js';
-import Video from './Video.js';
 import { deleteAsset } from '../utilities/cloudinary.js';
-
-const videoOperator = new CrudOperator(Video);
 
 const courseSchema = new Schema({
   name: { type: String, required: true },
@@ -26,16 +22,12 @@ const courseSchema = new Schema({
 
 courseSchema.post('findOneAndDelete', async function () {
   const id = this.getFilter()._id.toString();
-  try {
-    // Delete associated thumbnail
-    const deletedImageResult = await deleteAsset(
-      `IP3-ByteEd-resources/course_thumbnails/image_id_${id}`,
-      'image'
-    );
-    console.log({ deletedImageResult });
-  } catch (err) {
-    console.log(err);
-  }
+  // Delete associated thumbnail
+  const deletedImageResult = await deleteAsset(
+    `IP3-ByteEd-resources/course_thumbnails/image_id_${id}`,
+    'image'
+  );
+  console.log({ deletedImageResult });
 });
 
 const Course = model('Course', courseSchema);

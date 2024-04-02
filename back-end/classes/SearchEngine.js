@@ -21,11 +21,12 @@ export default class searchEngine {
   }
 
   async searchAndCompile(searchTerm) {
-    const videoPromiseLike = this.searchVideos(searchTerm);
-    const coursePromiseLike = this.searchCourses(searchTerm);
-    const compiledResult = (
-      await Promise.all([videoPromiseLike, coursePromiseLike])
-    ).flat();
-    return compiledResult;
+    const videos = this.searchVideos(searchTerm);
+    const courses = this.searchCourses(searchTerm);
+    const compiledResult = await Promise.all([videos, courses]);
+    return {
+      videos: compiledResult[0],
+      courses: compiledResult[1],
+    };
   }
 }
