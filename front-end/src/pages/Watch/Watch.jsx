@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import VideoPlayer from "./components/VideoPlayer";
 import Textbox from "./components/Textbox";
 import CodeEditor from "./components/CodeEditor";

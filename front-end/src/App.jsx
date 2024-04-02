@@ -15,6 +15,7 @@ import SignUp from './pages/LoginSignUp/SignUp.jsx';
 import Login from './pages/LoginSignUp/LogIn.jsx';
 import Watch from './pages/Watch/Watch.jsx';
 import VideoUpload from './pages/videoUpload/VideoUpload.jsx';
+import Course from './pages/Course/Course.jsx';
 
 // Layouts
 import RootLayout from './layouts/RootLayout.jsx';
@@ -30,6 +31,8 @@ const router = createBrowserRouter(
       <Route path='watch/:videoId' element={<Watch />} />
       <Route path='watch' element={<Home />} />
       <Route path='videoupload' element={<VideoUpload />} />
+      <Route path='course/:courseId' element={<Course/>}/>
+      <Route path='course' element={<Home />}/>
     </Route>
   )
 );
