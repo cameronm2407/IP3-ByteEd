@@ -27,10 +27,16 @@ export default class videoController {
 
   getVideos() {
     return catchAsyncError(async (req, res) => {
-      const query = req.query ? req.query : {};
+      let query = req.query ? req.query : {};
       if (query.id) {
         query._id = query.id;
         delete query.id;
+      }
+      if (query['$in']) {
+        const ids = query['$in'].split(',');
+        query = {
+          _id: { $in: ids },
+        };
       }
       const videos = await this.crudOperator.read(query);
       res.status(200).json({ status: 'success', videos });

@@ -1,25 +1,9 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-function courseVideos(videoObject) {
-  const videoId = videoObject.videoId;
-  const link = "/watch/" + videoId;
-  console.log(link);
-  const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
-  const [video, setVideo] = useState([]);
+function courseVideos({ video }) {
+  const link = "/watch/" + video._id;
   let videoTime = "";
-
-  useEffect(() => {
-    fetch(videoCall, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setVideo(data.videos[0]);
-        console.log(data.videos);
-      })
-      .catch((error) => console.log(error));
-  }, []);
 
   if (video.duration_seconds >= 3600 && video.duration_seconds <= 360000) {
     videoTime = Math.round((video.duration_seconds / 3600) * 2) / 2 + " Hours";

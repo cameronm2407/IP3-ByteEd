@@ -6,21 +6,24 @@ import CourseVideos from "./CourseVideos";
 function Course() {
   let { courseId } = useParams();
   const courseCall = "http://localhost:443/api/content/course?id=" + courseId;
-  const [course, setCourse] = useState([]);
+  const [course, setCourse] = useState({});
+  const [courseVideos, setCourseVideos] = useState([]);
 
   useEffect(() => {
-    fetch(courseCall, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCourse(data.courses[0]);
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    (async () => {
+      const res = await fetch(courseCall);
+      const data = await res.json();
+      const course = data.courses[0];
+      setCourse(course);
 
-  const video = course.videos;
+      const videoIds = course.videos;
+      const response = await fetch(
+        `http://localhost:443/api/content/video?$in=${videoIds}`
+      );
+      const courseVideos = (await response.json()).videos;
+      setCourseVideos(courseVideos);
+    })();
+  }, []);
 
   if (course.length === 0) {
     return (
@@ -41,8 +44,8 @@ function Course() {
         <h3>Videos</h3>
       </Row>
       <Row>
-        {video.map((video) => (
-          <CourseVideos videoId={video} />
+        {courseVideos.map((video, i) => (
+          <CourseVideos key={i} video={video} />
         ))}
       </Row>
     </Container>
