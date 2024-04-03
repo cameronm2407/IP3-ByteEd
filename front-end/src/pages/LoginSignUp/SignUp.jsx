@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const navigate = useNavigate();
 
   var myWidget = cloudinary.createUploadWidget(
@@ -24,7 +26,6 @@ export default function SignUp() {
       }
     }
   );
-
   const openCloudinaryWidget = () => {
     myWidget.open();
   };
@@ -57,21 +58,31 @@ export default function SignUp() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify(user),
       });
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      let data;
+      try {
+        data = await response.json();
+      } catch (error) {
+        throw new Error("Error: please try again");
       }
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "An error occurred. Please try again.");
+      }
+
       const token = data.token;
       localStorage.setItem("token", token);
       navigate("/");
       window.location.reload();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
+      setErrorMessage(
+        error.message || "An unexpected error occurred. Please try again."
+      );
     }
   };
 
@@ -99,6 +110,7 @@ export default function SignUp() {
       >
         <Card.Body className="text-center">
           <h2 className="fw-bold mb-5">Sign up now</h2>
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col md={6}>
