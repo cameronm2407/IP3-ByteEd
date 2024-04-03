@@ -10,6 +10,7 @@ export default function Watch() {
   const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
   const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
+
   const [video, setVideo] = useState([]);
 
   useEffect(() => {
@@ -41,17 +42,17 @@ export default function Watch() {
         <Col className="col-8">
           <VideoPlayer videoLink={video.url} />
         </Col>
-        <Col className="col-4 ">
+        <Col className="col-4 position-relative">
           <Row className="h-50 me-4">
             <Textbox
               videoTitle={video.title}
               videoDescription={video.description}
-              courseEditor={video.course_content}
             />
           </Row>
-          <Row className="bottom-0 me-4">
-            <RelatedVideos />
+          <Row className="bottom-0 me-4 bottom-0">
+            <RelatedVideos courseContent={video.course_content} />
           </Row>
+          <Row></Row>
         </Col>
       </Row>
       <Row className="pt-4 w-100">

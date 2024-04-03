@@ -9,6 +9,15 @@ function courseVideos(videoObject) {
   const [video, setVideo] = useState([]);
   let videoTime = "";
 
+  const textStyle = {
+    maxWidth: "100%",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 3,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
+
   useEffect(() => {
     fetch(videoCall, {
       method: "GET",
@@ -30,8 +39,14 @@ function courseVideos(videoObject) {
   }
 
   return (
-    <Container className="card-container">
-      <Row className="image-container">
+    <Container className="card-container" id="course-card">
+      <Row
+        className="image-container position-relative display-flex"
+        id="courseVideoThumbnail"
+      >
+        <div className="text-end fs-6 position-absolute">
+          <h4>{videoTime}</h4>
+        </div>
         <a href={link}>
           <img src={video.thumbnail} alt="" className="video-thumbnail" />
         </a>
@@ -40,9 +55,6 @@ function courseVideos(videoObject) {
         <a href={0}>
           <h4 className="ellipsis fs-6">{video.title}</h4>
         </a>
-      </Row>
-      <Row className="text-end fs-6">
-        <h4>{videoTime}</h4>
       </Row>
     </Container>
   );

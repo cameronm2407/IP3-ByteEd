@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Editor } from "@monaco-editor/react";
 import { useState, useRef } from "react";
@@ -32,7 +31,7 @@ function CodeEditor() {
           />
           <Editor
             className="border border-3"
-            height="30vh"
+            height="22vh"
             language={language}
             defaultValue={HELLO_WORLD[language]}
             theme="vs-dark"

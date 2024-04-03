@@ -41,6 +41,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 100%;
+  height: 20px;
 }
 
 a:link:hover {
@@ -65,4 +66,25 @@ a:link:hover {
 
 .gray-stars {
   color: #d4d4d4;
+}
+
+#thumbnail-image:hover div {
+  transform: scale(1.01);
+  transition: 0.75s;
+}
+#courseVideoThumbnail div {
+  pointer-events: none;
+  text-align: end;
+}
+#courseVideoThumbnail div h4 {
+  visibility: hidden;
+}
+#courseVideoThumbnail:hover div h4 {
+  visibility: visible;
+  text-align: end;
+  padding-right: 20px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.69) 60%, transparent);
+  padding-bottom: 20px;
+  color: white;
+  transition: 0.75s;
 }

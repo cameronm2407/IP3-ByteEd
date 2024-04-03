@@ -1,5 +1,5 @@
 .outputBox {
-  height: 30vh !important;
+  height: 22vh !important;
   overflow: scroll;
   scrollbar-width: none;
 }
@@ -8,9 +8,25 @@
   width: 30%;
 }
 
-#execute-button {
+#execute-button,
+#course-button {
   background-color: #bda1cc !important;
   font-weight: bold;
   color: #1b294b;
   border-color: #bda1cc;
+}
+
+#execute-button:hover,
+#course-button:hover {
+  background-color: #d3b2e5 !important;
+}
+
+#course-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#related-videos {
+  position: absolute;
+  bottom: 0;
 }

@@ -14,8 +14,8 @@ function Course() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setCourse(data.courses[0]);
-        console.log(data);
+        const course = data.courses[0];
+        setCourse(course);
       })
       .catch((error) => console.log(error));
   }, []);
