@@ -1,60 +1,10 @@
-.profile-section {
-  display: flex;
-  align-items: center;
-  border: 2px solid #d3d3d3;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.avatar-section {
-  margin-right: 20px;
-}
-
 .avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 150px; /* Adjust as needed */
+  height: 150px; /* Adjust as needed */
+  border-radius: 50%; /* Ensures circular shape */
   object-fit: cover;
   border: 2px solid #fff;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-}
-
-.info-section {
-  flex: 1;
-  text-align: left;
-}
-
-.username {
-  font-size: 25px;
-  font-weight: bolder;
-}
-
-.role {
-  font-weight: bold;
-  color: #808080;
-  margin-bottom: 5px;
-}
-
-.location {
-  margin-top: 0;
-  font-weight: bold;
-  color: #a0a0a0;
-}
-
-.personal-info-section {
-  margin-top: 20px;
-  border: 2px solid #d3d3d3;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.info-row {
-  display: flex;
-}
-
-.info-item {
-  flex: 1;
-  margin-right: 20px;
 }
 
 .info-item:last-child {

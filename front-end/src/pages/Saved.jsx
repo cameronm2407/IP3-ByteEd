@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Container, Card, Button } from "react-bootstrap";
+import { Container, Card, Button, Row, Col, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
 import "./profile.css";
 
 export default function Profile() {
+  const [avatarUrl, setAvatarUrl] = useState("");
   const [profile, setProfile] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    location: "",
+    bio: "",
+    role: "",
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,7 +26,91 @@ export default function Profile() {
     }
   }, []);
 
-  console.log(profile);
+  // var myWidget = cloudinary.createUploadWidget(
+  //   {
+  //     cloudName: "shared-env",
+  //     uploadPreset: "ml_default",
+  //     folder: "IP3-ByteEd-resources/profile_pictures",
+  //     clientAllowedFormats: ["images"],
+  //   },
+  //   (error, result) => {
+  //     if (error) {
+  //       console.error("Upload Widget error:", error);
+  //       return;
+  //     }
+  //     if (result && result.event === "success") {
+  //       console.log("File uploaded successfully:", result.info);
+  //       setAvatarUrl(result.info.url);
+  //     }
+  //   }
+  // );
+
+  // const openCloudinaryWidget = () => {
+  //   myWidget.open();
+  // };
+
+  const handleEdit = () => {
+    setEditMode(true);
+    setFormData({
+      username: profile?.user?.username,
+      email: profile?.user?.email,
+      location: profile?.user?.location,
+      bio: profile?.user?.bio,
+      role: profile?.user?.role,
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveChanges = async (event) => {
+    event.preventDefault();
+
+    // Compare current form data with original user data to find changes
+    const changedFields = {};
+    Object.keys(formData).forEach((key) => {
+      if (formData[key] !== profile.user[key]) {
+        changedFields[key] = formData[key];
+      }
+    });
+
+    // Check if any fields have been changed
+    if (Object.keys(changedFields).length === 0) {
+      console.log("No changes detected.");
+    }
+
+    try {
+      const response = await fetch("http://localhost:443/api/user/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changedFields),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      const token = data.token;
+      localStorage.setItem("token", token);
+      window.location.reload();
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
+
+    setEditMode(false);
+  };
+
+  const handleCancel = () => {
+    setEditMode(false);
+  };
 
   return (
     <Container className="custom-container">
@@ -43,56 +136,140 @@ export default function Profile() {
       >
         <Card.Body className="text-center">
           <h2 className="fw-bold mb-5">Your Profile</h2>
-          {/* First Section: Avatar, Username, Role, Location */}
-          <div className="profile-section">
-            <div className="avatar-section">
-              <img
-                src={profile?.user?.avatar}
-                alt="Avatar"
-                className="avatar"
-              />
-            </div>
-            <div className="info-section">
-              <p className="username">{profile?.user?.username}</p>
-              <p className="role">{profile?.user?.role}</p>
-              <p className="location">{profile?.user?.location}</p>
-            </div>
-            <Button
-              className="mb-1 text-dark btn-light"
-              style={{ backgroundColor: "#BDA1CC" }}
-            >
-              <FontAwesomeIcon icon={faEdit} className="edit-icon" />
-              Edit Avatar
-            </Button>
-          </div>
+          <Row className="mb-3 justify-content-center">
+            <Col sm={6} className="text-center">
+              <div className="avatar-section">
+                <img
+                  src={profile?.user?.avatar}
+                  alt="Avatar"
+                  className="avatar"
+                />
+              </div>
+              {editMode && (
+                <Button
+                  //onClick={openCloudinaryWidget}
+                  className="text-dark btn-light mt-3"
+                  style={{ backgroundColor: "#BDA1CC" }}
+                >
+                  <FontAwesomeIcon icon={faEdit} className="edit-icon me-2" />
+                  Edit Avatar
+                </Button>
+              )}
+            </Col>
+          </Row>
           <div className="personal-info-section">
-            <h3>Personal Information</h3>
-            <div className="info-row">
-              <div className="info-item">
-                <h4>Username</h4>
-                <p>{profile?.user?.username}</p>
-              </div>
-              <div className="info-item">
-                <h4>Email</h4>
-                <p>{profile?.user?.email}</p>
-              </div>
-            </div>
-            <div className="info-row">
-              <div className="info-item">
-                <h4>Location</h4>
-                <p>{profile?.user?.location}</p>
-              </div>
-              <div className="info-item">
-                <h4>Role</h4>
-                <p>{profile?.user?.role}</p>
-              </div>
-            </div>
-            <div className="info-row">
-              <div className="info-item">
-                <h4>Bio</h4>
-                <p>{profile?.user?.bio}</p>
-              </div>
-            </div>
+            {editMode ? (
+              <Form onSubmit={handleSaveChanges}>
+                <Form.Group className="mb-3" controlId="formUsername">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formLocation">
+                  <Form.Label>Location (City)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formRole">
+                  <Form.Label>Role</Form.Label>
+                  <Form.Control
+                    as="select"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                  >
+                    <option value="learner">Learner</option>
+                    <option value="content creator">Content Creator</option>
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBio">
+                  <Form.Label>Bio</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Button
+                  className="w-100 mb-1 text-dark btn-light"
+                  type="submit"
+                  style={{ backgroundColor: "#BDA1CC" }}
+                >
+                  Save Changes
+                </Button>
+                <Button
+                  className="w-100 mb-1 text-dark btn-light"
+                  onClick={handleCancel}
+                  style={{ backgroundColor: "#BDA1CC" }}
+                >
+                  Cancel
+                </Button>
+              </Form>
+            ) : (
+              <Row>
+                <Col sm={6}>
+                  <div className="info-item">
+                    <h4>Username</h4>
+                    <p>{profile?.user?.username}</p>
+                  </div>
+                  <div className="info-item">
+                    <h4>Email</h4>
+                    <p>{profile?.user?.email}</p>
+                  </div>
+                </Col>
+                <Col sm={6}>
+                  <div className="info-item">
+                    <h4>Location</h4>
+                    <p>{profile?.user?.location}</p>
+                  </div>
+                  <div className="info-item">
+                    <h4>Role</h4>
+                    <p>{profile?.user?.role}</p>
+                  </div>
+                </Col>
+                <div className="info-item">
+                  <h4>Bio</h4>
+                  <p>{profile?.user?.bio}</p>
+                </div>
+              </Row>
+            )}
+            {!editMode && (
+              <Row className="justify-content-center">
+                <Col sm={6} className="text-center">
+                  <Button
+                    onClick={handleEdit}
+                    className="text-dark btn-light"
+                    style={{ backgroundColor: "#BDA1CC" }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} className="edit-icon me-2" />
+                    Update Personal Information
+                  </Button>
+                </Col>
+              </Row>
+            )}
           </div>
         </Card.Body>
       </Card>
