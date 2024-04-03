@@ -6,7 +6,7 @@ export default function AddCourse({ setShowForm, courseID }) {
   const token = localStorage.getItem("token");
   const [courseUrl, setCourseUrl] = useState("");
 
-  const handleCourseSubmit = async (event) => {
+  const handleCourseSubmit = async event => {
     event.preventDefault();
     const user = getCurrentUser();
 
@@ -124,6 +124,7 @@ export default function AddCourse({ setShowForm, courseID }) {
           <option value="Java">Java</option>
           <option value="Javascript">Javascript</option>
           <option value="Html">HTML</option>
+          <option value="C-sharp">C#</option>
         </Form.Select>
       </Form.Group>
 
