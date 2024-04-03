@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 
 function courseVideos({ video }) {
-  const link = "/watch/" + video._id;
-  let videoTime = "";
+  const link = '/watch/' + video._id;
+  let videoTime = '';
 
   if (video.duration_seconds >= 3600 && video.duration_seconds <= 360000) {
-    videoTime = Math.round((video.duration_seconds / 3600) * 2) / 2 + " Hours";
+    videoTime = Math.round((video.duration_seconds / 3600) * 2) / 2 + ' Hours';
   } else if (video.duration_seconds > 360000) {
-    videoTime = "100+ Hours";
+    videoTime = '100+ Hours';
   } else {
-    videoTime = Math.round(video.duration_seconds / 60) + " Minutes";
+    videoTime = Math.round(video.duration_seconds / 60) + ' Minutes';
   }
 
   return (
