@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
-function courseVideos(videoObject) {
-  const videoId = videoObject.videoId;
-  const link = "/watch/" + videoId;
-  console.log(link);
-  const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
-  const [video, setVideo] = useState([]);
+function courseVideos({ video }) {
+  const link = "/watch/" + video._id;
   let videoTime = "";
 
+<<<<<<< HEAD
   const textStyle = {
     maxWidth: "100%",
     display: "-webkit-box",
@@ -30,6 +27,8 @@ function courseVideos(videoObject) {
       .catch((error) => console.log(error));
   }, []);
 
+=======
+>>>>>>> ed81bdd8e5e698c5a11bb9ada76675ddc51fbd0d
   if (video.duration_seconds >= 3600 && video.duration_seconds <= 360000) {
     videoTime = Math.round((video.duration_seconds / 3600) * 2) / 2 + " Hours";
   } else if (video.duration_seconds > 360000) {
