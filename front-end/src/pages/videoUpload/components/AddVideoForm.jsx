@@ -10,16 +10,15 @@ function AddVideoForm() {
   const [videoUrl, setVideoUrl] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [duration, setDuration] = useState("");
+  const [videoId] = useState(ObjectID().toString());
 
-  const VideoID = ObjectID().toString();
-
-  var ThumbnailoWidget = cloudinary.createUploadWidget(
+  const ThumbnailWidget = cloudinary.createUploadWidget(
     {
       cloudName: "shared-env",
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/video_thumbnails",
       clientAllowedFormats: ["png", "jpeg", "jpg"],
-      publicId: `image_id_${VideoID}`,
+      publicId: `image_id_${videoId}`,
     },
     (error, result) => {
       if (error) {
@@ -33,7 +32,7 @@ function AddVideoForm() {
     }
   );
   const openThumbnailCloudinaryWidget = () => {
-    ThumbnailoWidget.open();
+    ThumbnailWidget.open();
   };
 
   var VideoWidget = cloudinary.createUploadWidget(
@@ -42,7 +41,7 @@ function AddVideoForm() {
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/videos",
       clientAllowedFormats: ["mp4"],
-      publicId: `video_id_${VideoID}`,
+      publicId: `video_id_${videoId}`,
     },
     (error, result) => {
       if (error) {
@@ -60,7 +59,7 @@ function AddVideoForm() {
     VideoWidget.open();
   };
 
-  const handleVideoSubmit = async (event) => {
+  const handleVideoSubmit = async event => {
     const user = getCurrentUser();
 
     event.preventDefault();
@@ -86,7 +85,7 @@ function AddVideoForm() {
       description: formData.get("video-description"),
       duration: duration,
       creator: user._id,
-      _id: VideoID,
+      _id: videoId,
     };
 
     try {
@@ -110,7 +109,7 @@ function AddVideoForm() {
       console.log(data);
 
       VideoWidget.close({ quiet: true });
-      ThumbnailoWidget.close({ quiet: true });
+      ThumbnailWidget.close({ quiet: true });
 
       setVideoUrl("");
       setThumbnailUrl("");

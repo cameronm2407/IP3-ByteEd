@@ -8,21 +8,18 @@ export default function AddVideos({ setShowForm, courseID }) {
   const [duration, setDuration] = useState("");
   const [courseVideoUrl, setCourseVideoUrl] = useState("");
   const [courseVideoThumbnailUrl, setCourseVideoThumbnailUrl] = useState("");
+  const [videoId] = useState(ObjectID().toString());
+  let [counter, setCounter] = useState(1);
   const formRef = useRef(null);
 
   const token = localStorage.getItem("token");
-
-  const generateVideoId = () => ObjectID().toString();
-  let currentVideoId = generateVideoId();
 
   useEffect(() => {
     console.log(videoData);
   }, [videoData]);
 
-  const handleAction = async (actionType) => {
+  const handleAction = async actionType => {
     if (actionType === "addVideo") {
-      let counter = 1;
-
       const formData = new FormData(formRef.current);
       const user = getCurrentUser();
       let newVideo = {
@@ -34,9 +31,10 @@ export default function AddVideos({ setShowForm, courseID }) {
         url: courseVideoUrl,
         thumbnail: courseVideoThumbnailUrl,
         creator: user._id,
-        _id: generateVideoId(),
+        _id: videoId,
       };
-      setVideoData((currentVideos) => [...currentVideos, newVideo]);
+      console.log(newVideo);
+      setVideoData([...videoData, newVideo]);
 
       setDuration("");
       setCourseVideoUrl("");
@@ -51,10 +49,9 @@ export default function AddVideos({ setShowForm, courseID }) {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ videos: videoData }),
+            body: JSON.stringify(videoData),
           }
         );
-        setVideoData([]);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -63,7 +60,7 @@ export default function AddVideos({ setShowForm, courseID }) {
         setShowForm(false);
         CoursevideoWidget.close({ quiet: true });
         CoursevideoThumbnailWidget.close({ quiet: true });
-        counter++;
+        setCounter(counter++);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       }
@@ -76,7 +73,7 @@ export default function AddVideos({ setShowForm, courseID }) {
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/videos",
       clientAllowedFormats: ["mp4"],
-      publicId: `video_id_${currentVideoId}`,
+      publicId: `video_id_${videoId}`,
     },
     (error, result) => {
       if (error) {
@@ -98,9 +95,9 @@ export default function AddVideos({ setShowForm, courseID }) {
     {
       cloudName: "shared-env",
       uploadPreset: "ml_default",
-      folder: "IP3-ByteEd-resources/course_thumbnails",
+      folder: "IP3-ByteEd-resources/video_thumbnails",
       clientAllowedFormats: ["png", "jpeg", "jpg"],
-      publicId: `image_id_${currentVideoId}`,
+      publicId: `image_id_${videoId}`,
     },
     (error, result) => {
       if (error) {
@@ -118,14 +115,14 @@ export default function AddVideos({ setShowForm, courseID }) {
   };
 
   return (
-    <Form onSubmit={(e) => e.preventDefault()} ref={formRef}>
+    <Form onSubmit={e => e.preventDefault()} ref={formRef}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="video-title">Video-Title</Form.Label>
         <Form.Control id="video-title" name="video-title" />
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="video-description">Course Description</Form.Label>
+        <Form.Label htmlFor="video-description">Video Description</Form.Label>
         <Form.Control id="video-description" name="video-description" />
       </Form.Group>
 
