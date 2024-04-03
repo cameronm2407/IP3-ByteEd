@@ -59,7 +59,7 @@ function AddVideoForm() {
     VideoWidget.open();
   };
 
-  const handleVideoSubmit = async event => {
+  const handleVideoSubmit = async (event) => {
     const user = getCurrentUser();
 
     event.preventDefault();
@@ -83,7 +83,7 @@ function AddVideoForm() {
       thumbnail: thumbnailUrl,
       course_content: false,
       description: formData.get("video-description"),
-      duration: duration,
+      duration_seconds: duration,
       creator: user._id,
       _id: videoId,
     };

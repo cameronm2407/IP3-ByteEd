@@ -18,13 +18,13 @@ export default function AddVideos({ setShowForm, courseID }) {
     console.log(videoData);
   }, [videoData]);
 
-  const handleAction = async actionType => {
+  const handleAction = async (actionType) => {
     if (actionType === "addVideo") {
       const formData = new FormData(formRef.current);
       const user = getCurrentUser();
       let newVideo = {
         title: formData.get("video-title"),
-        duration: duration,
+        duration_seconds: duration,
         description: formData.get("video-description"),
         course_content: true,
         position: counter,
@@ -115,7 +115,7 @@ export default function AddVideos({ setShowForm, courseID }) {
   };
 
   return (
-    <Form onSubmit={e => e.preventDefault()} ref={formRef}>
+    <Form onSubmit={(e) => e.preventDefault()} ref={formRef}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="video-title">Video-Title</Form.Label>
         <Form.Control id="video-title" name="video-title" />
