@@ -40,7 +40,7 @@ export default function Watch() {
     >
       <Row className="h-25">
         <Col className="col-8">
-          <VideoPlayer videoLink={video.url} />
+          <VideoPlayer videoLink={video.url} poster={video.thumbnail} />
         </Col>
         <Col className="col-4 position-relative">
           <Row className="h-50 me-4">
@@ -62,21 +62,6 @@ export default function Watch() {
               currentTitle={video.title}
               currentThumbnail={video.thumbnail}
             />
-          </Row>
-          <Row>
-            {" "}
-            <Button
-              id="course-button"
-              className="p-2 mx-4"
-              style={{
-                bottom: 0,
-                position: "absolute",
-                width: "auto",
-                right: -12,
-              }}
-            >
-              Back to Course Page
-            </Button>
           </Row>
         </Col>
       </Row>

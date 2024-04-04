@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 function VideoPlayer(props) {
-  const { width, height, videoLink } = props;
+  const { videoLink, poster } = props;
   const cloudinaryRef = useRef();
   const videoRef = useRef();
   useEffect(() => {
@@ -20,6 +20,7 @@ function VideoPlayer(props) {
         controls
         data-cld-colors='{ "base": "#000", "accent": "#1b294b", "text": "#BDA1CC" }'
         data-cld-autoplay-mode="on-load"
+        poster={poster}
       />
     </div>
   );

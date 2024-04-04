@@ -52,6 +52,6 @@
   transform: translateX(0);
   transition: 4s;
 }
-#anchor-related:hover span {
+#anchor-related:hover #long-characters {
   transform: translateX(calc(200px - 100%));
 }

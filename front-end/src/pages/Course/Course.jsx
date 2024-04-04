@@ -29,20 +29,32 @@ function Course() {
   if (courseVideos.length === 0) {
     return (
       <div className="card text-center">
-        <h1 className="card-title">Video not Found</h1>
+        <h1 className="card-title">Course not Found</h1>
       </div>
     );
   }
   return (
-    <Container className="m-4">
-      <Row className="text-center mb-3">
+    <Container className=" vh-100 vw-100 mt-5">
+      <Row className="text-center mb-3 color-white">
         <h1>{course.name}</h1>
       </Row>
-      <Row className="mb-4">
-        <p>{course.description}</p>
+      <Row>
+        {course.programming_language ? (
+          <div style={{ fontSize: "18px" }}>
+            <span style={{ fontWeight: "bold" }}>Language: </span>
+            <span>{course.programming_language}</span>
+          </div>
+        ) : null}
+      </Row>
+      <Row className="mb-5">
+        {course.description ? (
+          <div>
+            <span>{course.description}</span>
+          </div>
+        ) : null}
       </Row>
       <Row>
-        <h3>Videos</h3>
+        <h3 style={{ textAlign: "start" }}>Videos</h3>
       </Row>
       <Row>
         {courseVideos.map((video, i) => (
