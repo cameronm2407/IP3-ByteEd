@@ -102,14 +102,14 @@ function RelatedVideos(props) {
                 ) : null
               )}
             </Dropdown.Menu>
-            <Row>
+            <div style={{ textAlign: "end" }}>
               <Button
                 id="course-button"
                 className="p-2 mx-4"
                 style={{
-                  bottom: 0,
                   position: "relative",
-                  right: 0,
+                  right: "0",
+                  textAlign: "end",
                   width: "auto",
                   right: -12,
                   zIndex: 9999,
@@ -118,7 +118,7 @@ function RelatedVideos(props) {
               >
                 Back to Course Page
               </Button>
-            </Row>
+            </div>
           </div>
         ) : (
           ""

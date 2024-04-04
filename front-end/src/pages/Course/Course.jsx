@@ -28,8 +28,8 @@ function Course() {
   console.log(courseVideos);
   if (courseVideos.length === 0) {
     return (
-      <div className="card text-center">
-        <h1 className="card-title">Course not Found</h1>
+      <div className="card position-absolute start-50 translate-middle mt-5 ms-5 bg-danger text-white">
+        <h1 className="card-title">Error 404: Course Not Found</h1>
       </div>
     );
   }

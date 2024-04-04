@@ -27,8 +27,8 @@ export default function Watch() {
 
   if (video.length === 0) {
     return (
-      <div className="card text-center">
-        <h1 className="card-title">Video not Found</h1>
+      <div className="card position-absolute start-50 translate-middle mt-5 ms-5 bg-danger text-white">
+        <h1 className="card-title">Error 404: Video not Found</h1>
       </div>
     );
   }
@@ -52,16 +52,17 @@ export default function Watch() {
           <Row
             style={{
               left: "-40px",
-              bottom: 0,
-              overflowY: "scroll",
+              display: "block",
             }}
           >
-            <RelatedVideos
-              courseContent={video.course_content}
-              videoId={videoId}
-              currentTitle={video.title}
-              currentThumbnail={video.thumbnail}
-            />
+            <div>
+              <RelatedVideos
+                courseContent={video.course_content}
+                videoId={videoId}
+                currentTitle={video.title}
+                currentThumbnail={video.thumbnail}
+              />
+            </div>
           </Row>
         </Col>
       </Row>
