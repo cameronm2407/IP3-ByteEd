@@ -16,9 +16,9 @@ export default function Profile() {
     bio: "",
     role: "",
   });
+  let [token] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "/login";
     } else {
@@ -26,28 +26,28 @@ export default function Profile() {
     }
   }, []);
 
-  // var myWidget = cloudinary.createUploadWidget(
-  //   {
-  //     cloudName: "shared-env",
-  //     uploadPreset: "ml_default",
-  //     folder: "IP3-ByteEd-resources/profile_pictures",
-  //     clientAllowedFormats: ["images"],
-  //   },
-  //   (error, result) => {
-  //     if (error) {
-  //       console.error("Upload Widget error:", error);
-  //       return;
-  //     }
-  //     if (result && result.event === "success") {
-  //       console.log("File uploaded successfully:", result.info);
-  //       setAvatarUrl(result.info.url);
-  //     }
-  //   }
-  // );
+  var myWidget = cloudinary.createUploadWidget(
+    {
+      cloudName: "shared-env",
+      uploadPreset: "ml_default",
+      folder: "IP3-ByteEd-resources/profile_pictures",
+      clientAllowedFormats: ["images"],
+    },
+    (error, result) => {
+      if (error) {
+        console.error("Upload Widget error:", error);
+        return;
+      }
+      if (result && result.event === "success") {
+        console.log("File uploaded successfully:", result.info);
+        setAvatarUrl(result.info.url);
+      }
+    }
+  );
 
-  // const openCloudinaryWidget = () => {
-  //   myWidget.open();
-  // };
+  const openCloudinaryWidget = () => {
+    myWidget.open();
+  };
 
   const handleEdit = () => {
     setEditMode(true);
@@ -85,10 +85,12 @@ export default function Profile() {
     }
 
     try {
+      console.log(changedFields);
       const response = await fetch("http://localhost:443/api/user/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(changedFields),
       });
@@ -98,9 +100,8 @@ export default function Profile() {
       }
 
       const data = await response.json();
-      const token = data.token;
-      localStorage.setItem("token", token);
-      window.location.reload();
+      console.log(data);
+      token = localStorage.getItem("token");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
