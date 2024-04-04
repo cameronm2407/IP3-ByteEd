@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+
 import { Container, Card, Button, Row, Col, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
 export default function Profile() {
@@ -100,8 +102,10 @@ export default function Profile() {
       }
 
       const data = await response.json();
-      console.log(data);
-      token = localStorage.getItem("token");
+      console.log(data.updatedUser);
+      token = data.updatedUser;
+      console.log("Token has been updated:", token);
+      Navigate("/");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
