@@ -24,8 +24,9 @@ function Course() {
       setCourseVideos(courseVideos);
     })();
   }, []);
-
-  if (course.length === 0) {
+  console.log(`http://localhost:443/api/content/video?$in=${course.videos}`);
+  console.log(courseVideos);
+  if (courseVideos.length === 0) {
     return (
       <div className="card text-center">
         <h1 className="card-title">Video not Found</h1>

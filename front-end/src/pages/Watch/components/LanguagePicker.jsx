@@ -5,34 +5,32 @@ import "./LanguagePicker.css";
 const languages = Object.entries(LANGUAGE_VERSIONS);
 
 function capitaliseLanguage(language) {
-  return language.charAt(0).toUpperCase() + language.slice(1);
+  if (language == "csharp") {
+    return "C#";
+  } else {
+    return language.charAt(0).toUpperCase() + language.slice(1);
+  }
 }
 
 const LanguagePicker = ({ language, onSelect }) => {
-  let csharpCheck = false;
-  console.log(language + "!");
-  if (language == "csharp") {
-    csharpCheck = true;
-    console.log("it's true");
-  } else {
-    csharpCheck = false;
-  }
-
   return (
     <Container className="dropdown text-start">
       <Dropdown className="mb-3">
         <Dropdown.Toggle id="dropdown-basic" className="fs-6">
-          {csharpCheck ? "C#" : capitaliseLanguage(language)}
+          {capitaliseLanguage(language)}
         </Dropdown.Toggle>
 
-        <Dropdown.Menu className="themeColours">
+        <Dropdown.Menu
+          className="themeColours"
+          style={{ height: "150px", overflowY: "scroll" }}
+        >
           {languages.map(([language, version]) => (
             <Dropdown.Item
               key={language}
               onClick={() => onSelect(language)}
               id="itemText"
             >
-              {csharpCheck ? "C#" : capitaliseLanguage(language)}
+              {capitaliseLanguage(language)}
               <br></br>
               {version}
             </Dropdown.Item>

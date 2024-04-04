@@ -3,7 +3,7 @@ import VideoPlayer from "./components/VideoPlayer";
 import Textbox from "./components/Textbox";
 import CodeEditor from "./components/CodeEditor";
 import RelatedVideos from "./components/RelatedVideos";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 export default function Watch() {
@@ -36,7 +36,7 @@ export default function Watch() {
     <Container
       fluid
       className="text-center h-100 w-100 bg-dark pt-3 "
-      style={{ position: "relative" }}
+      style={{ position: "relative", overflow: "none" }}
     >
       <Row className="h-25">
         <Col className="col-8">
@@ -49,10 +49,35 @@ export default function Watch() {
               videoDescription={video.description}
             />
           </Row>
-          <Row className="bottom-0 me-4 bottom-0">
-            <RelatedVideos courseContent={video.course_content} />
+          <Row
+            style={{
+              left: "-40px",
+              bottom: 0,
+              overflowY: "scroll",
+            }}
+          >
+            <RelatedVideos
+              courseContent={video.course_content}
+              videoId={videoId}
+              currentTitle={video.title}
+              currentThumbnail={video.thumbnail}
+            />
           </Row>
-          <Row></Row>
+          <Row>
+            {" "}
+            <Button
+              id="course-button"
+              className="p-2 mx-4"
+              style={{
+                bottom: 0,
+                position: "absolute",
+                width: "auto",
+                right: -12,
+              }}
+            >
+              Back to Course Page
+            </Button>
+          </Row>
         </Col>
       </Row>
       <Row className="pt-4 w-100">

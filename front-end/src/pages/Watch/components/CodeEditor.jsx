@@ -23,7 +23,7 @@ function CodeEditor() {
   return (
     <Container className="mw-100">
       <Row>
-        <Col>
+        <Col className="col-8">
           <LanguagePicker
             language={language}
             onSelect={onSelect}
@@ -40,7 +40,7 @@ function CodeEditor() {
             onMount={onMount}
           />
         </Col>
-        <Col>
+        <Col className="col-4">
           <Output editorRef={editorRef} language={language} />
         </Col>
       </Row>
