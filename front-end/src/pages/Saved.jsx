@@ -18,47 +18,46 @@ export default function Profile() {
   });
 
   const token_initial = localStorage.getItem("token");
-  const token_new = "";
 
-  // var myWidget = cloudinary.createUploadWidget(
-  //   {
-  //     cloudName: "shared-env",
-  //     uploadPreset: "ml_default",
-  //     folder: "IP3-ByteEd-resources/profile_pictures",
-  //     clientAllowedFormats: ["images"],
-  //   },
-  //   (error, result) => {
-  //     if (error) {
-  //       console.error("Upload Widget error:", error);
-  //       return;
-  //     }
-  //     if (result && result.event === "success") {
-  //       console.log("File uploaded successfully:", result.info);
-  //       setAvatarUrl(result.info.url);
-  //     }
-  //   }
-  // );
+  var myWidget = cloudinary.createUploadWidget(
+    {
+      cloudName: "shared-env",
+      uploadPreset: "ml_default",
+      folder: "IP3-ByteEd-resources/profile_pictures",
+      clientAllowedFormats: ["images"],
+    },
+    (error, result) => {
+      if (error) {
+        console.error("Upload Widget error:", error);
+        return;
+      }
+      if (result && result.event === "success") {
+        console.log("File uploaded successfully:", result.info);
+        setAvatarUrl(result.info.url);
+      }
+    }
+  );
 
-  // const openCloudinaryWidget = () => {
-  //   myWidget.open();
-  // };
+  const openCloudinaryWidget = () => {
+    myWidget.open();
+  };
 
   useEffect(() => {
     if (!token_initial) {
       window.location.href = "/login";
     } else {
-      setProfile(jwtDecode(token_initial));
+      setProfile(jwtDecode(token_initial).user);
     }
   }, []);
 
   const handleEdit = () => {
     setEditMode(true);
     setFormData({
-      username: profile?.user?.username,
-      email: profile?.user?.email,
-      location: profile?.user?.location,
-      bio: profile?.user?.bio,
-      role: profile?.user?.role,
+      username: profile.username,
+      email: profile.email,
+      location: profile.location,
+      bio: profile.bio,
+      role: profile.role,
     });
   };
 
@@ -75,7 +74,7 @@ export default function Profile() {
 
     const changedFields = {};
     Object.keys(formData).forEach((key) => {
-      if (formData[key] !== profile.user[key]) {
+      if (formData[key] !== profile[key]) {
         changedFields[key] = formData[key];
       }
     });
@@ -99,9 +98,7 @@ export default function Profile() {
       }
 
       const data = await response.json();
-      const token_new = data.token;
-      localStorage.setItem("token", token_new);
-      window.location.reload();
+      setProfile(data.updatedUser);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -140,15 +137,11 @@ export default function Profile() {
           <Row className="mb-3 justify-content-center">
             <Col sm={6} className="text-center">
               <div className="avatar-section">
-                <img
-                  src={profile?.user?.avatar}
-                  alt="Avatar"
-                  className="avatar"
-                />
+                <img src={profile.avatar} alt="Avatar" className="avatar" />
               </div>
               {editMode && (
                 <Button
-                  //onClick={openCloudinaryWidget}
+                  onClick={openCloudinaryWidget}
                   className="text-dark btn-light mt-3"
                   style={{ backgroundColor: "#BDA1CC" }}
                 >
@@ -232,32 +225,30 @@ export default function Profile() {
                 <Col sm={6}>
                   <div className="info-item">
                     <h4>Username</h4>
-                    <p>{profile?.user?.username}</p>
+                    <p>{profile.username}</p>
                   </div>
                   <div className="info-item">
                     <h4>Email</h4>
-                    <p>{profile?.user?.email}</p>
+                    <p>{profile.email}</p>
                   </div>
                 </Col>
                 <Col sm={6}>
                   <div className="info-item">
                     <h4>Location</h4>
                     <p>
-                      {profile?.user?.location
-                        ? profile.user.location
+                      {profile.location
+                        ? profile.location
                         : "No Location provided"}
                     </p>
                   </div>
                   <div className="info-item">
                     <h4>Role</h4>
-                    <p>{profile?.user?.role}</p>
+                    <p>{profile.role}</p>
                   </div>
                 </Col>
                 <div className="info-item">
                   <h4>Bio</h4>
-                  <p>
-                    {profile?.user?.bio ? profile.user.bio : "No bio provided"}
-                  </p>
+                  <p>{profile.bio ? profile.bio : "No bio provided"}</p>
                 </div>
               </Row>
             )}
