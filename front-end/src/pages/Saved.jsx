@@ -16,38 +16,40 @@ export default function Profile() {
     bio: "",
     role: "",
   });
-  let [token] = useState(localStorage.getItem("token"));
+
+  const token_initial = localStorage.getItem("token");
+  const token_new = "";
+
+  // var myWidget = cloudinary.createUploadWidget(
+  //   {
+  //     cloudName: "shared-env",
+  //     uploadPreset: "ml_default",
+  //     folder: "IP3-ByteEd-resources/profile_pictures",
+  //     clientAllowedFormats: ["images"],
+  //   },
+  //   (error, result) => {
+  //     if (error) {
+  //       console.error("Upload Widget error:", error);
+  //       return;
+  //     }
+  //     if (result && result.event === "success") {
+  //       console.log("File uploaded successfully:", result.info);
+  //       setAvatarUrl(result.info.url);
+  //     }
+  //   }
+  // );
+
+  // const openCloudinaryWidget = () => {
+  //   myWidget.open();
+  // };
 
   useEffect(() => {
-    if (!token) {
+    if (!token_initial) {
       window.location.href = "/login";
     } else {
-      setProfile(jwtDecode(token));
+      setProfile(jwtDecode(token_initial));
     }
   }, []);
-
-  var myWidget = cloudinary.createUploadWidget(
-    {
-      cloudName: "shared-env",
-      uploadPreset: "ml_default",
-      folder: "IP3-ByteEd-resources/profile_pictures",
-      clientAllowedFormats: ["images"],
-    },
-    (error, result) => {
-      if (error) {
-        console.error("Upload Widget error:", error);
-        return;
-      }
-      if (result && result.event === "success") {
-        console.log("File uploaded successfully:", result.info);
-        setAvatarUrl(result.info.url);
-      }
-    }
-  );
-
-  const openCloudinaryWidget = () => {
-    myWidget.open();
-  };
 
   const handleEdit = () => {
     setEditMode(true);
@@ -71,7 +73,6 @@ export default function Profile() {
   const handleSaveChanges = async (event) => {
     event.preventDefault();
 
-    // Compare current form data with original user data to find changes
     const changedFields = {};
     Object.keys(formData).forEach((key) => {
       if (formData[key] !== profile.user[key]) {
@@ -79,18 +80,16 @@ export default function Profile() {
       }
     });
 
-    // Check if any fields have been changed
     if (Object.keys(changedFields).length === 0) {
       console.log("No changes detected.");
     }
 
     try {
-      console.log(changedFields);
       const response = await fetch("http://localhost:443/api/user/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token_initial}`,
         },
         body: JSON.stringify(changedFields),
       });
@@ -100,8 +99,9 @@ export default function Profile() {
       }
 
       const data = await response.json();
-      console.log(data);
-      token = localStorage.getItem("token");
+      const token_new = data.token;
+      localStorage.setItem("token", token_new);
+      window.location.reload();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -188,7 +188,6 @@ export default function Profile() {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    required
                   />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formRole">
@@ -211,7 +210,6 @@ export default function Profile() {
                     name="bio"
                     value={formData.bio}
                     onChange={handleChange}
-                    required
                   />
                 </Form.Group>
                 <Button
@@ -244,7 +242,11 @@ export default function Profile() {
                 <Col sm={6}>
                   <div className="info-item">
                     <h4>Location</h4>
-                    <p>{profile?.user?.location}</p>
+                    <p>
+                      {profile?.user?.location
+                        ? profile.user.location
+                        : "No Location provided"}
+                    </p>
                   </div>
                   <div className="info-item">
                     <h4>Role</h4>
@@ -253,7 +255,9 @@ export default function Profile() {
                 </Col>
                 <div className="info-item">
                   <h4>Bio</h4>
-                  <p>{profile?.user?.bio}</p>
+                  <p>
+                    {profile?.user?.bio ? profile.user.bio : "No bio provided"}
+                  </p>
                 </div>
               </Row>
             )}
