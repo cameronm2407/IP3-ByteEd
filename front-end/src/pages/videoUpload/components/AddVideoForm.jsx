@@ -6,19 +6,19 @@ import ObjectID from "bson-objectid";
 import getCurrentUser from "../../../utils/currentUser.js";
 
 function AddVideoForm() {
+  const token = localStorage.getItem("token");
   const [videoUrl, setVideoUrl] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [duration, setDuration] = useState("");
+  const [videoId] = useState(ObjectID().toString());
 
-  const VideoID = ObjectID().toString();
-
-  var ThumbnailoWidget = cloudinary.createUploadWidget(
+  const ThumbnailWidget = cloudinary.createUploadWidget(
     {
       cloudName: "shared-env",
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/video_thumbnails",
       clientAllowedFormats: ["png", "jpeg", "jpg"],
-      publicId: `image_id_${VideoID}`,
+      publicId: `image_id_${videoId}`,
     },
     (error, result) => {
       if (error) {
@@ -32,7 +32,7 @@ function AddVideoForm() {
     }
   );
   const openThumbnailCloudinaryWidget = () => {
-    ThumbnailoWidget.open();
+    ThumbnailWidget.open();
   };
 
   var VideoWidget = cloudinary.createUploadWidget(
@@ -41,7 +41,7 @@ function AddVideoForm() {
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/videos",
       clientAllowedFormats: ["mp4"],
-      publicId: `video_id_${VideoID}`,
+      publicId: `video_id_${videoId}`,
     },
     (error, result) => {
       if (error) {
@@ -83,9 +83,9 @@ function AddVideoForm() {
       thumbnail: thumbnailUrl,
       course_content: false,
       description: formData.get("video-description"),
-      duration: duration,
+      duration_seconds: duration,
       creator: user._id,
-      _id: VideoID,
+      _id: videoId,
     };
 
     try {
@@ -95,6 +95,7 @@ function AddVideoForm() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(video),
         }
@@ -106,6 +107,12 @@ function AddVideoForm() {
 
       const data = await response.json();
       console.log(data);
+
+      VideoWidget.close({ quiet: true });
+      ThumbnailWidget.close({ quiet: true });
+
+      setVideoUrl("");
+      setThumbnailUrl("");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
@@ -165,6 +172,7 @@ function AddVideoForm() {
         <Form.Control
           id="video-description"
           placeholder=""
+          required
           name="video-description"
         />
       </Form.Group>

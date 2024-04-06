@@ -1,43 +1,49 @@
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
-const handleSubmit = async (event, navigate) => {
-  event.preventDefault(); // Prevent the default form submission
-
-  const form = event.target;
-  const formData = new FormData(form);
-
-  const user = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-  };
-
-  try {
-    const response = await fetch("http://localhost:443/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const data = await response.json();
-    console.log(data);
-    const token = data.token;
-    localStorage.setItem("token", token);
-    navigate("/");
-    window.location.reload(); // yemp
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-  }
-};
+import React, { useState } from "react";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const user = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    try {
+      const response = await fetch("http://localhost:443/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        throw new Error("Wrong credentials, please try again.");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      const token = data.token;
+      localStorage.setItem("token", token);
+      navigate("/");
+      window.location.reload(); // yemp
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+      setErrorMessage(error.message);
+    }
+  };
+
   return (
     <Container className="custom-container">
       <div
@@ -62,7 +68,9 @@ export default function Login() {
       >
         <Card.Body className="text-center">
           <h2 className="fw-bold mb-5">Login now</h2>
-          <Form onSubmit={(event) => handleSubmit(event, navigate)}>
+          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}{" "}
+          {/* Add this line */}
+          <Form onSubmit={handleSubmit}>
             <Row>
               <Col>
                 <Form.Group className="mb-4" controlId="formEmail">
