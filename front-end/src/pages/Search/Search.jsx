@@ -63,8 +63,10 @@ export default function Search() {
       `http://localhost:443/api/content/search?st=${searchTerm}`
     );
     const data = await res.json();
-    if (data.searchResult.length > 0) {
-      setSearchResult(data.searchResult);
+    if (data.searchResult.videos.length > 0) {
+      setSearchResult(
+        data.searchResult.videos.filter((video) => !video.course_content)
+      );
       setSearchMessage(`Results found for "${searchTerm}"`);
     } else {
       setSearchResult([]);
