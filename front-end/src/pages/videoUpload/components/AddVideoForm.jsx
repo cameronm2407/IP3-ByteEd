@@ -172,6 +172,7 @@ function AddVideoForm() {
         <Form.Control
           id="video-description"
           placeholder=""
+          required
           name="video-description"
         />
       </Form.Group>

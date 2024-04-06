@@ -118,12 +118,16 @@ export default function AddVideos({ setShowForm, courseID }) {
     <Form onSubmit={(e) => e.preventDefault()} ref={formRef}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="video-title">Video-Title</Form.Label>
-        <Form.Control id="video-title" name="video-title" />
+        <Form.Control id="video-title" name="video-title" required />
       </Form.Group>
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="video-description">Video Description</Form.Label>
-        <Form.Control id="video-description" name="video-description" />
+        <Form.Control
+          id="video-description"
+          name="video-description"
+          required
+        />
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -145,7 +149,7 @@ export default function AddVideos({ setShowForm, courseID }) {
           />
         </div>
       </Form.Group>
-
+      <br />
       <Form.Group className="mb-3">
         <Form.Label></Form.Label>
         <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
@@ -173,6 +177,10 @@ export default function AddVideos({ setShowForm, courseID }) {
       >
         Add Video
       </Button>
+
+      <Form.Label className="mt-3">
+        Make sure to add video before submitting!
+      </Form.Label>
 
       <Button
         className="w-100 mb-1 text-dark btn-light"

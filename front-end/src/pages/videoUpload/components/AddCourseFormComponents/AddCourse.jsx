@@ -6,7 +6,7 @@ export default function AddCourse({ setShowForm, courseID }) {
   const token = localStorage.getItem("token");
   const [courseUrl, setCourseUrl] = useState("");
 
-  const handleCourseSubmit = async event => {
+  const handleCourseSubmit = async (event) => {
     event.preventDefault();
     const user = getCurrentUser();
 
@@ -82,7 +82,7 @@ export default function AddCourse({ setShowForm, courseID }) {
     <Form onSubmit={handleCourseSubmit}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="course-name">Course Name</Form.Label>
-        <Form.Control id="course-name" name="course-name" />
+        <Form.Control id="course-name" name="course-name" required />
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -99,7 +99,7 @@ export default function AddCourse({ setShowForm, courseID }) {
             type="text"
             readOnly
             value={courseUrl}
-            placeholder="Thumnail URL will appear here..."
+            placeholder="Thumbnail URL will appear here..."
             style={{ flexGrow: 1 }}
           />
         </div>
@@ -107,7 +107,11 @@ export default function AddCourse({ setShowForm, courseID }) {
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="course-description">Course Description</Form.Label>
-        <Form.Control id="course-description" name="course-description" />
+        <Form.Control
+          id="course-description"
+          name="course-description"
+          required
+        />
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -116,6 +120,7 @@ export default function AddCourse({ setShowForm, courseID }) {
           id="course-language"
           name="course-language"
           defaultValue=""
+          required
         >
           <option value="" disabled>
             Select Language
@@ -134,6 +139,7 @@ export default function AddCourse({ setShowForm, courseID }) {
           id="course-difficulty"
           name="course-difficulty"
           defaultValue=""
+          required
         >
           <option value="" disabled>
             Select Difficulty
@@ -146,7 +152,12 @@ export default function AddCourse({ setShowForm, courseID }) {
 
       <Form.Group className="mb-3">
         <Form.Label htmlFor="course-tags">Course Tags</Form.Label>
-        <Form.Control id="course-tags" placeholder="" name="course-tags" />
+        <Form.Control
+          id="course-tags"
+          placeholder=""
+          name="course-tags"
+          required
+        />
       </Form.Group>
 
       <Button
