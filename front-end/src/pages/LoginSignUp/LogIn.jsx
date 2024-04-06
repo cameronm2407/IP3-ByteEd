@@ -1,5 +1,3 @@
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +35,7 @@ export default function Login() {
       const token = data.token;
       localStorage.setItem("token", token);
       navigate("/");
-      window.location.reload(); // yemp
+      window.location.reload();
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
       setErrorMessage(error.message);

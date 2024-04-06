@@ -36,24 +36,6 @@ const HomeIconSVG = () => (
   </svg>
 );
 
-const SavedIconSVG = () => (
-  <svg
-    className="icon-margin-right"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M2.25 21C1.65326 21 1.08097 20.7629 0.65901 20.341C0.237053 19.919 0 19.3467 0 18.75L0 8.25C0 7.65326 0.237053 7.08097 0.65901 6.65901C1.08097 6.23705 1.65326 6 2.25 6H21.75C22.3467 6 22.919 6.23705 23.341 6.65901C23.7629 7.08097 24 7.65326 24 8.25V18.75C24 19.3467 23.7629 19.919 23.341 20.341C22.919 20.7629 22.3467 21 21.75 21H2.25ZM10.1475 9.114C10.034 9.04304 9.90352 9.00377 9.76969 9.00026C9.63585 8.99674 9.50352 9.02912 9.38642 9.09402C9.26933 9.15892 9.17174 9.25398 9.10379 9.36933C9.03584 9.48468 9 9.61612 9 9.75V17.25C9 17.3839 9.03584 17.5153 9.10379 17.6307C9.17174 17.746 9.26933 17.8411 9.38642 17.906C9.50352 17.9709 9.63585 18.0033 9.76969 17.9997C9.90352 17.9962 10.034 17.957 10.1475 17.886L16.1475 14.136C16.2554 14.0686 16.3443 13.9748 16.406 13.8636C16.4676 13.7523 16.5 13.6272 16.5 13.5C16.5 13.3728 16.4676 13.2477 16.406 13.1364C16.3443 13.0252 16.2554 12.9314 16.1475 12.864L10.1475 9.114ZM3 3.75C3 3.94891 3.07902 4.13968 3.21967 4.28033C3.36032 4.42098 3.55109 4.5 3.75 4.5H20.25C20.4489 4.5 20.6397 4.42098 20.7803 4.28033C20.921 4.13968 21 3.94891 21 3.75C21 3.55109 20.921 3.36032 20.7803 3.21967C20.6397 3.07902 20.4489 3 20.25 3H3.75C3.55109 3 3.36032 3.07902 3.21967 3.21967C3.07902 3.36032 3 3.55109 3 3.75ZM6 0.75C6 0.948912 6.07902 1.13968 6.21967 1.28033C6.36032 1.42098 6.55109 1.5 6.75 1.5H17.25C17.4489 1.5 17.6397 1.42098 17.7803 1.28033C17.921 1.13968 18 0.948912 18 0.75C18 0.551088 17.921 0.360322 17.7803 0.21967C17.6397 0.0790176 17.4489 0 17.25 0H6.75C6.55109 0 6.36032 0.0790176 6.21967 0.21967C6.07902 0.360322 6 0.551088 6 0.75Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
 const SearchIconSVG = () => (
   <svg
     className="icon-margin-right"
@@ -103,6 +85,7 @@ export default function RootLayout() {
     const user = getCurrentUser();
     setUser(user); // Setting the user state
   }, []);
+  console.log(user);
 
   const signOut = () => {
     localStorage.removeItem("token");
@@ -118,8 +101,8 @@ export default function RootLayout() {
           width: "280px",
           position: "fixed",
           top: 0,
-          left: 0, // Ensure it's aligned to the left
-          height: "100vh", // Full height of the viewport
+          left: 0,
+          height: "100vh",
         }}
       >
         <NavLink
@@ -152,33 +135,25 @@ export default function RootLayout() {
               Search Courses
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/saved"
-              className={({ isActive }) =>
-                isActive ? "nav-link active text-white" : "nav-link text-white"
-              }
-            >
-              <SavedIconSVG />
-              Saved Courses
-            </NavLink>
-          </li>
 
-          <li>
-            <NavLink
-              to="/videoupload"
-              className={({ isActive }) =>
-                isActive ? "nav-link active text-white" : "nav-link text-white"
-              }
-            >
-              <UploadSVG />
-              Video Upload
-            </NavLink>
-          </li>
+          {user?.role === "content_creator" && (
+            <li>
+              <NavLink
+                to="/videoupload"
+                className={({ isActive }) =>
+                  isActive
+                    ? "nav-link active text-white"
+                    : "nav-link text-white"
+                }
+              >
+                <UploadSVG />
+                Video Upload
+              </NavLink>
+            </li>
+          )}
         </ul>
         <hr />
 
-        {/* USER SECTION */}
         {isLoggedIn() ? (
           <div className="dropdown">
             <a
@@ -201,12 +176,7 @@ export default function RootLayout() {
               aria-labelledby="dropdownUser1"
             >
               <li>
-                <a className="dropdown-item" href="#">
-                  Settings
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="profile">
                   Profile
                 </a>
               </li>
