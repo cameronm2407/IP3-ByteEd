@@ -42,11 +42,8 @@ function RelatedVideos(props) {
       <Row>
         {courseContent ? (
           <div className="">
-            <Dropdown.Menu
-              show
-              className="position-relative w-100 border border-3"
-            >
-              <Dropdown.Header
+            <Card show className="position-relative w-100 border border-3">
+              <Card.Title
                 style={{
                   color: "black",
                   fontWeight: "bold",
@@ -55,7 +52,7 @@ function RelatedVideos(props) {
                 }}
               >
                 Other Videos In Course
-              </Dropdown.Header>
+              </Card.Title>
               <Dropdown.Item style={{ background: "#d3b2e5" }}>
                 <Container className="d-block container-fluid">
                   <Row>
@@ -101,7 +98,7 @@ function RelatedVideos(props) {
                   </Dropdown.Item>
                 ) : null
               )}
-            </Dropdown.Menu>
+            </Card>
             <div style={{ textAlign: "end" }}>
               <Button
                 id="course-button"
