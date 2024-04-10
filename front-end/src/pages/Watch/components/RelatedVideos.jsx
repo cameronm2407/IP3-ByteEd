@@ -1,6 +1,6 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Container, Row } from "react-bootstrap";
+import { Container, Row, Card } from "react-bootstrap";
 function RelatedVideos(props) {
   const { videoTitle, videoDescription, courseContent } = props;
   const videoID = "";
