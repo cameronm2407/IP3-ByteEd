@@ -22,32 +22,59 @@ function convertDuration(videoLength) {
 
 const SearchCard = (data, key) => {
   console.log(data);
-  return (
-    <a href={`/watch/${data._id}`} className="link">
+  // Check if data is a course
+  if (data.programming_language) {
+    return (
+      //<a href={`/course/${data._id}`} className="link">
       <div key={key} className="searchCard">
         <img
           src={data.thumbnail}
           key={key}
           style={{ width: "100%", height: "100%" }}
         />
-        <div className="title">{data.title}</div>
-        <div className="duration">{convertDuration(data.duration_seconds)}</div>
+        <div className="title">{data.name}</div>
+        <div className="difficulty">Difficulty: {data.difficulty}</div>
+        <div className="programmingLanguage">
+          Language: {data.programming_language}
+        </div>
         <div className="description">{data.description}</div>
       </div>
-    </a>
-  );
+      //</a>
+    );
+  } else {
+    // Render video card
+    return (
+      <a href={`/watch/${data._id}`} className="link">
+        <div key={key} className="searchCard">
+          <img
+            src={data.thumbnail}
+            key={key}
+            style={{ width: "100%", height: "100%" }}
+          />
+          <div className="title">{data.title}</div>
+          <div className="duration">
+            {convertDuration(data.duration_seconds)}
+          </div>
+          <div className="description">{data.description}</div>
+        </div>
+      </a>
+    );
+  }
 };
 
 export default function Search() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchMessage, setSearchMessage] = useState("");
+  const [searchVideoResult, setVideoSearchResult] = useState([]);
+  const [searchCourseResult, setCourseSearchResult] = useState([]);
+  const [searchVideoMessage, setVideoSearchMessage] = useState("");
+  const [searchCourseMessage, setCourseSearchMessage] = useState("");
 
   useEffect(() => {
     const fn = async () => {
       const res = await fetch("http://localhost:443/api/content/video");
       const data = await res.json();
-      setSearchResult(data.videos);
+      setVideoSearchResult(data.videos);
+      setCourseSearchResult(data.courses);
     };
     fn();
   }, []);
@@ -56,21 +83,33 @@ export default function Search() {
     setSearchTerm(event.target.value);
   };
 
-  const renderCards = (data) =>
-    data.map((entry, index) => SearchCard(entry, index + 1));
+  const renderCards = (data) => {
+    if (!data || data.length === 0) {
+      return null; // Return null or handle empty state
+    }
+    return data.map((entry, index) => SearchCard(entry, index + 1));
+  };
+
   const handleSearch = async (searchTerm) => {
     const res = await fetch(
       `http://localhost:443/api/content/search?st=${searchTerm}`
     );
     const data = await res.json();
     if (data.searchResult.videos.length > 0) {
-      setSearchResult(
+      setVideoSearchResult(
         data.searchResult.videos.filter((video) => !video.course_content)
       );
-      setSearchMessage(`Results found for "${searchTerm}"`);
+      setVideoSearchMessage(`Video results found for "${searchTerm}"`);
     } else {
-      setSearchResult([]);
-      setSearchMessage(`No results found for "${searchTerm}"`);
+      setVideoSearchResult([]);
+      setVideoSearchMessage(`No videos found for "${searchTerm}"`);
+    }
+    if (data.searchResult.courses.length > 0) {
+      setCourseSearchResult(data.searchResult.courses);
+      setCourseSearchMessage(`Course results found for "${searchTerm}"`);
+    } else {
+      setCourseSearchResult([]);
+      setCourseSearchMessage(`No courses found for "${searchTerm}"`);
     }
   };
 
@@ -91,7 +130,9 @@ export default function Search() {
         />
         <button className="search-button" type="submit" />
       </form>
-      {searchMessage && <div className="search-message">{searchMessage}</div>}
+      {searchCourseMessage && (
+        <div className="search-message">{searchCourseMessage}</div>
+      )}
       <div
         style={{
           display: "flex",
@@ -101,7 +142,21 @@ export default function Search() {
         }}
         className="content"
       >
-        {renderCards(searchResult)}
+        {renderCards(searchCourseResult)}
+      </div>
+      {searchVideoMessage && (
+        <div className="search-message">{searchVideoMessage}</div>
+      )}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "20px",
+          marginLeft: "150px",
+        }}
+        className="content"
+      >
+        {renderCards(searchVideoResult)}
       </div>
     </div>
   );
