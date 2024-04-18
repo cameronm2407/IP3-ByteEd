@@ -21,7 +21,6 @@ function convertDuration(videoLength) {
 }
 
 const SearchCard = (data, key) => {
-  console.log(data);
   if (data.programming_language) {
     return (
       //<a href={`/course/${data._id}`} className="link">
@@ -45,7 +44,7 @@ const SearchCard = (data, key) => {
           <img
             src={data.thumbnail}
             key={key}
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "300px", height: "169px" }}
           />
           <div className="title">{data.title}</div>
           <div className="duration">
