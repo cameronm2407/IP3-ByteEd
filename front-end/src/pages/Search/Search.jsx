@@ -22,30 +22,26 @@ function convertDuration(videoLength) {
 
 const SearchCard = (data, key) => {
   console.log(data);
-  // Check if data is a course
   if (data.programming_language) {
     return (
       //<a href={`/course/${data._id}`} className="link">
-      <div key={key} className="searchCard">
+      <div key={key} className="videoCard">
         <img
           src={data.thumbnail}
           key={key}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "300px", height: "169px" }}
         />
         <div className="title">{data.name}</div>
         <div className="difficulty">Difficulty: {data.difficulty}</div>
-        <div className="programmingLanguage">
-          Language: {data.programming_language}
-        </div>
+        <div className="language">Language: {data.programming_language}</div>
         <div className="description">{data.description}</div>
       </div>
       //</a>
     );
   } else {
-    // Render video card
     return (
       <a href={`/watch/${data._id}`} className="link">
-        <div key={key} className="searchCard">
+        <div key={key} className="videoCard">
           <img
             src={data.thumbnail}
             key={key}
