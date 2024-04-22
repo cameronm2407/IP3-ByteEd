@@ -6,6 +6,8 @@ import RelatedVideos from "./components/RelatedVideos";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Loading from "../../Loading";
+import NotFoundPage from "../NotFoundPage";
+
 export default function Watch() {
   const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
@@ -22,17 +24,14 @@ export default function Watch() {
         console.log(data.videos);
       })
       .then(setIsLoading(false))
-
       .catch((error) => console.log(error));
   }, []);
-
+  console.log(video.lent);
   if (isLoading) {
     return <Loading />;
-  } else if (isLoading === false && video.length === null) {
-    <div className="card position-absolute start-50 translate-middle mt-5 ms-5 bg-danger text-white">
-      <h1 className="card-title">Error 404: Video not Found</h1>
-    </div>;
-  } else if (isLoading === false && video.length > 0)
+  } else if (video.length == 0) {
+    return <NotFoundPage />;
+  } else {
     return (
       <Container
         fluid
@@ -64,6 +63,7 @@ export default function Watch() {
                   videoId={videoId}
                   currentTitle={video.title}
                   currentThumbnail={video.thumbnail}
+                  routeChange={video._id}
                 />
               </div>
             </Row>
@@ -76,4 +76,5 @@ export default function Watch() {
         </Row>
       </Container>
     );
+  }
 }

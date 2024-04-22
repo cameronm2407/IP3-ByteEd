@@ -17,7 +17,7 @@ import Watch from "./pages/Watch/Watch.jsx";
 import VideoUpload from "./pages/videoUpload/VideoUpload.jsx";
 import Course from "./pages/Course/Course.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-
+import CreatorPanel from "./pages/CreatorPanel/MainCreatorPanel/CreatorPanel.jsx";
 // Layouts
 import RootLayout from "./layouts/RootLayout.jsx";
 
@@ -32,6 +32,7 @@ const router = createBrowserRouter(
       <Route path="watch/:videoId" element={<Watch />} />
       <Route path="videoupload" element={<VideoUpload />} />
       <Route path="course/:courseId" element={<Course />} />
+      <Route path="creatorPanel/main/:userId" element={<CreatorPanel />} />
       <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
