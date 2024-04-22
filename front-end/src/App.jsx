@@ -20,6 +20,7 @@ import Course from "./pages/Course/Course.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import CreatorPanel from "./pages/CreatorPanel/MainCreatorPanel/CreatorPanel.jsx";
 import CreatorCourse from "./pages/CreatorPanel/CreatorCoursePanel/CreatorCourse.jsx";
+
 // Layouts
 import RootLayout from "./layouts/RootLayout.jsx";
 
@@ -36,9 +37,11 @@ const router = createBrowserRouter(
       <Route path="videoupload" element={<VideoUpload />} />
       <Route path="videoupload" element={<VideoUpload />} />
       <Route path="course/:courseId" element={<Course />} />
-      <Route path="creatorPanel/main/:userId" element={<CreatorPanel />} />
-      <Route path="creatorPanel/main/:userId" element={<CreatorPanel />} />
-      <Route path="creatorPanel/course/:courseId" element={<CreatorCourse />} />
+      <Route path="creatorPanel/courses/:userId" element={<CreatorPanel />} />
+      <Route
+        path="creatorPanel/courseVideos/:courseId"
+        element={<CreatorCourse />}
+      />
       <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
