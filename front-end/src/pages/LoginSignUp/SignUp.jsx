@@ -13,7 +13,7 @@ export default function SignUp() {
       cloudName: "shared-env",
       uploadPreset: "ml_default",
       folder: "IP3-ByteEd-resources/profile_pictures",
-      clientAllowedFormats: ["images"],
+      clientAllowedFormats: ["png", "jpg", "jpeg", "gif"],
     },
     (error, result) => {
       if (error) {
