@@ -12,8 +12,15 @@ export default function Watch() {
   const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
   const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
+  const courseCall =
+    "http://localhost:443/api/content/course?videos=" + videoId;
+  const [course, setCourse] = useState("");
   const [video, setVideo] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [courseVideos, setCourseVideos] = useState([]);
+  const [courseContent, setCourseContent] = useState(false);
+  const [goToCourse, setGoToCourse] = useState("");
+
   useEffect(() => {
     fetch(videoCall, {
       method: "GET",
@@ -22,11 +29,29 @@ export default function Watch() {
       .then((data) => {
         setVideo(data.videos[0]);
         console.log(data.videos);
+        setCourseContent(data.videos[0].course_content);
       })
       .then(setIsLoading(false))
       .catch((error) => console.log(error));
   }, []);
-  console.log(video.lent);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(courseCall);
+      const data = await res.json();
+      const course = data.courses[0];
+      setCourse(course);
+      setGoToCourse("/course/" + course._id);
+
+      const videoIds = course.videos;
+      const response = await fetch(
+        `http://localhost:443/api/content/video?$in=${videoIds}`
+      );
+      const courseVideos = (await response.json()).videos;
+      setCourseVideos(courseVideos);
+    })();
+  }, []);
+
   if (isLoading) {
     return <Loading />;
   } else if (video.length == 0) {
@@ -58,13 +83,37 @@ export default function Watch() {
               }}
             >
               <div>
-                <RelatedVideos
-                  courseContent={video.course_content}
-                  videoId={videoId}
-                  currentTitle={video.title}
-                  currentThumbnail={video.thumbnail}
-                  routeChange={video._id}
-                />
+                {courseContent ? (
+                  <div>
+                    <div className="card" style={{ width: "18rem" }}>
+                      <div className="card-header">Other Videos</div>
+                      <ul className="list-group list-group-flush">
+                        {courseVideos.map((video, i) => {
+                          if (true == true) {
+                            return <RelatedVideos key={i} video={video} />;
+                          } else {
+                            return null; // or any other JSX you want to render conditionally
+                          }
+                        })}
+                      </ul>
+                    </div>
+                    <Button
+                      id="course-button"
+                      className="p-2 mx-4"
+                      style={{
+                        position: "relative",
+                        right: "0",
+                        textAlign: "end",
+                        width: "auto",
+                        right: -12,
+                        zIndex: 9999,
+                      }}
+                      href={goToCourse}
+                    >
+                      Back to Course Page
+                    </Button>
+                  </div>
+                ) : null}
               </div>
             </Row>
           </Col>

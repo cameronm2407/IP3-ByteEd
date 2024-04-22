@@ -1,16 +1,19 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Container, Row, Card } from "react-bootstrap";
-function RelatedVideos(props) {
-  const { videoTitle, videoDescription, courseContent } = props;
-  const videoID = "";
+import { Container, Row, Card, Button, Col } from "react-bootstrap";
+function RelatedVideos(video) {
+  console.log(video.video);
+  const routeChange = "/watch/" + video.video._id;
+  const title = video.video.title;
+  const thumbnail = video.video.thumbnail;
+
   return (
     <Container className="">
       <Row className="">
-        {courseContent ? (
+        {
           <div className="">
-            <Card show className="position-relative w-100 border border-3">
-              <Card.Title
+            <div className="position-relative w-100 border border-3">
+              <div
                 style={{
                   color: "black",
                   fontWeight: "bold",
@@ -19,14 +22,14 @@ function RelatedVideos(props) {
                 }}
               >
                 Other Videos In Course
-              </Card.Title>
+              </div>
               <Dropdown.Item style={{ background: "#d3b2e5" }}>
-                <Container className="d-block container-fluid">
+                <Container className="d-block container-fluid text-start">
                   <Row>
                     <a href={routeChange} style={{ textDecoration: "none" }}>
                       <span className="col-4 ">
                         <img
-                          src={currentThumbnail}
+                          src={thumbnail}
                           style={{
                             position: "relative",
                             height: "70px",
@@ -45,48 +48,20 @@ function RelatedVideos(props) {
                         }}
                         id="anchor-related"
                       >
-                        {currentTitle.length > 40 ? (
-                          <span id="long-characters">{currentTitle}</span>
+                        {title > 40 ? (
+                          <span id="long-characters">{title}</span>
                         ) : (
-                          <span style={{ transform: "none" }}>
-                            {currentTitle}
-                          </span>
+                          <span style={{ transform: "none" }}>{title}</span>
                         )}
                       </span>
                     </a>
                   </Row>
                 </Container>
               </Dropdown.Item>
-              {videos.map((video, i) =>
-                videos[i]._id !== videoId ? (
-                  <Dropdown.Item eventKey={i} className="h-50">
-                    <CourseVideos video={videos[i]} />{" "}
-                    {console.log(videos[i]._id)}
-                  </Dropdown.Item>
-                ) : null
-              )}
-            </Card>
-            <div style={{ textAlign: "end" }}>
-              <Button
-                id="course-button"
-                className="p-2 mx-4"
-                style={{
-                  position: "relative",
-                  right: "0",
-                  textAlign: "end",
-                  width: "auto",
-                  right: -12,
-                  zIndex: 9999,
-                }}
-                onClick={routeChange}
-              >
-                Back to Course Page
-              </Button>
             </div>
+            <div style={{ textAlign: "end" }}></div>
           </div>
-        ) : (
-          ""
-        )}
+        }
       </Row>
     </Container>
   );
