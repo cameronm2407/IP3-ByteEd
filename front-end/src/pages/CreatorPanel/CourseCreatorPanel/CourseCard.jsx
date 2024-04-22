@@ -46,7 +46,7 @@ function CourseVideos({ course }) {
   };
 
   // Build the link to the course view
-  const link = `/creatorPanel/course/${course._id}`;
+  const link = `/creatorPanel/courseVideos/${course._id}`;
 
   return (
     <Container className="card-container" id="course-card">

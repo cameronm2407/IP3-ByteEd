@@ -73,6 +73,20 @@ const UploadSVG = () => (
   </svg>
 );
 
+const PanelSVG = () => (
+  <svg
+    className="icon-margin-right"
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    class="bi bi-bar-chart-fill"
+    viewBox="0 0 16 16"
+  >
+    <path d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z" />
+  </svg>
+);
+
 export default function RootLayout() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -151,6 +165,22 @@ export default function RootLayout() {
               </NavLink>
             </li>
           )}
+
+          {user?.role === "content_creator" && ( //the margins are all messed up
+            <li>
+              <NavLink
+                to="/creatorPanel"
+                className={({ isActive }) =>
+                  isActive
+                    ? "nav-link active text-white"
+                    : "nav-link text-white"
+                }
+              >
+                <PanelSVG />
+                Creator Panel
+              </NavLink>
+            </li>
+          )}
         </ul>
         <hr />
 
@@ -176,7 +206,7 @@ export default function RootLayout() {
               aria-labelledby="dropdownUser1"
             >
               <li>
-                <a className="dropdown-item" href="profile">
+                <a className="dropdown-item" href="/profile">
                   Profile
                 </a>
               </li>

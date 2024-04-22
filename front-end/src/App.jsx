@@ -15,14 +15,16 @@ import SignUp from "./pages/LoginSignUp/SignUp.jsx";
 import Login from "./pages/LoginSignUp/LogIn.jsx";
 import Watch from "./pages/Watch/Watch.jsx";
 import VideoUpload from "./pages/videoUpload/VideoUpload.jsx";
-
+import SingleVideoPanel from "./pages/CreatorPanel/SingleVideoPanel.jsx";
+import FirstPanelPage from "./pages/CreatorPanel/FirstPanelPage.jsx";
 import Course from "./pages/Course/Course.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import CreatorPanel from "./pages/CreatorPanel/MainCreatorPanel/CreatorPanel.jsx";
-import CreatorCourse from "./pages/CreatorPanel/CreatorCoursePanel/CreatorCourse.jsx";
+import CreatorPanel from "./pages/CreatorPanel/CourseCreatorPanel/CreatorPanel.jsx";
+import CreatorCourse from "./pages/CreatorPanel/CreatorCourseVideoPanel/CreatorCourse.jsx";
 
 // Layouts
 import RootLayout from "./layouts/RootLayout.jsx";
+import { First } from "react-bootstrap/esm/PageItem.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +44,11 @@ const router = createBrowserRouter(
         path="creatorPanel/courseVideos/:courseId"
         element={<CreatorCourse />}
       />
+      <Route
+        path="creatorPanel/videos/:userId"
+        element={<SingleVideoPanel />}
+      />
+      <Route path="/creatorPanel" element={<FirstPanelPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
