@@ -2,8 +2,34 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 function courseVideos({ course }) {
-  const link = "/creatorPanel/course/" + course._id;
+  const deleteCourse = async () => {
+    const answer = window.confirm(
+      "Are you sure you would like to delete this course?"
+    );
+    if (answer) {
+      try {
+        console.log(course._id);
+        const response = await fetch(
+          `http://localhost:443/api/content/course?id=${course._id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          console.log("Course deleted successfully");
+        } else {
+          console.error("Failed to delete course");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
+  const link = "/creatorPanel/course/" + course._id;
   return (
     <Container className="card-container" id="course-card">
       <Row
@@ -20,6 +46,11 @@ function courseVideos({ course }) {
       <Row className="card-title">
         <a href={link}>
           <h4 className="ellipsis fs-6">{course.name}</h4>
+        </a>
+      </Row>
+      <Row>
+        <a className="btn btn-primary" onClick={deleteCourse}>
+          Delete
         </a>
       </Row>
     </Container>
