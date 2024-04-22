@@ -31,13 +31,16 @@ export default class CourseController {
 
   getCourses() {
     return catchAsyncError(async (req, res) => {
-      const query = req.query ? req.query : {};
+      const video = req.query.video;
+      let query = req.query ? req.query : {};
       if (query.id) {
         query._id = query.id;
         delete query.id;
       }
+      if (video) query = { videos: { $elemMatch: { $eq: video } } };
+      console.log(query);
       const courses = await this.crudOperator.read(query);
-      res.status(200).json({ status: 'success', courses });
+      res.status(200).json({ status: "success", courses });
     });
   }
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Editor } from "@monaco-editor/react";
 import { useState, useRef } from "react";
@@ -24,7 +23,7 @@ function CodeEditor() {
   return (
     <Container className="mw-100">
       <Row>
-        <Col>
+        <Col className="col-8">
           <LanguagePicker
             language={language}
             onSelect={onSelect}
@@ -32,7 +31,7 @@ function CodeEditor() {
           />
           <Editor
             className="border border-3"
-            height="30vh"
+            height="22vh"
             language={language}
             defaultValue={HELLO_WORLD[language]}
             theme="vs-dark"
@@ -41,7 +40,7 @@ function CodeEditor() {
             onMount={onMount}
           />
         </Col>
-        <Col>
+        <Col className="col-4">
           <Output editorRef={editorRef} language={language} />
         </Col>
       </Row>

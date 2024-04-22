@@ -1,16 +1,57 @@
 .outputBox {
-  height: 30vh !important;
+  height: 22vh !important;
   overflow: scroll;
   scrollbar-width: none;
 }
 
 .executeButton {
-  width: 30%;
+  width: 150px;
 }
 
-#execute-button {
+#execute-button,
+#course-button {
   background-color: #bda1cc !important;
   font-weight: bold;
   color: #1b294b;
   border-color: #bda1cc;
+}
+
+#execute-button:hover,
+#course-button:hover {
+  background-color: #d3b2e5 !important;
+}
+
+#course-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#related-videos {
+  position: absolute;
+  bottom: 60px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #d9d9d9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1b294b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #15203b;
+}
+#anchor-related span {
+  position: absolute;
+  white-space: nowrap;
+  transform: translateX(0);
+  transition: 4s;
+}
+#anchor-related:hover #long-characters {
+  transform: translateX(calc(200px - 100%));
 }

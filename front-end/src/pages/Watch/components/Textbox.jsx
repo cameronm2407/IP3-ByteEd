@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
+
+import RelatedVideos from "./RelatedVideos";
 
 function Textbox(props) {
   const { videoTitle, videoDescription, courseContent } = props;

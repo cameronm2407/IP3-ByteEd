@@ -112,7 +112,7 @@ export default function Search() {
     event.preventDefault();
     handleSearch(searchTerm);
   };
-
+  console.log(searchResult);
   return (
     <div className="search-container">
       <form className="search-bar" onSubmit={handleSubmit}>

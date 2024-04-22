@@ -1,71 +1,90 @@
-.card-container{
-
-    display: inline-block; 
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: center;
-    max-width: calc(100% / 4.1)!important;
-    overflow: hidden; 
-    text-overflow: ellipsis;
-    margin-right: 20px;
-    justify-content: center;
-    margin: 40px;
+.card-container {
+  display: inline-block;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+  max-width: calc(100% / 4.1) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 20px;
+  justify-content: center;
+  margin: 40px;
 }
 
-
-.video-thumbnail{
-    
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .card-title {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 100%; /* adjust the max-width as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .card-title a {
-    text-decoration: none;
-    color: black;
-    overflow: hidden!important;
-    display: block;
+  text-decoration: none;
+  color: black;
+  overflow: hidden !important;
+  display: block;
 
-    white-space: nowrap!important;
-    max-height: 30px;
-    text-overflow: ellipsis!important;
-    text-align: start;
+  white-space: nowrap !important;
+  max-height: 30px;
+  text-overflow: ellipsis !important;
+  text-align: start;
 }
 
 .ellipsis {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 100%;
-  }
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  height: 20px;
+}
 
 a:link:hover {
-    text-decoration: none!important;
-    color: rgb(35, 35, 35);
+  text-decoration: none !important;
+  color: rgb(35, 35, 35);
 }
 .card-time {
-    display: flex;
-    width: 50%;
-    overflow: hidden;
-    float: left;
-    color: #1B294B;
+  display: flex;
+  width: 50%;
+  overflow: hidden;
+  float: left;
+  color: #1b294b;
 }
 .stars {
-    display: flex;
-    text-align: end;
-    float: right;
+  display: flex;
+  text-align: end;
+  float: right;
 }
-.yellow-stars{
-    color: #F1C644;
+.yellow-stars {
+  color: #f1c644;
 }
 
 .gray-stars {
-    color: #D4D4D4;
+  color: #d4d4d4;
+}
+
+#thumbnail-image:hover div {
+  transform: scale(1.01);
+  transition: 0.75s;
+}
+#courseVideoThumbnail div {
+  pointer-events: none;
+  text-align: end;
+}
+#courseVideoThumbnail div h4 {
+  visibility: hidden;
+}
+#courseVideoThumbnail:hover div h4 {
+  visibility: visible;
+  text-align: end;
+  padding-right: 20px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.69) 60%, transparent);
+  padding-bottom: 20px;
+  color: white;
+  transition: 0.75s;
 }

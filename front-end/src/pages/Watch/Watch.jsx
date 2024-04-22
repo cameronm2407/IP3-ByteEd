@@ -1,16 +1,25 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import VideoPlayer from "./components/VideoPlayer";
 import Textbox from "./components/Textbox";
 import CodeEditor from "./components/CodeEditor";
 import RelatedVideos from "./components/RelatedVideos";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import Loading from "../../Loading";
+import NotFoundPage from "../NotFoundPage";
 
 export default function Watch() {
   const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
   const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
+  const courseCall =
+    "http://localhost:443/api/content/course?videos=" + videoId;
+  const [course, setCourse] = useState("");
   const [video, setVideo] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [courseVideos, setCourseVideos] = useState([]);
+  const [courseContent, setCourseContent] = useState(false);
+  const [goToCourse, setGoToCourse] = useState("");
 
   useEffect(() => {
     fetch(videoCall, {
@@ -20,45 +29,101 @@ export default function Watch() {
       .then((data) => {
         setVideo(data.videos[0]);
         console.log(data.videos);
+        setCourseContent(data.videos[0].course_content);
       })
+      .then(setIsLoading(false))
       .catch((error) => console.log(error));
   }, []);
 
-  if (video.length === 0) {
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(courseCall);
+      const data = await res.json();
+      const course = data.courses[0];
+      setCourse(course);
+      setGoToCourse("/course/" + course._id);
+
+      const videoIds = course.videos;
+      const response = await fetch(
+        `http://localhost:443/api/content/video?$in=${videoIds}`
+      );
+      const courseVideos = (await response.json()).videos;
+      setCourseVideos(courseVideos);
+    })();
+  }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  } else if (video.length == 0) {
+    return <NotFoundPage />;
+  } else {
     return (
-      <div className="card text-center">
-        <h1 className="card-title">Video not Found</h1>
-      </div>
+      <Container
+        fluid
+        className="text-center h-100 w-100 bg-dark pt-3 "
+        style={{ position: "relative", overflow: "none" }}
+      >
+        {console.log(video.length)}
+        {console.log(isLoading)}
+        <Row className="h-25">
+          <Col className="col-8">
+            <VideoPlayer videoLink={video.url} poster={video.thumbnail} />
+          </Col>
+          <Col className="col-4 position-relative">
+            <Row className="h-50 me-4">
+              <Textbox
+                videoTitle={video.title}
+                videoDescription={video.description}
+              />
+            </Row>
+            <Row
+              style={{
+                left: "-40px",
+                display: "block",
+              }}
+            >
+              <div>
+                {courseContent ? (
+                  <div>
+                    <div className="card" style={{ width: "18rem" }}>
+                      <div className="card-header">Other Videos</div>
+                      <ul className="list-group list-group-flush">
+                        {courseVideos.map((video, i) => {
+                          if (true == true) {
+                            return <RelatedVideos key={i} video={video} />;
+                          } else {
+                            return null; // or any other JSX you want to render conditionally
+                          }
+                        })}
+                      </ul>
+                    </div>
+                    <Button
+                      id="course-button"
+                      className="p-2 mx-4"
+                      style={{
+                        position: "relative",
+                        right: "0",
+                        textAlign: "end",
+                        width: "auto",
+                        right: -12,
+                        zIndex: 9999,
+                      }}
+                      href={goToCourse}
+                    >
+                      Back to Course Page
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
+            </Row>
+          </Col>
+        </Row>
+        <Row className="pt-4 w-100">
+          <Col fluid className="mx-0 px-0 pb-4">
+            <CodeEditor />
+          </Col>
+        </Row>
+      </Container>
     );
   }
-  return (
-    <Container
-      fluid
-      className="text-center h-100 w-100 bg-dark pt-3 "
-      style={{ position: "relative" }}
-    >
-      <Row className="h-25">
-        <Col className="col-8">
-          <VideoPlayer videoLink={video.url} />
-        </Col>
-        <Col className="col-4 ">
-          <Row className="h-50 me-4">
-            <Textbox
-              videoTitle={video.title}
-              videoDescription={video.description}
-              courseEditor={video.course_content}
-            />
-          </Row>
-          <Row className="bottom-0 me-4">
-            <RelatedVideos />
-          </Row>
-        </Col>
-      </Row>
-      <Row className="pt-4 w-100">
-        <Col fluid className="mx-0 px-0 pb-4">
-          <CodeEditor />
-        </Col>
-      </Row>
-    </Container>
-  );
 }

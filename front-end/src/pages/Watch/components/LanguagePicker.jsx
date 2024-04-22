@@ -1,4 +1,3 @@
-import React from "react";
 import { Container } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import { LANGUAGE_VERSIONS } from "./languages";
@@ -6,7 +5,11 @@ import "./LanguagePicker.css";
 const languages = Object.entries(LANGUAGE_VERSIONS);
 
 function capitaliseLanguage(language) {
-  return language.charAt(0).toUpperCase() + language.slice(1);
+  if (language == "csharp") {
+    return "C#";
+  } else {
+    return language.charAt(0).toUpperCase() + language.slice(1);
+  }
 }
 
 const LanguagePicker = ({ language, onSelect }) => {
@@ -17,7 +20,10 @@ const LanguagePicker = ({ language, onSelect }) => {
           {capitaliseLanguage(language)}
         </Dropdown.Toggle>
 
-        <Dropdown.Menu className="themeColours">
+        <Dropdown.Menu
+          className="themeColours"
+          style={{ height: "150px", overflowY: "scroll" }}
+        >
           {languages.map(([language, version]) => (
             <Dropdown.Item
               key={language}
