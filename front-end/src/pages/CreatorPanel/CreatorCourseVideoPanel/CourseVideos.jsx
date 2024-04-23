@@ -59,6 +59,7 @@ function CourseVideos({ video }) {
 
       const data = await response.json();
       console.log("Successfully deleted course with ID:", video._id, data);
+      window.location.reload();
     } catch (error) {
       console.error("Failed to delete course:", error);
     }

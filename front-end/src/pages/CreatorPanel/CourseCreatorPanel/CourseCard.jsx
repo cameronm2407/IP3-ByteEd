@@ -40,6 +40,7 @@ function CourseVideos({ course }) {
 
       console.log("Successfully deleted course with ID:", course._id);
       console.log("Server response:", data); // Optional: Log server's response about the deletion
+      window.location.reload();
     } catch (error) {
       console.error("Failed to delete course:", error);
     }
