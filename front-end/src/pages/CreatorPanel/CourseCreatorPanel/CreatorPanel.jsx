@@ -30,18 +30,11 @@ function Courses() {
   return (
     <Container className=" vh-100 vw-100 mt-5">
       <Row className="text-center mb-3 color-white">
-        <h1>Creator Panel</h1>
-      </Row>
-      <Row>
-        <Button className="w-25 mb-5" href="/creatorPanel/">
-          Back to First Page
-        </Button>
+        <h1>Your Courses</h1>
       </Row>
       <Row>
         {courses ? (
-          <div style={{ fontSize: "18px" }}>
-            <p>Here's your video</p>
-          </div>
+          <div style={{ fontSize: "18px" }}></div>
         ) : (
           <div style={{ fontSize: "18px" }}>
             <p>You have no videos</p>

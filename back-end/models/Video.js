@@ -10,6 +10,7 @@ const videoSchema = new Schema({
   url: { type: String, required: true },
   thumbnail: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  views: { type: Number, default: 0 },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
 });

@@ -63,11 +63,6 @@ function Course() {
           <Row className="card position-absolute start-50 translate-middle mt-5 ms-5 bg-danger text-white">
             <h1 className="card-title">No Videos in Course</h1>
           </Row>
-          <Row>
-            <Button href={goBack} className="w-25">
-              Go Back
-            </Button>
-          </Row>
         </Col>
       </Container>
     );
@@ -78,7 +73,6 @@ function Course() {
           <h1>{course.name}</h1>
         </Row>
         <Row>
-          <Button href="">Go Back</Button>
           {course.programming_language ? (
             <div style={{ fontSize: "18px" }}>
               <span style={{ fontWeight: "bold" }}>Language: </span>
@@ -89,7 +83,9 @@ function Course() {
         <Row className="mb-5">
           {course.description ? (
             <div>
-              <span>{course.description}</span>
+              <span>
+                <b>Description:</b> {course.description}
+              </span>
             </div>
           ) : null}
         </Row>

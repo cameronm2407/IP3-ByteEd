@@ -30,6 +30,9 @@ export default function Watch() {
   useEffect(() => {
     fetch(videoCall, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -41,10 +44,25 @@ export default function Watch() {
         setVideo(videoWithCounter);
         console.log(data.videos);
         setCourseContent(data.videos[0].course_content);
+
+        fetch(
+          `http://localhost:443/api/content/video/updateViews?id=${videoId}`,
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Updated Views Count:", data.views);
+          })
+          .catch((error) => console.error("Error updating views:", error));
       })
       .then(setIsLoading(false))
       .catch((error) => console.log(error));
-  }, []);
+  }, [videoId]);
 
   const incrementCounter = async () => {
     try {
@@ -198,12 +216,7 @@ export default function Watch() {
           </Col>
         </Row>
         <Row className="pt-4 w-100">
-          <Row>
-            {video.counter ? (
-              <p style={{ color: "white" }}>{video.counter}</p>
-            ) : null}
-          </Row>
-          <Col fluid className="mx-0 px-0 pb-4">
+          <Col className="mx-0 px-0 pb-4">
             <CodeEditor />
           </Col>
         </Row>
