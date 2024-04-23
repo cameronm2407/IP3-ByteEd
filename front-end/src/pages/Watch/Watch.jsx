@@ -9,7 +9,7 @@ import Loading from "../../Loading";
 import NotFoundPage from "../NotFoundPage";
 
 export default function Watch() {
-  const heightPlayer = window.innerHeight * 0.75;
+  const token = localStorage.getItem("token");
   let { videoId } = useParams();
   const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
   const courseCall =
@@ -22,18 +22,57 @@ export default function Watch() {
   const [goToCourse, setGoToCourse] = useState("");
 
   useEffect(() => {
+    if (videoId) {
+      incrementCounter();
+    }
+  }, [videoId]);
+
+  useEffect(() => {
     fetch(videoCall, {
       method: "GET",
     })
       .then((response) => response.json())
       .then((data) => {
-        setVideo(data.videos[0]);
+        const videoData = data.videos[0];
+        const videoWithCounter = {
+          ...videoData,
+          counter: videoData.counter || 1,
+        };
+        setVideo(videoWithCounter);
         console.log(data.videos);
         setCourseContent(data.videos[0].course_content);
       })
       .then(setIsLoading(false))
       .catch((error) => console.log(error));
   }, []);
+
+  const incrementCounter = async () => {
+    try {
+      const response = await fetch(videoCall, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...video,
+          counter: video.counter + 1,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to increment counter");
+      }
+    } catch (error) {
+      console.error("Error while incrementing counter:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (videoId) {
+      incrementCounter();
+    }
+  }, [videoId]);
 
   useEffect(() => {
     (async () => {
@@ -92,7 +131,7 @@ export default function Watch() {
                           if (true == true) {
                             return <RelatedVideos key={i} video={video} />;
                           } else {
-                            return null; // or any other JSX you want to render conditionally
+                            return null;
                           }
                         })}
                       </ul>
@@ -119,6 +158,11 @@ export default function Watch() {
           </Col>
         </Row>
         <Row className="pt-4 w-100">
+          <Row>
+            {video.counter ? (
+              <p style={{ color: "white" }}>{video.counter}</p>
+            ) : null}
+          </Row>
           <Col fluid className="mx-0 px-0 pb-4">
             <CodeEditor />
           </Col>
