@@ -139,8 +139,6 @@ export default function Watch() {
             className="col-4 position-relative "
             style={{
               maxHeight: "100%",
-              border: "solid",
-              borderColor: "red",
               overflow: "hidden",
             }}
           >

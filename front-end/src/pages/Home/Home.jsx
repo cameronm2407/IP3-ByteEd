@@ -3,11 +3,11 @@ import Featured from "./Featured/Featured.jsx";
 import ImproveIn from "./ImproveIn/ImproveIn.jsx";
 import Videos from "../Course/CourseVideos.jsx";
 import { useState, useEffect } from "react";
-import { Row } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
-  let limit = 6;
+
   useEffect(() => {
     (async () => {
       const response = await fetch(`http://localhost:443/api/content/video`);
@@ -20,15 +20,15 @@ export default function Home() {
     <div className="app-container d-flex flex-column align-items-center w-100">
       <Carosel />
       <ImproveIn />
-      <h1>Featured</h1>
+      <h1 className="mb-4">Featured</h1>
       <div className="text-center">
-        <Row>
+        <Row style={{ position: "relative", left: "90px" }}>
           {videos.slice(0, 6).map((video, i) => (
             <Featured
               key={i}
               title={video.title}
               imageUrl={video.thumbnail}
-              videoLink={video.url}
+              id={video._id}
             />
           ))}
         </Row>

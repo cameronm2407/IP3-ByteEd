@@ -115,7 +115,7 @@ export default function Search() {
   //console.log(searchResult);
   return (
     <div className="search-container">
-      <form className="search-bar" onSubmit={handleSubmit}>
+      <form className="search-bar mb-5" onSubmit={handleSubmit}>
         <input
           className="search-input"
           type="text"

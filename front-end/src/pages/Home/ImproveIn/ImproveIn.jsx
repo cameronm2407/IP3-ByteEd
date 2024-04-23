@@ -15,7 +15,7 @@ export default function ImproveIn() {
     <>
       <h1 className="mb-5 mt-5">Improve your skills in:</h1>
 
-      <div className="grid-container mb-5" >
+      <div className="grid-container mb-5">
         <div className="grid-item">
           <img src={htmlIcon} alt="html" />
         </div>
@@ -50,4 +50,3 @@ export default function ImproveIn() {
     </>
   );
 }
-
