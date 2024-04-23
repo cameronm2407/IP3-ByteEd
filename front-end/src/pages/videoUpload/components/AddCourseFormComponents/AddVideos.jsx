@@ -12,6 +12,9 @@ export default function AddVideos({ setShowForm, courseID }) {
   let [counter, setCounter] = useState(1);
   const formRef = useRef(null);
 
+  const [videoTitle, setVideoTitle] = useState("");
+  const [videoDescription, setVideoDescription] = useState("");
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -39,6 +42,9 @@ export default function AddVideos({ setShowForm, courseID }) {
       setDuration("");
       setCourseVideoUrl("");
       setCourseVideoThumbnailUrl("");
+      setVideoTitle("");
+      setVideoDescription("");
+      alert("Video uploaded successfully! Add more or submit now!");
     } else if (actionType === "submitCourse") {
       try {
         const response = await fetch(
@@ -61,6 +67,8 @@ export default function AddVideos({ setShowForm, courseID }) {
         CoursevideoWidget.close({ quiet: true });
         CoursevideoThumbnailWidget.close({ quiet: true });
         setCounter(counter++);
+        window.location.reload();
+        alert("Course Submitted!");
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       }
@@ -118,7 +126,13 @@ export default function AddVideos({ setShowForm, courseID }) {
     <Form onSubmit={(e) => e.preventDefault()} ref={formRef}>
       <Form.Group className="mb-3">
         <Form.Label htmlFor="video-title">Video-Title</Form.Label>
-        <Form.Control id="video-title" name="video-title" required />
+        <Form.Control
+          id="video-title"
+          name="video-title"
+          value={videoTitle}
+          onChange={(e) => setVideoTitle(e.target.value)}
+          required
+        />
       </Form.Group>
 
       <Form.Group className="mb-3">
@@ -127,6 +141,8 @@ export default function AddVideos({ setShowForm, courseID }) {
           id="video-description"
           name="video-description"
           required
+          value={videoDescription}
+          onChange={(e) => setVideoDescription(e.target.value)}
         />
       </Form.Group>
 

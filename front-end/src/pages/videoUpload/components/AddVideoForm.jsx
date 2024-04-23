@@ -7,8 +7,12 @@ import getCurrentUser from "../../../utils/currentUser.js";
 
 function AddVideoForm() {
   const token = localStorage.getItem("token");
+
   const [videoUrl, setVideoUrl] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
+  const [videoName, setVideoName] = useState("");
+  const [videoDescription, setVideoDescription] = useState("");
+
   const [duration, setDuration] = useState("");
   const [videoId] = useState(ObjectID().toString());
 
@@ -113,10 +117,15 @@ function AddVideoForm() {
 
       setVideoUrl("");
       setThumbnailUrl("");
+      setVideoName("");
+      setVideoDescription("");
+
+      alert("Video uploaded successfully!");
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
   };
+
   return (
     <Form onSubmit={handleVideoSubmit}>
       <Form.Group className="mb-3">
@@ -163,6 +172,8 @@ function AddVideoForm() {
           id="video-name"
           required
           placeholder=""
+          value={videoName}
+          onChange={(e) => setVideoName(e.target.value)}
           name="video-name"
         />
       </Form.Group>
@@ -173,6 +184,8 @@ function AddVideoForm() {
           id="video-description"
           placeholder=""
           required
+          value={videoDescription}
+          onChange={(e) => setVideoDescription(e.target.value)}
           name="video-description"
         />
       </Form.Group>
