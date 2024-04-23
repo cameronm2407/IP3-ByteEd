@@ -9,7 +9,6 @@ function Courses() {
   const coursesCall =
     "http://localhost:443/api/content/course?creator=" + userId; //get courses
   const [courses, setCourses] = useState([]);
-
   useEffect(() => {
     (async () => {
       const response = await fetch(coursesCall);
