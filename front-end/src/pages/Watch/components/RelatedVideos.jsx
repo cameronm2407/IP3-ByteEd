@@ -1,29 +1,28 @@
 import React from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Container, Row, Card, Button, Col } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 function RelatedVideos(video) {
+  const thisId = useParams();
+  let isSelected = false;
+  console.log();
   console.log(video.video);
   const routeChange = "/watch/" + video.video._id;
   const title = video.video.title;
   const thumbnail = video.video.thumbnail;
 
+  if (thisId.videoId == video.video._id) {
+    isSelected = true;
+  }
   return (
     <Container className="">
       <Row className="">
         {
           <div className="">
             <div className="position-relative w-100 border border-3">
-              <div
-                style={{
-                  color: "black",
-                  fontWeight: "bold",
-                  fontSize: "18px",
-                  textAlign: "center",
-                }}
+              <Dropdown.Item
+                style={{ background: isSelected ? "#d3b2e5" : "#ffff" }}
               >
-                Other Videos In Course
-              </div>
-              <Dropdown.Item style={{ background: "#d3b2e5" }}>
                 <Container className="d-block container-fluid text-start">
                   <Row>
                     <a href={routeChange} style={{ textDecoration: "none" }}>

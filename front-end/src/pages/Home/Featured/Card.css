@@ -31,7 +31,7 @@
   display: block;
 
   white-space: nowrap !important;
-  max-height: 30px;
+  max-height: 60px;
   text-overflow: ellipsis !important;
   text-align: start;
 }
@@ -41,7 +41,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 100%;
-  height: 20px;
+  height: 40px;
 }
 
 a:link:hover {
