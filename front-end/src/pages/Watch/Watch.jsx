@@ -4,13 +4,12 @@ import Textbox from "./components/Textbox";
 import CodeEditor from "./components/CodeEditor";
 import RelatedVideos from "./components/RelatedVideos";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../Loading";
 import NotFoundPage from "../NotFoundPage";
 
 export default function Watch() {
   const token = localStorage.getItem("token");
-  const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
   const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
   const courseCall =
@@ -23,6 +22,12 @@ export default function Watch() {
   const [goToCourse, setGoToCourse] = useState("");
 
   useEffect(() => {
+    if (videoId) {
+      incrementCounter();
+    }
+  }, [videoId]);
+
+  useEffect(() => {
     fetch(videoCall, {
       method: "GET",
       headers: {
@@ -31,7 +36,12 @@ export default function Watch() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setVideo(data.videos[0]);
+        const videoData = data.videos[0];
+        const videoWithCounter = {
+          ...videoData,
+          counter: videoData.counter || 1,
+        };
+        setVideo(videoWithCounter);
         console.log(data.videos);
         setCourseContent(data.videos[0].course_content);
 
@@ -54,6 +64,35 @@ export default function Watch() {
       .catch((error) => console.log(error));
   }, [videoId]);
 
+  const incrementCounter = async () => {
+    try {
+      console.log("here is the " + token);
+      const response = await fetch(videoCall, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...video,
+          counter: video.counter + 1,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to increment counter");
+      }
+    } catch (error) {
+      console.error("Error while incrementing counter:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (videoId) {
+      incrementCounter();
+    }
+  }, [videoId]);
+
   useEffect(() => {
     (async () => {
       const res = await fetch(courseCall);
@@ -71,9 +110,14 @@ export default function Watch() {
     })();
   }, []);
 
+  let navigate = useNavigate();
+  const clickHandler = () => {
+    navigate(goToCourse);
+  };
+
   if (isLoading) {
     return <Loading />;
-  } else if (video.length == 0) {
+  } else if (!video.title) {
     return <NotFoundPage />;
   } else {
     return (
@@ -84,53 +128,87 @@ export default function Watch() {
       >
         {console.log(video.length)}
         {console.log(isLoading)}
-        <Row className="h-25">
+        <Row
+          className="h-25 me-2"
+          style={{ maxHeight: "100%", position: "relative" }}
+        >
           <Col className="col-8">
             <VideoPlayer videoLink={video.url} poster={video.thumbnail} />
           </Col>
-          <Col className="col-4 position-relative">
+          <Col
+            className="col-4 position-relative "
+            style={{
+              maxHeight: "100%",
+              border: "solid",
+              borderColor: "red",
+              overflow: "hidden",
+            }}
+          >
             <Row className="h-50 me-4">
               <Textbox
                 videoTitle={video.title}
                 videoDescription={video.description}
               />
             </Row>
+            {courseContent ? (
+              <Row
+                style={{ position: "absolute", zIndex: 9999, width: "100%" }}
+              >
+                {" "}
+                <Button
+                  id="course-button"
+                  className="p-2 me-4"
+                  style={{
+                    position: "absolute",
+                    left: "0",
+                    textAlign: "center",
+                    width: "auto",
+                    pointerEvents: "auto",
+                  }}
+                  onClick={clickHandler}
+                >
+                  Back to Course Page
+                </Button>
+              </Row>
+            ) : null}
             <Row
               style={{
                 left: "-40px",
                 display: "block",
+                maxHeight: "70%",
               }}
             >
               <div>
                 {courseContent ? (
                   <div>
-                    <div className="card" style={{ width: "18rem" }}>
+                    <div
+                      className="card"
+                      style={{
+                        width: "100%",
+                        border: "solid",
+
+                        position: "absolute",
+                        bottom: 0,
+                      }}
+                    >
                       <div className="card-header">Other Videos</div>
-                      <ul className="list-group list-group-flush">
-                        {courseVideos.map((video, i) => {
-                          if (true == true) {
-                            return <RelatedVideos key={i} video={video} />;
-                          } else {
-                            return null;
-                          }
-                        })}
+                      <ul
+                        className="list-group list-group-flush"
+                        style={{ maxHeight: "" }}
+                      >
+                        <div
+                          style={{ overflow: "scroll", overflowX: "hidden" }}
+                        >
+                          {courseVideos.map((video, i) => {
+                            if (true == true) {
+                              return <RelatedVideos key={i} video={video} />;
+                            } else {
+                              return null;
+                            }
+                          })}
+                        </div>
                       </ul>
                     </div>
-                    <Button
-                      id="course-button"
-                      className="p-2 mx-4"
-                      style={{
-                        position: "relative",
-                        right: "0",
-                        textAlign: "end",
-                        width: "auto",
-                        right: -12,
-                        zIndex: 9999,
-                      }}
-                      href={goToCourse}
-                    >
-                      Back to Course Page
-                    </Button>
                   </div>
                 ) : null}
               </div>

@@ -56,8 +56,8 @@ const Output = ({ language, editorRef }) => {
       <Row
         className={
           isError
-            ? "text-start border border-3 outputBox border-danger"
-            : "text-start border border-3 outputBox border-white"
+            ? "text-start border border-3 outputBox border-danger me-2"
+            : "text-start border border-3 outputBox border-white me-0"
         }
       >
         <p
