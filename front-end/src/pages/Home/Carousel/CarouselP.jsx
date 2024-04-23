@@ -59,7 +59,7 @@ function CarouselP() {
             src={image3}
           />
           <Carousel.Caption>
-            <h5>*insert tagline here*</h5>
+            <h5>Proven Strategy to Learn Quick</h5>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>

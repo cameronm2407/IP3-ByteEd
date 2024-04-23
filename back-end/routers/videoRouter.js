@@ -23,6 +23,9 @@ videoRouter.use(
   authController.mustBe('content_creator')
 );
 
+videoRouter.get('/views', videoController.getViews());
+videoRouter.put('/updateViews', videoController.updateViews());
+
 videoRouter
   .route('/')
   .put(videoController.update())

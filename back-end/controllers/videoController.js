@@ -59,4 +59,19 @@ export default class videoController {
       res.status(204).end();
     });
   }
+  getViews() {
+    return catchAsyncError(async (req, res) => {
+      const { id } = req.query;
+      const video = await this.crudOperator.read({ _id: id });
+      res.status(200).json({ status: 'success', views: video.views });
+    });
+  }
+
+  updateViews() {
+    return catchAsyncError(async (req, res) => {
+      const { id } = req.query;
+      const updatedVideo = await this.crudOperator.update(id, { $inc: { views: 1 } });
+      res.status(200).json({ status: 'success', views: updatedVideo.views });
+    });
+  }
 }

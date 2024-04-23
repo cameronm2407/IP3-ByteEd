@@ -9,6 +9,7 @@ import Loading from "../../Loading";
 import NotFoundPage from "../NotFoundPage";
 
 export default function Watch() {
+  const token = localStorage.getItem("token");
   const heightPlayer = window.innerHeight * 0.75;
   let { videoId } = useParams();
   const videoCall = "http://localhost:443/api/content/video?id=" + videoId;
@@ -24,16 +25,34 @@ export default function Watch() {
   useEffect(() => {
     fetch(videoCall, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((response) => response.json())
       .then((data) => {
         setVideo(data.videos[0]);
         console.log(data.videos);
         setCourseContent(data.videos[0].course_content);
+
+        fetch(
+          `http://localhost:443/api/content/video/updateViews?id=${videoId}`,
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Updated Views Count:", data.views);
+          })
+          .catch((error) => console.error("Error updating views:", error));
       })
       .then(setIsLoading(false))
       .catch((error) => console.log(error));
-  }, []);
+  }, [videoId]);
 
   useEffect(() => {
     (async () => {
@@ -92,7 +111,7 @@ export default function Watch() {
                           if (true == true) {
                             return <RelatedVideos key={i} video={video} />;
                           } else {
-                            return null; // or any other JSX you want to render conditionally
+                            return null;
                           }
                         })}
                       </ul>
@@ -119,7 +138,7 @@ export default function Watch() {
           </Col>
         </Row>
         <Row className="pt-4 w-100">
-          <Col fluid className="mx-0 px-0 pb-4">
+          <Col className="mx-0 px-0 pb-4">
             <CodeEditor />
           </Col>
         </Row>

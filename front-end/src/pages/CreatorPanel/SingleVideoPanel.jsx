@@ -26,18 +26,11 @@ function Video() {
     );
   }
   return (
-    <Container className=" vh-100 vw-100 mt-5">
+    <Container className=" vh-100 vw-100 mt-4">
       <Row className="text-center mb-3 color-white">
-        <h1>Single Videos</h1>
+        <h1>Your Videos</h1>
       </Row>
-      <Row>
-        <Button className="w-25 mb-5" href="/creatorPanel/">
-          Back to First Page
-        </Button>
-      </Row>
-      <Row>
-        <h3 style={{ textAlign: "start" }}>Videos</h3>
-      </Row>
+
       <Row>
         {videos.map((video, i) => (
           <Videos key={i} video={video} />

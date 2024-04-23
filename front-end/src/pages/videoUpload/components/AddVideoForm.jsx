@@ -27,7 +27,7 @@ function AddVideoForm() {
       }
       if (result && result.event === "success") {
         console.log("File uploaded successfully:", result.info);
-        setThumbnailUrl(result.info.url); // Save the uploaded avatar URL
+        setThumbnailUrl(result.info.url);
       }
     }
   );

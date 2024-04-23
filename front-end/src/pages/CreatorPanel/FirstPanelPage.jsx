@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import getCurrentUser from "../../utils/currentUser";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function FirstPanelPage() {
   const [user, setUser] = useState(null);
@@ -21,13 +22,37 @@ function FirstPanelPage() {
   return (
     <Container>
       <Row>
-        <h1>
+        <h1 className="mt-4">
           Would you like to view your courses or your single non-course videos?
         </h1>
       </Row>
-      <Row>
-        <Button href={courselink}>Courses</Button>
-        <Button href={singlelink}>Single Videos</Button>
+      <Row className="d-flex gap-2 mb-5 justify-content-center mt-4">
+        <Button
+          href={courselink}
+          style={{
+            transition: "all 0.3s ease-in-out",
+            width: "25%",
+            height: "50px",
+            backgroundColor: "#BDA1CC",
+            borderColor: "#BDA1CC",
+            color: "#000",
+          }}
+        >
+          Courses
+        </Button>
+        <Button
+          href={singlelink}
+          style={{
+            transition: "all 0.3s ease-in-out",
+            width: "25%",
+            height: "50px",
+            backgroundColor: "#BDA1CC",
+            borderColor: "#BDA1CC",
+            color: "#000",
+          }}
+        >
+          Single Videos
+        </Button>
       </Row>
     </Container>
   );
