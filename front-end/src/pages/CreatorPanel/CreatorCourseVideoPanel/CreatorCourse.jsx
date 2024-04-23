@@ -3,13 +3,27 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CourseVideos from "./CourseVideos";
 import Loading from "../../../Loading";
+import getCurrentUser from "../../../utils/currentUser";
+
 function Course() {
+  const [user, setUser] = useState(null);
+  let id = "";
+  useEffect(() => {
+    const user = getCurrentUser();
+    setUser(user); // Setting the user state
+  }, []);
+  if (user) {
+    console.log(user._id);
+    id = user._id;
+  }
+
   let { courseId } = useParams();
   const courseCall = "http://localhost:443/api/content/course?id=" + courseId;
   const [course, setCourse] = useState({});
   const [courseVideos, setCourseVideos] = useState([]);
   const [noCourse, setNoCourse] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const goBack = "/creatorPanel/courses/" + id;
   useEffect(() => {
     (async () => {
       const res = await fetch(courseCall);
@@ -38,7 +52,7 @@ function Course() {
     return (
       <div className="card position-absolute start-50 translate-middle mt-5 ms-5 bg-danger text-white">
         <h1 className="card-title">Error 404: Course Not Found</h1>
-        <Button href="">Go Back</Button>
+        <Button href={goBack}>Go Back</Button>
       </div>
     );
   } else if (courseVideos.length == 0) {
@@ -50,7 +64,7 @@ function Course() {
             <h1 className="card-title">No Videos in Course</h1>
           </Row>
           <Row>
-            <Button href="" className="w-25">
+            <Button href={goBack} className="w-25">
               Go Back
             </Button>
           </Row>
